@@ -1,4 +1,3 @@
-# opgui
 OpenPlus Gui - Enigma2 based
 
 Openplus en un firmware para decodificadores de TV (TDT/SAT/CABLE) basado en el software de código abierto Enigma2.
@@ -7,6 +6,7 @@ Como novedades en esta versión, podemos citar:
 
  - Skin Openplus como piel por defecto.
  - Skin optativo Metrix-lb basado en el skin del mismo nombre y adaptado por Villak
+ - LbPanel (Versión específica para openplus
  - Traducido al español en un 98%
  - Incluidos los últimos drivers de los fabricantes
 
@@ -24,5 +24,3 @@ Gracias al equipo de OpenAtv por todo el desarrollo de múltiple código y en ge
 Gracias  al equipo de OpenSpa por el desarrollo del código del epg de 7 días<br>
 Gracias a siteincloud.com por el alojamiento del foro y los feeds<fr>
 Gracias a todos los betatesters de openplus<br>
-
-
