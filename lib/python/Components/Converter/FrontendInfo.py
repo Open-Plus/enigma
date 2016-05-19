@@ -12,6 +12,16 @@ class FrontendInfo(Converter, object):
 	SLOT_NUMBER = 5
 	TUNER_TYPE = 6
 	STRING = 7
+	NIMACTIVEA = 8
+	NIMACTIVEB = 9
+	NIMACTIVEC = 10
+	NIMACTIVED = 11
+	NIMACTIVEE = 12
+	NIMACTIVEF = 13
+	NIMACTIVEG = 14
+	NIMACTIVEH = 15
+        NIMACTIVEI = 16
+        NIMACTIVEJ = 17
 
 	def __init__(self, type):
 		Converter.__init__(self, type)
@@ -29,10 +39,30 @@ class FrontendInfo(Converter, object):
 			self.type = self.TUNER_TYPE
 		elif type == "STRING":
 			self.type = self.STRING
+		elif type == "NIMACTIVEA":
+			self.type = self.NIMACTIVEA
+		elif type == "NIMACTIVEB":
+			self.type = self.NIMACTIVEB
+		elif type == "NIMACTIVEC":
+			self.type = self.NIMACTIVEC
+		elif type == "NIMACTIVED":
+			self.type = self.NIMACTIVED
+		elif type == "NIMACTIVEE":
+			self.type = self.NIMACTIVEE
+		elif type == "NIMACTIVEF":
+			self.type = self.NIMACTIVEF
+		elif type == "NIMACTIVEG":
+			self.type = self.NIMACTIVEG
+		elif type == "NIMACTIVEH":
+			self.type = self.NIMACTIVEH
+                elif type == "NIMACTIVEI":
+			self.type = self.NIMACTIVEI
+                elif type == "NIMACTIVEJ":
+			self.type = self.NIMACTIVEJ
 		else:
 			self.type = self.LOCK
 
-	@cached
+#	@cached
 	def getText(self):
 		assert self.type not in (self.LOCK, self.SLOT_NUMBER), "the text output of FrontendInfo cannot be used for lock info"
 		percent = None
@@ -74,12 +104,35 @@ class FrontendInfo(Converter, object):
 
 	@cached
 	def getBool(self):
-		assert self.type in (self.LOCK, self.BER), "the boolean output of FrontendInfo can only be used for lock or BER info"
+		assert self.type in (self.LOCK, self.BER, self.NIMACTIVEA, self.NIMACTIVEB, self.NIMACTIVEC, self.NIMACTIVED, self.NIMACTIVEE, self.NIMACTIVEF, self.NIMACTIVEG, self.NIMACTIVEH, self.NIMACTIVEI, self.NIMACTIVEJ), "the boolean output of FrontendInfo can only be used for lock, BER info or NIMACTIVE"
 		if self.type == self.LOCK:
 			lock = self.source.lock
 			if lock is None:
 				lock = False
 			return lock
+		elif  self.type > 7 :
+			nims = len( nimmanager.nimList() )
+			if self.type == self.NIMACTIVEA:
+				return nims > 0
+			elif self.type == self.NIMACTIVEB:
+				return nims > 1
+			elif self.type == self.NIMACTIVEC:
+				return nims > 2
+			elif self.type == self.NIMACTIVED:
+				return nims > 3
+			elif self.type == self.NIMACTIVEE:
+				return nims > 4
+			elif self.type == self.NIMACTIVEF:
+				return nims > 5
+			elif self.type == self.NIMACTIVEG:
+				return nims > 6
+			elif self.type == self.NIMACTIVEH:
+				return nims > 7
+                        elif self.type == self.NIMACTIVEI:
+				return nims > 8
+                        elif self.type == self.NIMACTIVEJ:
+				return nims > 9
+
 		else:
 			ber = self.source.ber
 			if ber is None:
@@ -119,3 +172,4 @@ class FrontendInfo(Converter, object):
 
 	range = 65536
 	value = property(getValue)
+
