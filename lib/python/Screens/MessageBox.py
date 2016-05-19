@@ -20,16 +20,6 @@ class MessageBox(Screen):
 		self.type = type
 		Screen.__init__(self, session)
 		self.skinName = ["MessageBox"]
-		if self.type == self.TYPE_YESNO:
-			self.setTitle(_("Question"))
-		elif self.type == self.TYPE_INFO:
-			self.setTitle(_("Information"))
-		elif self.type == self.TYPE_WARNING:
-			self.setTitle(_("Warning"))
-		elif self.type == self.TYPE_ERROR:
-			self.setTitle(_("Error"))
-		else:
-			self.setTitle(_("Message"))
 		if wizard:
 			from Components.config import config
 			from Components.Pixmap import MultiPixmap
@@ -59,6 +49,9 @@ class MessageBox(Screen):
 		self["QuestionPixmap"].hide()
 		self["InfoPixmap"] = Pixmap()
 		self["InfoPixmap"].hide()
+		self["WarningPixmap"] = Pixmap()
+		self["WarningPixmap"].hide()
+
 
 		self.timerRunning = False
 		self.initTimeout(timeout)
@@ -69,8 +62,13 @@ class MessageBox(Screen):
 				self["ErrorPixmap"].show()
 			elif picon == self.TYPE_YESNO:
 				self["QuestionPixmap"].show()
-			elif picon == self.TYPE_INFO or picon == self.TYPE_WARNING:
+			elif picon == self.TYPE_INFO:
 				self["InfoPixmap"].show()
+			elif picon == self.TYPE_INFO:
+				self["InfoPixmap"].show()
+			elif picon == self.TYPE_WARNING:
+				self["WarningPixmap"].show()
+
 
 		self.messtype = type
 		if type == self.TYPE_YESNO:
@@ -113,7 +111,7 @@ class MessageBox(Screen):
 		if not self["text"].text:
 			textsize = (520, 0)
 			listsize = (520, 25*count)
-			if self["ErrorPixmap"].visible or self["QuestionPixmap"].visible or self["InfoPixmap"].visible:
+			if self["ErrorPixmap"].visible or self["QuestionPixmap"].visible or self["InfoPixmap"].visible or self["WarningPixmap"].visible:
 				self["list"].instance.move(enigma.ePoint(65, 0))
 			else:
 				self["list"].instance.move(enigma.ePoint(0, 0))
@@ -130,12 +128,12 @@ class MessageBox(Screen):
 			listsize = (textsize[0], 25*count)
 
 			self["text"].instance.resize(enigma.eSize(*textsize))
-			if self["ErrorPixmap"].visible or self["QuestionPixmap"].visible or self["InfoPixmap"].visible:
+			if self["ErrorPixmap"].visible or self["QuestionPixmap"].visible or self["InfoPixmap"].visible or self["WarningPixmap"].visible:
 				self["text"].instance.move(enigma.ePoint(65, 0))
 			else:
 				self["text"].instance.move(enigma.ePoint(10, 10))
 
-			if self["ErrorPixmap"].visible or self["QuestionPixmap"].visible or self["InfoPixmap"].visible:
+			if self["ErrorPixmap"].visible or self["QuestionPixmap"].visible or self["InfoPixmap"].visible or self["WarningPixmap"].visible:
 				self["list"].instance.move(enigma.ePoint(65, textsize[1]))
 				wsizex = textsize[0]+65
 			else:
