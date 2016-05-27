@@ -18,12 +18,26 @@ import urllib2
 import os
 import shutil
 import math
-from boxbranding import getBoxType,  getImageDistro, getMachineName, getMachineBrand, getImageVersion
+from boxbranding import getBoxType,  getImageDistro, getMachineName, getMachineBrand, getImageVersion, getMachineKernelFile, getMachineRootFile
 distro =  getImageDistro()
 ImageVersion = getImageVersion()
+ROOTFSBIN = getMachineRootFile()
+KERNELBIN = getMachineKernelFile()
 
 #############################################################################################################
-feedurl_op = 'http://feeds.open-plus.es/openplus/%s' %ImageVersion
+image = 0 # 0=openATV / 1=openMips
+if distro.lower() == "openmips":
+	image = 1
+elif distro.lower() == "openatv":
+	image = 0
+feedurl_atv = 'http://images.mynonpublic.com/openatv/%s' %ImageVersion
+
+if ImageVersion == '5.3':
+	ImageVersion2= '5.2'
+else:
+	ImageVersion2= '5.3'
+feedurl_atv2= 'http://images.mynonpublic.com/openatv/%s' %ImageVersion2
+feedurl_om = 'http://image.openmips.com/5.3'
 imagePath = '/media/hdd/images'
 flashPath = '/media/hdd/images/flash'
 flashTmp = '/media/hdd/images/tmp'
@@ -152,8 +166,11 @@ class doFlashImage(Screen):
 		self.simulate = False
 		self.Online = online
 		self.imagePath = imagePath
-		self.feedurl = feedurl_op
-		self.feed = "op"
+		self.feedurl = feedurl_atv
+		if image == 0:
+			self.feed = "atv"
+		else:
+			self.feed = "om"
 		self["imageList"] = MenuList(self.imagelist)
 		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"], 
 		{
@@ -174,6 +191,16 @@ class doFlashImage(Screen):
 		
 	def blue(self):
 		if self.Online:
+			if image == 1:
+				if self.feed == "atv":
+					self.feed = "om"
+				else:
+					self.feed = "atv"
+			else:
+				if self.feed == "atv":
+					self.feed = "atv2"
+				else:
+					self.feed = "atv"
 			self.layoutFinished()
 			return
 		sel = self["imageList"].l.getCurrentSelection()
@@ -211,7 +238,7 @@ class doFlashImage(Screen):
 			box = "sf8"
 		elif box.startswith('et') and not box in ('et8000', 'et8500', 'et8500s', 'et10000'):
 			box = box[0:3] + 'x00'
-		elif box == 'odinm9':
+		elif box == 'odinm9' and self.feed == "atv":
 			box = 'maram9'
 		return box
 
@@ -226,7 +253,7 @@ class doFlashImage(Screen):
 		box = self.box()
 		self.hide()
 		if self.Online:
-			url = self.feedurl + "/images/" + box + "/" + sel
+			url = self.feedurl + "/" + box + "/" + sel
 			print "[Flash Online] Download image: >%s<" % url
 			if self.newfeed:
 				self.feedurl = self.newfeed[0][:-1]
@@ -413,12 +440,12 @@ class doFlashImage(Screen):
 			for name in files:
 				if name.find('kernel') > -1 and name.endswith('.bin') and kernel:
 					binfile = os.path.join(path, name)
-					dest = flashTmp + '/kernel.bin'
+					dest = flashTmp + '/%s' %KERNELBIN
 					shutil.copyfile(binfile, dest)
 					kernel = False
-				elif name.find('root') > -1 and (name.endswith('.bin') or name.endswith('.jffs2')) and rootfs:
+				elif name.find('root') > -1 and (name.endswith('.bin') or name.endswith('.jffs2') or name.endswith('.bz2')) and rootfs:
 					binfile = os.path.join(path, name)
-					dest = flashTmp + '/rootfs.bin'
+					dest = flashTmp + '/%s' %ROOTFSBIN
 					shutil.copyfile(binfile, dest)
 					rootfs = False
 				elif name.find('uImage') > -1 and kernel:
@@ -483,14 +510,26 @@ class doFlashImage(Screen):
 		self.imagelist = []
 		if self.Online:
 			self["key_yellow"].setText("Backup&Flash")
-			self.feedurl = feedurl_op
-			self["key_blue"].setText("OpenPlus")
-			url = '%s/images/%s' % (self.feedurl,box)
+			if image == 1:
+				if self.feed == "atv":
+					self.feedurl = feedurl_atv
+					self["key_blue"].setText("openMIPS")
+				else:
+					self.feedurl = feedurl_om
+					self["key_blue"].setText("openATV")
+			else:
+				if self.feed == "atv":
+					self.feedurl = feedurl_atv
+					self["key_blue"].setText("ATV %s" %ImageVersion2)
+				else:
+					self.feedurl = feedurl_atv2
+					self["key_blue"].setText("ATV %s" %ImageVersion)
+			url = '%s/index.php?open=%s' % (self.feedurl,box)
 			try:
 				req = urllib2.Request(url)
 				if self.newfeed:
 					self.feedurl = self.newfeed[0][:-1]
-					url = '%s/images/%s' % (self.feedurl,box)
+					url = '%s/index.php?open=%s' % (self.feedurl,box)
 					authinfo = urllib2.HTTPPasswordMgrWithDefaultRealm()
 					authinfo.add_password(None, self.feedurl, self.newfeed[1][:-1], self.newfeed[2][:-1])
 					handler = urllib2.HTTPBasicAuthHandler(authinfo)
@@ -513,11 +552,13 @@ class doFlashImage(Screen):
 
 			lines = the_page.split('\n')
 			tt = len(box)
-			## Test for download
 			for line in lines:
 				if line.find("<a href='%s/" % box) > -1:
 					t = line.find("<a href='%s/" % box)
-					self.imagelist.append(line[t+tt+10:t+tt+tt+39])
+					if self.feed == "atv" or self.feed == "atv2":
+						self.imagelist.append(line[t+tt+10:t+tt+tt+39])
+					else:
+						self.imagelist.append(line[t+tt+10:t+tt+tt+40])
 		else:
 			self["key_blue"].setText(_("Delete"))
 			self["key_yellow"].setText(_("Devices"))
@@ -541,7 +582,7 @@ class doFlashImage(Screen):
 
 class ImageDownloadJob(Job):
 	def __init__(self, url, filename, file):
-		Job.__init__(self, _("Downloading %s" %file))
+		Job.__init__(self, _("Downloading %s") %file)
 		ImageDownloadTask(self, url, filename)
 
 class DownloaderPostcondition(Condition):
@@ -580,7 +621,7 @@ class ImageDownloadTask(Task):
 	def download_progress(self, recvbytes, totalbytes):
 		if ( recvbytes - self.last_recvbytes  ) > 100000: # anti-flicker
 			self.progress = int(100*(float(recvbytes)/float(totalbytes)))
-			self.name = _("Downloading") + ' ' + "%d of %d kBytes" % (recvbytes/1024, totalbytes/1024)
+			self.name = _("Downloading") + ' ' + _("%d of %d kBytes") % (recvbytes/1024, totalbytes/1024)
 			self.last_recvbytes = recvbytes
 
 	def download_failed(self, failure_instance=None, error_message=""):
