@@ -121,9 +121,9 @@ class CamCheckPoller:
 
         if (username is not None) and (password is not None) and (username != "") and (password != ""):
             self.url = self.url.replace('http://', ("http://%s:%s@" % (username, password)))
-
+#modificacion
     def doCheck(self):
-        emuDir = "/etc/"
+        emuDir = "/usr/CamEmu"
         self.emuList = []
         self.mlist = []
         self.emuDirlist = []
@@ -142,7 +142,8 @@ class CamCheckPoller:
 
         for x in self.emuDirlist:
             #// if file contains the string "emu" (then this is a emu config file)
-            if x.find("emu") > -1:
+#modificacion
+            if x.find("camemu") > -1:
                 self.emuList.append(emuDir + x)
                 em = open(emuDir + x)
                 #// read the emu config file

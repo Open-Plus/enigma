@@ -16,10 +16,11 @@ import os
 from Screens.CCcamInfo import CCcamInfoMain
 from Screens.OScamInfo import OscamInfoMenu
 
+# modificacion ruta la original es /etc y en if x.find('.emu')
 def Check_Softcam():
 	found = False
-	for x in os.listdir('/etc'):
-		if x.find('.emu') > -1:
+	for x in os.listdir('/usr/CamEmu/'):
+		if x.find('camemu.') > -1:
 			found = True
 			break;
 	return found
@@ -79,10 +80,11 @@ REFRESH = 0
 CCCAMINFO = 1
 OSCAMINFO = 2
 
+# aqui cambio ruta: ruta original emuDir = "/etc/"
 class SoftcamPanel(ConfigListScreen, Screen):
 	def __init__(self, session):
 		global emuDir
-		emuDir = "/etc/"
+		emuDir = "/usr/CamEmu/"
 		self.service = None
 		Screen.__init__(self, session)
 
@@ -180,14 +182,14 @@ class SoftcamPanel(ConfigListScreen, Screen):
 		self.onLayoutFinish.append(self.layoutFinished)
 
 	def setWindowTitle(self):
-		self.setTitle(_("Softcam Panel V2.0"))
+		self.setTitle(_("Softcam Open panel"))
 
 	def ReadMenu(self):
 		self.whichCam()
 		
 		for x in self.emuDirlist:
-			#// if file contains the string "emu" (then this is a emu config file)
-			if x.find("emu") > -1:
+			#// if file contains the string "emu" (then this is a emu config file)#modificacion
+			if x.find("camemu") > -1:
 				self.emuList.append(emuDir + x)
 				em = open(emuDir + x)
 				self.emuRgui.append(0)
@@ -811,7 +813,8 @@ class ShowSoftcamPackages(Screen):
 		self.container = eConsoleAppContainer()
 		self.container.appClosed.append(self.doneupdateList)
 		self.setStatus('list')
-		self.container.execute('opkg update')
+#modificacion
+		self.container.execute('opkg lbcam')
 
 	def doneupdateList(self, answer):
 		self.container.appClosed.remove(self.doneupdateList)
@@ -821,9 +824,10 @@ class ShowSoftcamPackages(Screen):
 		self.list = []
 		self.Flist = []
 		self.Elist = []
-		t = command('opkg list | grep "enigma2-plugin-softcams-"')
+		t = command('opkg list | grep "lbcam"')
 		self.Flist = t.split('\n')
-		tt = command('opkg list-installed | grep "enigma2-plugin-softcams-"')
+#modificacion
+		tt = command('opkg list-installed | grep "lbcam"')
 		self.Elist = tt.split('\n')
 
 		if len(self.Flist) > 0:
@@ -847,7 +851,8 @@ class ShowSoftcamPackages(Screen):
 				x_installed = False
 				Fx = x.split(' - ')
 				try:
-					if Fx[0].find('-softcams-') > -1:
+#modificacion
+					if Fx[0].find('-lbcam-') > -1:
 						for exc in excludeList:
 							Ex = exc.split(' - ')
 							if Fx[0] == Ex[0]:

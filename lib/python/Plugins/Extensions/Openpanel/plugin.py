@@ -44,10 +44,11 @@ config.softcam.actCam2 = ConfigText(visible_width = 200)
 config.softcam.waittime = ConfigSelection([('0',_("dont wait")),('1',_("1 second")), ('5',_("5 seconds")),('10',_("10 seconds")),('15',_("15 seconds")),('20',_("20 seconds")),('30',_("30 seconds"))], default='15')
 config.plugins.openpanel_redpanel = ConfigSubsection()
 
+#ruta emus
 def Check_Softcam():
 	found = False
-	for x in os.listdir('/etc'):
-		if x.find('.emu') > -1:
+	for x in os.listdir('/usr/CamEmu'):
+		if x.find('camemu.') > -1:
 			found = True
 			break;
 	return found
@@ -211,6 +212,7 @@ def Plugins(**kwargs):
 	PluginDescriptor(where = [PluginDescriptor.WHERE_SESSIONSTART,PluginDescriptor.WHERE_AUTOSTART],fnc = SwapAutostart),
 	#// show Openpanel in EXTENSIONS Menu
 	PluginDescriptor(name=_("OpenPanel"), description="Info panel GUI", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = main) ]
+
 
 
 
@@ -1100,4 +1102,13 @@ class Info(Screen):
 		except:
 			o = ''
 			return o
+
+#// show Openpanel in EXTENSIONS plugins	
+def Plugins(**kwargs):
+	return [
+	PluginDescriptor(name = _("OpenPanel"),
+		description = _("Info panel GUI"),
+		where = [ PluginDescriptor.WHERE_PLUGINMENU,
+		PluginDescriptor.WHERE_EXTENSIONSMENU ],
+		icon = "", fnc = main)]	
 
