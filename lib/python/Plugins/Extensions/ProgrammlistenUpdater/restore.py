@@ -2,7 +2,6 @@ from Components.ConfigList import ConfigListScreen
 from Components.config import config, configfile
 from Components.ActionMap import ActionMap
 from Components.MenuList import MenuList
-#from Components.Label import Label
 from Components.Sources.StaticText import StaticText
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
@@ -35,7 +34,7 @@ class PU_Restore(Screen,ConfigListScreen):
         self.setTitle(self.setup_title)
         
         self["key_red"] = StaticText(_("Exit"))
-        self["key_green"] = StaticText("Restore")
+        self["key_green"] = StaticText(_("Restore"))
         self["key_yellow"] = StaticText(_("Delete"))
 
 

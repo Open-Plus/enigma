@@ -12,15 +12,20 @@ from enigma import *
 from downloader import DownloadSetting, ConverDate
 from settinglist import *
 from restore import *
+from history import *
+import os
+
 
 config.pud = ConfigSubsection()
 config.pud.autocheck = ConfigYesNo(default=False)
 config.pud.showmessage = ConfigYesNo(default=True)
 config.pud.lastdate = ConfigText(visible_width = 200)
 config.pud.satname = ConfigText(visible_width = 200, default='Enigma2 D 19E FTA')
+config.pud.update_question = ConfigYesNo(default=False)
+config.pud.just_update = ConfigYesNo(default=False)
 
-URL = 'http://www.sattechnik.de/programmlisten-updater/asd.php'
-Version = '1.0'
+URL = 'http://www.sattechnik.de/programmlisten-update/asd.php'
+Version = '1.2'
 
 class MenuListSetting(MenuList):
 
@@ -53,15 +58,15 @@ class Programmlisten_Updater(Screen,ConfigListScreen):
         self.skinName = "Programmlisten_Updater"
         self.setup_title = _("Programmlisten-Updater from DXAndy")
         self.setTitle(self.setup_title)
-        self["description"] = Label(_("Current") + ": " + "n/a")
+        self["description"] = Label(_("Current installed") + ":\n" + "n/a")
         self["update"] = Label(_("disabled"))
 
         self["key_red"] = StaticText(_("Exit"))
-        self["key_green"] = StaticText("Install")
+        self["key_green"] = StaticText(_("Install"))
         self["key_yellow"] = StaticText(_("AutoUpdate"))
 
 
-        self["ColorActions"] = ActionMap(['OkCancelActions', 'MenuActions', 'ShortcutActions',"ColorActions"],
+        self["ColorActions"] = ActionMap(['OkCancelActions', 'MenuActions', 'ShortcutActions',"ColorActions","InfobarEPGActions"],
             {
             "red": self.keyCancel,
             "green": self.keyOk,
@@ -69,6 +74,7 @@ class Programmlisten_Updater(Screen,ConfigListScreen):
             "cancel" : self.keyCancel,
             "ok" : self.keyOk,
             "menu" : self.keyMenu,
+            "InfoPressed" : self.keyHistory,
             })
 
         self.List = DownloadSetting(URL)
@@ -77,7 +83,11 @@ class Programmlisten_Updater(Screen,ConfigListScreen):
         config.pud.showmessage.value = True
 
     def keyMenu(self):
-        self.session.open(PU_Restore)
+        if os.path.exists(Directory + '/Settings/enigma2'):
+            self.session.open(PU_Restore)
+
+    def keyHistory(self):
+        self.session.open(PU_History)
 
     def keyCancel(self):
         configfile.save()
@@ -85,11 +95,16 @@ class Programmlisten_Updater(Screen,ConfigListScreen):
 
     def keyAutoUpdate(self):
         iTimerClass.StopTimer()
-        if config.pud.autocheck.value:
+        if config.pud.autocheck.value and config.pud.just_update.value:
             self['update'].setText(_("disabled"))
             config.pud.autocheck.value = False
         else:
-            self['update'].setText(_("enabled"))
+            if config.pud.just_update.value:
+                self['update'].setText(_("enabled"))
+                config.pud.just_update.value = False               
+            else:
+                self['update'].setText(_("update"))
+                config.pud.just_update.value = True 
             if config.pud.lastdate.value == '':
                 self.session.open(MessageBox, _('No Settings loaded !!\n\nPlease install first a settinglist'), MessageBox.TYPE_INFO, timeout=15)
             config.pud.autocheck.value = True
@@ -109,14 +124,20 @@ class Programmlisten_Updater(Screen,ConfigListScreen):
         
 
     def Info(self):
+        if not os.path.exists(Directory + '/Settings/enigma2'):
+            os.system('mkdir -p ' + Directory + '/Settings/enigma2')
+
         if config.pud.autocheck.value:
-            self['update'].setText(_("enabled"))
+            if config.pud.just_update.value:
+                self['update'].setText(_("update"))
+            else:
+                self['update'].setText(_("enabled"))
         else:
             self['update'].setText(_("disabled"))
         if config.pud.lastdate.value == '':
-            self["description"].setText(_("Current") + ": " + "n/a")
+            self["description"].setText(_("Current installed") + ":\n" + "n/a")
         else:
-            self["description"].setText(_("Current") + ": " + config.pud.satname.value + " " + config.pud.lastdate.value)
+            self["description"].setText(_("Current installed") + ":\n" + config.pud.satname.value + " " + config.pud.lastdate.value)
 
     def ListEntryMenuSettings(self, name, date, link, name1, date1):
         res = [(name, date, link, name1, date1)]
@@ -153,6 +174,6 @@ def Main(session, **kwargs):
 
 def Plugins(**kwargs):
     return [
-    PluginDescriptor(name="Programmlisten-Updater V" + Version, description="Programmlisten-Updater from DXAndy", where=PluginDescriptor.WHERE_PLUGINMENU, fnc=Main),
+    PluginDescriptor(name="Programmlisten-Updater V" + Version, description=_("Programmlisten-Updater from DXAndy"), icon="plugin.png", where=PluginDescriptor.WHERE_PLUGINMENU, fnc=Main),
     PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=SessionStart),
     PluginDescriptor(where=PluginDescriptor.WHERE_AUTOSTART, fnc=AutoStart)]
