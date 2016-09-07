@@ -218,12 +218,12 @@ def Plugins(**kwargs):
 
 #############------- SKINS --------############################
 
-MENU_SKIN = """<screen position="center,center" size="500,370" title="Open Panel" >
-	<widget source="global.CurrentTime" render="Label" position="0, 340" size="500,24" font="Regular;20" foregroundColor="#FFFFFF" halign="right" transparent="1" zPosition="5">
-		<convert type="ClockToText">>Format%H:%M:%S</convert>
+MENU_SKIN = """<screen position="center,center" size="500,370" title="Open Panelo">
+	<widget source="global.CurrentTime" render="Label" position="312,340" size="173,26" font="Regular;20" foregroundColor="#FFFFFF" halign="right" transparent="1" zPosition="5">
+		<convert type="ClockToText">&gt;Format%H:%M:%S</convert>
 	</widget>
 	<eLabel backgroundColor="#56C856" position="0,330" size="500,1" zPosition="0" />
-	<widget name="Mlist" position="10,10" size="480,300" zPosition="1" scrollbarMode="showOnDemand" backgroundColor="#251e1f20" transparent="1" />
+	<widget name="Mlist" position="10,10" size="480,300" zPosition="1" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" transparent="1" />
 	<widget name="label1" position="10,340" size="490,25" font="Regular;20" transparent="1" foregroundColor="#f2e000" halign="left" />
 </screen>"""
 
@@ -234,21 +234,21 @@ CONFIG_SKIN = """<screen position="center,center" size="600,440" title="Open Pan
 
 INFO_SKIN =  """<screen name="Panel-Info"  position="center,center" size="730,400" title="Open Panel-Info" >
 	<widget name="label2" position="0,10" size="730,25" font="Regular;20" transparent="1" halign="center" foregroundColor="#f2e000" />
-	<widget name="label1" position="10,45" size="710,350" font="Console;20" zPosition="1" backgroundColor="#251e1f20" transparent="1" />
+	<widget name="label1" position="10,45" size="710,350" font="Console;20" zPosition="1" backgroundColor="#251e1f20" foregroundColor="#ffffff" transparent="1" />
 </screen>"""
 
 INFO_SKIN2 =  """<screen name="PANEL-Info2"  position="center,center" size="530,400" title="Open Panel-Info" backgroundColor="#251e1f20">
-	<widget name="label1" position="10,50" size="510,340" font="Regular;15" zPosition="1" backgroundColor="#251e1f20" transparent="1" />
+	<widget name="label1" position="10,50" size="510,340" font="Regular;15" zPosition="1" backgroundColor="#251e1f20" foregroundColor="#ffffff" transparent="1" />
 </screen>"""
 
 
 ###################  Max Test ###################
 class PanelList(MenuList):
-	def __init__(self, list, font0 = 24, font1 = 16, itemHeight = 50, enableWrapAround = True):
+	def __init__(self, list, font0 = 20, font1 = 16, itemHeight = 50, enableWrapAround = True):
 		MenuList.__init__(self, list, enableWrapAround, eListboxPythonMultiContent)
 		screenwidth = getDesktop(0).size().width()
 		if screenwidth and screenwidth == 1920:
-			self.l.setFont(0, gFont("Regular", int(font0 * 1.5)))
+			self.l.setFont(0, gFont("Caviar_bold", int(font0 * 1.5)))
 			self.l.setFont(1, gFont("Regular", int(font1 * 1.5)))
 			self.l.setItemHeight(int(itemHeight*1.5))
 		else:
@@ -278,7 +278,7 @@ def InfoEntryComponent(file):
 	if png == None:
 		png = LoadPixmap("/usr/lib/enigma2/python/Plugins/Extensions/Openpanel/icons/" + file + ".png")
 		if png == None:
-			png = LoadPixmap(cached = True, path = resolveFilename(SCOPE_CURRENT_SKIN, "icons/default.png"));
+			png = LoadPixmap(cached = True, path = resolveFilename(SCOPE_CURRENT_SKIN, "icons/default1.png"));
 			if png == None:
 				png = LoadPixmap("/usr/lib/enigma2/python/Plugins/Extensions/Openpanel/icons/default.png")
 	res = (png)
@@ -340,7 +340,7 @@ class Openpanel(Screen, InfoBarPiP, ProtectedScreen):
 		if (getDesktop(0).size().width() == 1280):
 			self["Mlist"] = PanelList([])
 		else:
-			self["Mlist"] = PanelList([], font0=24, font1=15, itemHeight=50)
+			self["Mlist"] = PanelList([], font0=20, font1=16, itemHeight=50)
 		self["Mlist"].l.setList(self.Mlist)
 		menu = 0
 		self["Mlist"].onSelectionChanged.append(self.selectionChanged)
