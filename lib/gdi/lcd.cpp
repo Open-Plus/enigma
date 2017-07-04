@@ -1,4 +1,5 @@
 #include <lib/gdi/lcd.h>
+#include <lib/gdi/epng.h>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -71,6 +72,7 @@ eDBoxLCD::eDBoxLCD()
 {
 	int xres=132, yres=64, bpp=8;
 	flipped = false;
+	dump = false;
 	inverted = 0;
 	lcd_type = 0;
 	FILE *boxtype_file;
@@ -83,7 +85,7 @@ eDBoxLCD::eDBoxLCD()
 		fgets(boxtype_name, sizeof(boxtype_name), boxtype_file);
 		fclose(boxtype_file);
 		
-		if((strcmp(boxtype_name, "7300S\n") == 0) || (strcmp(boxtype_name, "xp1000s\n") == 0) || (strcmp(boxtype_name, "odinm7\n") == 0) || (strcmp(boxtype_name, "ew7358\n") == 0) || (strcmp(boxtype_name, "ew7362\n") == 0) || (strcmp(boxtype_name, "formuler3\n") == 0) || (strcmp(boxtype_name, "hd1100\n") == 0) || (strcmp(boxtype_name, "hd1200\n") == 0) || (strcmp(boxtype_name, "hd1265\n") == 0) || (strcmp(boxtype_name, "hd500c\n") == 0) || (strcmp(boxtype_name, "vp7358ci\n") == 0) || (strcmp(boxtype_name, "vg2000\n") == 0) || (strcmp(boxtype_name, "vg5000\n") == 0) || (strcmp(boxtype_name, "sh1\n") == 0) || (strcmp(boxtype_name, "yhgd2580\n") == 0) || (strcmp(boxtype_name, "spycatmini\n") == 0) || (strcmp(boxtype_name, "fegasusx3\n") == 0) || (strcmp(boxtype_name, "fegasusx5s\n") == 0) || (strcmp(boxtype_name, "fegasusx5t\n") == 0) || (strcmp(boxtype_name, "ini-2000oc\n") == 0) || (strcmp(boxtype_name, "osmini\n") == 0) || (strcmp(boxtype_name, "jj7362\n") == 0) || (strcmp(boxtype_name, "h3\n") == 0) || (strcmp(boxtype_name, "9900lx\n") == 0) || (strcmp(boxtype_name, "lc\n") == 0))
+		if((strcmp(boxtype_name, "novatwin\n") == 0) || (strcmp(boxtype_name, "novacombo\n") == 0) || (strcmp(boxtype_name, "7300S\n") == 0) || (strcmp(boxtype_name, "7400S\n") == 0) || (strcmp(boxtype_name, "7220S\n") == 0) || (strcmp(boxtype_name, "xp1000s\n") == 0) || (strcmp(boxtype_name, "odinm7\n") == 0) || (strcmp(boxtype_name, "ew7358\n") == 0) || (strcmp(boxtype_name, "ew7362\n") == 0) || (strcmp(boxtype_name, "formuler3\n") == 0) || (strcmp(boxtype_name, "formuler4\n") == 0) || (strcmp(boxtype_name, "formuler4turbo\n") == 0) || (strcmp(boxtype_name, "hd1100\n") == 0) || (strcmp(boxtype_name, "hd1200\n") == 0) || (strcmp(boxtype_name, "hd1265\n") == 0) || (strcmp(boxtype_name, "hd500c\n") == 0) || (strcmp(boxtype_name, "hd530c\n") == 0) || (strcmp(boxtype_name, "vp7358ci\n") == 0) || (strcmp(boxtype_name, "vg2000\n") == 0) || (strcmp(boxtype_name, "vg5000\n") == 0) || (strcmp(boxtype_name, "sh1\n") == 0) || (strcmp(boxtype_name, "yhgd2580\n") == 0) || (strcmp(boxtype_name, "spycatmini\n") == 0) || (strcmp(boxtype_name, "spycatminiplus\n") == 0) || (strcmp(boxtype_name, "fegasusx3\n") == 0) || (strcmp(boxtype_name, "fegasusx5s\n") == 0) || (strcmp(boxtype_name, "fegasusx5t\n") == 0) || (strcmp(boxtype_name, "ini-2000oc\n") == 0) || (strcmp(boxtype_name, "osmini\n") == 0) || (strcmp(boxtype_name, "jj7362\n") == 0) || (strcmp(boxtype_name, "h3\n") == 0) || (strcmp(boxtype_name, "9900lx\n") == 0) || (strcmp(boxtype_name, "lc\n") == 0) || (strcmp(boxtype_name, "hd1500\n") == 0) || (strcmp(boxtype_name, "g100\n") == 0) || (strcmp(boxtype_name, "g101\n") == 0) || (strcmp(boxtype_name, "bre2ze_t2c\n") == 0) || (strcmp(boxtype_name, "vs1000\n") == 0) || (strcmp(boxtype_name, "tiviarmin\n") == 0))
 		{
 			lcdfd = open("/dev/null", O_RDWR);
 		}
@@ -201,6 +203,12 @@ void eDBoxLCD::setFlipped(bool onoff)
 	update();
 }
 
+void eDBoxLCD::setDump(bool onoff)
+ {
+ 	dump = onoff;
+ 	dumpLCD2PNG();
+ }
+ 
 int eDBoxLCD::setLCDContrast(int contrast)
 {
 #ifndef NO_LCD
@@ -290,6 +298,61 @@ eDBoxLCD::~eDBoxLCD()
 	}
 }
 
+void eDBoxLCD::dumpLCD2PNG(void)
+ {
+ 		if (dump)
+ 		{
+ 			int bpp =( _stride *8)/res.width();
+ 			int lcd_width = res.width();
+ 			int lcd_hight = res.height();
+ 			ePtr<gPixmap> pixmap32;
+ 			pixmap32 = new gPixmap(eSize(lcd_width, lcd_hight), 32, gPixmap::accelAuto);
+ 			const uint8_t *srcptr = (uint8_t*)_buffer;
+ 			uint8_t *dstptr=(uint8_t*)pixmap32->surface->data;
+ 
+ 			switch(bpp)
+ 			{
+ 				case 8:
+ 					eDebug(" 8 bit not supportet yet");
+ 					break;
+ 				case 16:
+ 					{
+ 
+ 						for (int y = lcd_hight; y != 0; --y)
+ 						{
+ 							gRGB pixel32;
+ 							uint16_t pixel16;
+ 							int x = lcd_width;
+ 							gRGB *dst = (gRGB *)dstptr;
+ 							const uint16_t *src = (const uint16_t *)srcptr;
+ 							while (x--)
+ 							{
+ #if BYTE_ORDER == LITTLE_ENDIAN
+ 								pixel16 = bswap_16(*src++);
+ #else
+ 								pixel16 = *src++;;
+ #endif
+ 								pixel32.a = 0xFF;
+ 								pixel32.r = (pixel16 << 3) & 0xF8;
+ 								pixel32.g = (pixel16 >> 3) & 0xFC;
+ 								pixel32.b = (pixel16 >> 8) & 0xF8;
+ 								*dst++ = pixel32;
+ 							}
+ 							srcptr += _stride;
+ 							dstptr += pixmap32->surface->stride;
+ 						}
+ 						savePNG("/tmp/lcd.png", pixmap32);
+ 					}
+ 					break;
+ 				case 32:
+ 					eDebug(" 32 bit not supportet yet");
+ 					break;
+ 				default:
+ 					eDebug("%d bit not supportet yet",bpp);
+ 			}
+ 		}
+ }
+ 
 void eDBoxLCD::update()
 {
 #ifndef HAVE_TEXTLCD
@@ -357,7 +420,12 @@ void eDBoxLCD::update()
 					fgets(boxtype_name, sizeof(boxtype_name), boxtype_file);
 					fclose(boxtype_file);
 				}
-				if (((file = fopen("/proc/stb/info/gbmodel", "r")) != NULL ) || (strcmp(boxtype_name, "7100S\n") == 0))
+				else if((boxtype_file = fopen("/proc/stb/info/model", "r")) != NULL)
+				{
+					fgets(boxtype_name, sizeof(boxtype_name), boxtype_file);
+					fclose(boxtype_file);
+				}
+				if (((file = fopen("/proc/stb/info/gbmodel", "r")) != NULL ) || (strcmp(boxtype_name, "7100S\n") == 0) || (strcmp(boxtype_name, "7200S\n") == 0) || (strcmp(boxtype_name, "7210S\n") == 0) || (strcmp(boxtype_name, "7215S\n") == 0) || (strcmp(boxtype_name, "7205S\n") == 0))
 				{
 					//gggrrrrrbbbbbggg bit order from memory
 					//gggbbbbbrrrrrggg bit order to LCD
@@ -377,6 +445,21 @@ void eDBoxLCD::update()
 							gb_buffer[offset] = (_buffer[offset] & 0x07) | ((_buffer[offset + 1] << 3) & 0xE8);
 							gb_buffer[offset + 1] = (_buffer[offset + 1] & 0xE0)| ((_buffer[offset] >> 3) & 0x1F);
 						}
+					}
+					write(lcdfd, gb_buffer, _stride * res.height());
+					if (file != NULL)
+					{
+						fclose(file);
+					}
+				}
+				else if ((strcmp(boxtype_name, "dm900\n") == 0))
+				{
+					unsigned char gb_buffer[_stride * res.height()];
+					for (int offset = 0; offset < ((_stride * res.height())>>2); offset ++)
+					{
+						unsigned int src = ((unsigned int*)_buffer)[offset];
+						//                                             blue                         red                  green low                     green high
+						((unsigned int*)gb_buffer)[offset] = ((src >> 3) & 0x001F001F) | ((src << 3) & 0xF800F800) | ((src >> 8) & 0x00E000E0) | ((src << 8) & 0x07000700);
 					}
 					write(lcdfd, gb_buffer, _stride * res.height());
 					if (file != NULL)
@@ -420,5 +503,6 @@ void eDBoxLCD::update()
 			write(lcdfd, raw, 64*64);
 		}
 	}
+	dumpLCD2PNG();
 #endif
 }

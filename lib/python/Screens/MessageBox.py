@@ -14,17 +14,29 @@ class MessageBox(Screen):
 	TYPE_WARNING = 2
 	TYPE_ERROR = 3
 
-	def __init__(self, session, text, type=TYPE_YESNO, timeout=-1, close_on_any_key=False, default=True, enable_input=True, msgBoxID=None, picon=True, simple=False, wizard=False, list=None, skin_name=None, timeout_default=None):
+	def __init__(self, session, text, type=TYPE_YESNO, timeout=-1, close_on_any_key=False, default=True, enable_input=True, msgBoxID=None, picon=True, simple=False, wizard=False, list=None, skin_name=None, timeout_default=None, windowTitle = None, title = "Message"):
+		if not windowTitle:
+			windowTitle = title
 		if not list: list = []
 		if not skin_name: skin_name = []
 		self.type = type
 		Screen.__init__(self, session)
 		self.skinName = ["MessageBox"]
+		if self.type == self.TYPE_YESNO:
+			self.setTitle(_("Question"))
+		elif self.type == self.TYPE_INFO:
+			self.setTitle(_("Information"))
+		elif self.type == self.TYPE_WARNING:
+			self.setTitle(_("Warning"))
+		elif self.type == self.TYPE_ERROR:
+			self.setTitle(_("Error"))
+		else:
+			self.setTitle(_(windowTitle))
 		if wizard:
 			from Components.config import config
 			from Components.Pixmap import MultiPixmap
 			self["rc"] = MultiPixmap()
-			self["rc"].setPixmapNum(config.misc.rcused.value)		
+			self["rc"].setPixmapNum(config.misc.rcused.value)
 			self.skinName = ["MessageBoxWizard"]
 
 		if simple:
@@ -49,9 +61,8 @@ class MessageBox(Screen):
 		self["QuestionPixmap"].hide()
 		self["InfoPixmap"] = Pixmap()
 		self["InfoPixmap"].hide()
-		self["WarningPixmap"] = Pixmap()
-		self["WarningPixmap"].hide()
-
+                self["WarningPixmap"] = Pixmap()
+                self["WarningPixmap"].hide()
 
 		self.timerRunning = False
 		self.initTimeout(timeout)
@@ -64,11 +75,8 @@ class MessageBox(Screen):
 				self["QuestionPixmap"].show()
 			elif picon == self.TYPE_INFO:
 				self["InfoPixmap"].show()
-			elif picon == self.TYPE_INFO:
-				self["InfoPixmap"].show()
-			elif picon == self.TYPE_WARNING:
-				self["WarningPixmap"].show()
-
+                        elif picon == self.TYPE_WARNING:
+                                self["WarningPixmap"].show()
 
 		self.messtype = type
 		if type == self.TYPE_YESNO:

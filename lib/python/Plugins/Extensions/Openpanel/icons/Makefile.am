@@ -1,3 +1,3 @@
-installdir = $(pkglibdir)/python/Plugins/Extensions/Infopanel/icons
+installdir = $(pkglibdir)/python/Plugins/Extensions/Openpanel/icons
 
 install_PYTHON = *.png

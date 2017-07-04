@@ -1,4 +1,5 @@
 from config import config, ConfigSelection, ConfigSubsection, ConfigOnOff, ConfigText
+from boxbranding import getMachineBrand
 from Components.Timezones import timezones
 from Components.Language import language
 from Components.Keyboard import keyboard

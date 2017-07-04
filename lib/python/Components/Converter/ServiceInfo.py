@@ -37,6 +37,7 @@ class ServiceInfo(Converter, object):
 	IS_720 = 28
 	IS_576 = 29
 	IS_480 = 30
+	IS_4K = 31
 
 	def __init__(self, type):
 		Converter.__init__(self, type)
@@ -71,6 +72,7 @@ class ServiceInfo(Converter, object):
 				"Is720": (self.IS_720, (iPlayableService.evVideoSizeChanged,)),
 				"Is576": (self.IS_576, (iPlayableService.evVideoSizeChanged,)),
 				"Is480": (self.IS_480, (iPlayableService.evVideoSizeChanged,)),
+				"Is4K": (self.IS_4K, (iPlayableService.evVideoSizeChanged,)),
 			}[type]
 
 	def getServiceInfoString(self, info, what, convert = lambda x: "%d" % x):
@@ -80,6 +82,14 @@ class ServiceInfo(Converter, object):
 		if v == -2:
 			return info.getInfoString(what)
 		return convert(v)
+
+	def getServiceInfoHexString(self, info, what, convert = lambda x: "%04x" % x):
+		v = info.getInfo(what)
+		if v == -1:
+			return "N/A"
+		if v == -2:
+			return info.getInfoString(what)
+		return convert(v)    
 
 	@cached
 	def getBoolean(self):
@@ -122,7 +132,7 @@ class ServiceInfo(Converter, object):
 				while idx < n:
 					i = audio.getTrackInfo(idx)
 					description = i.getDescription()
-					if description in ("AC3", "AC-3", "DTS"):
+					if description in ("AC3", "AC-3", "AC3+", "DTS"):
 						if self.type == self.IS_MULTICHANNEL:
 							return True
 						elif self.type == self.AUDIO_STEREO:
@@ -160,7 +170,7 @@ class ServiceInfo(Converter, object):
 		elif self.type == self.IS_SD:
 			return video_height < 720
 		elif self.type == self.IS_HD:
-			return video_height >= 720
+			return video_height >= 720 and video_height < 2151
 		elif self.type == self.IS_1080:
 			return video_height > 1000 and video_height <= 1080
 		elif self.type == self.IS_720:
@@ -169,6 +179,8 @@ class ServiceInfo(Converter, object):
 			return video_height > 500 and video_height <= 576
 		elif self.type == self.IS_480:
 			return video_height > 0 and video_height <= 480
+		elif self.type == self.IS_4K:
+			return video_height > 2152 and video_height <= 2160
 		return False
 
 	boolean = property(getBoolean)
@@ -225,7 +237,7 @@ class ServiceInfo(Converter, object):
 		elif self.type == self.ONID:
 			return self.getServiceInfoString(info, iServiceInformation.sONID)
 		elif self.type == self.SID:
-			return self.getServiceInfoString(info, iServiceInformation.sSID)
+			return self.getServiceInfoHexString(info, iServiceInformation.sSID)
 		elif self.type == self.FRAMERATE:
 			video_rate = None
 			if path.exists("/proc/stb/vmpeg/0/framerate"):
@@ -296,4 +308,4 @@ class ServiceInfo(Converter, object):
 
 	def changed(self, what):
 		if what[0] != self.CHANGED_SPECIFIC or what[1] in self.interesting_events:
-			Converter.changed(self, what)
+			Converter.changed(self, what) 

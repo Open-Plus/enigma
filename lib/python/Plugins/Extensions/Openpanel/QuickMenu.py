@@ -38,7 +38,7 @@ from Plugins.SystemPlugins.SoftwareManager.ImageBackup import ImageBackup
 from Plugins.SystemPlugins.SoftwareManager.plugin import UpdatePlugin, SoftwareManagerSetup
 from Plugins.SystemPlugins.SoftwareManager.BackupRestore import BackupScreen, RestoreScreen, BackupSelection, getBackupPath, getOldBackupPath, getBackupFilename
 
-from Tools.Directories import resolveFilename, SCOPE_PLUGINS, SCOPE_SKIN_IMAGE, SCOPE_SKIN
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS, SCOPE_SKIN_IMAGE, SCOPE_SKIN, fileExists
 from Tools.LoadPixmap import LoadPixmap
 
 from os import path, listdir
@@ -97,10 +97,11 @@ def isFileSystemSupported(filesystem):
 
 def Check_Softcam():
 	found = False
-	for x in listdir('/etc'):
-		if x.find('.emu') > -1:
+	for x in os.listdir('/usr/CamEmu'):
+		if x.find('camemu.') > -1:
 			found = True
 			break;
+
 	return found
 
 class QuickMenu(Screen, ProtectedScreen):
@@ -235,9 +236,9 @@ class QuickMenu(Screen, ProtectedScreen):
 		self.list.append(QuickMenuEntryComponent("System",_("System Setup"),_("Setup your System")))
 		self.list.append(QuickMenuEntryComponent("Mounts",_("Mount Setup"),_("Setup your mounts for network")))
 		self.list.append(QuickMenuEntryComponent("Network",_("Setup your local network"),_("Setup your local network. For Wlan you need to boot with a USB-Wlan stick")))
-		self.list.append(QuickMenuEntryComponent("AV Setup",_("Setup Videomode"),_("Setup your Video Mode, Video Output and other Video Settings")))
+		self.list.append(QuickMenuEntryComponent("AV Setup",_("Setup Video/Audio"),_("Setup your Video Mode, Video Output and other Video Settings")))
 		self.list.append(QuickMenuEntryComponent("Tuner Setup",_("Setup Tuner"),_("Setup your Tuner and search for channels")))
-		self.list.append(QuickMenuEntryComponent("Plugins",_("Download plugins"),_("Shows available pluigns. Here you can download and install them")))
+		self.list.append(QuickMenuEntryComponent("Plugins",_("Setup Plugins"),_("Shows available pluigns. Here you can download and install them")))
 		self.list.append(QuickMenuEntryComponent("Harddisk",_("Harddisk Setup"),_("Setup your Harddisk")))
 		self["list"].l.setList(self.list)
 
@@ -245,13 +246,13 @@ class QuickMenu(Screen, ProtectedScreen):
 	def Qsystem(self):
 		self.sublist = []
 		self.sublist.append(QuickSubMenuEntryComponent("Customise",_("Setup Enigma2"),_("Customise enigma2 personal settings")))
-		self.sublist.append(QuickSubMenuEntryComponent("OSD settings",_("Settings..."),_("Setup your OSD")))
+		self.sublist.append(QuickSubMenuEntryComponent("OSD settings",_("OSD Setup"),_("Setup your OSD")))
 		self.sublist.append(QuickSubMenuEntryComponent("Button Setup",_("Button Setup"),_("Setup your remote buttons")))
 		if SystemInfo["FrontpanelDisplay"] and SystemInfo["Display"]:
 			self.sublist.append(QuickSubMenuEntryComponent("Display Settings",_("Display Setup"),_("Setup your display")))
 		if SystemInfo["LCDSKINSetup"]:
-			self.sublist.append(QuickSubMenuEntryComponent("LCD Skin Setup",_("Skin Setup"),_("Setup your LCD")))
-		self.sublist.append(QuickSubMenuEntryComponent("Skin Setup",_("Skin Setup"),_("Setup your Skin")))
+			self.sublist.append(QuickSubMenuEntryComponent("LCD Skin Setup",_("Select LCD Skin"),_("Setup your LCD")))
+		self.sublist.append(QuickSubMenuEntryComponent("Skin Setup",_("Select Enigma2 Skin"),_("Setup your Skin")))
 		self.sublist.append(QuickSubMenuEntryComponent("Channel selection",_("Channel selection configuration"),_("Setup your Channel selection configuration")))
 		self.sublist.append(QuickSubMenuEntryComponent("Recording settings",_("Recording Setup"),_("Setup your recording config")))
 		self.sublist.append(QuickSubMenuEntryComponent("EPG settings",_("EPG Setup"),_("Setup your EPG config")))
@@ -282,6 +283,7 @@ class QuickMenu(Screen, ProtectedScreen):
 		self.sublist.append(QuickSubMenuEntryComponent("SABnzbd",_("Setup SABnzbd"),_("Setup SABnzbd")))
 		self.sublist.append(QuickSubMenuEntryComponent("uShare",_("Setup uShare"),_("Setup uShare")))
 		self.sublist.append(QuickSubMenuEntryComponent("Telnet",_("Setup Telnet"),_("Setup Telnet")))
+		self.sublist.append(QuickSubMenuEntryComponent("Movistar+ Iptv Server",_("Movistar+ Iptv Server Config"),_("Movistar+ Iptv Server Config")))
 		self.sublist.append(QuickSubMenuEntryComponent("RemoteTuner",_("Setup Remote Tuner Server"),_("Setup Remote Tuner Server")))
 		self["sublist"].l.setList(self.sublist)
 
@@ -321,8 +323,8 @@ class QuickMenu(Screen, ProtectedScreen):
 		self.sublist.append(QuickSubMenuEntryComponent("Tuner Configuration",_("Setup tuner(s)"),_("Setup each tuner for your satellite system")))
 		if POSSETUP == True:
 			self.sublist.append(QuickSubMenuEntryComponent("Positioner Setup",_("Setup rotor"),_("Setup your positioner for your satellite system")))
-		self.sublist.append(QuickSubMenuEntryComponent("Automatic Scan",_("Service Searching"),_("Automatic scan for services")))
-		self.sublist.append(QuickSubMenuEntryComponent("Manual Scan",_("Service Searching"),_("Manual scan for services")))
+		self.sublist.append(QuickSubMenuEntryComponent("Automatic Scan",_("Automatic Service Searching"),_("Automatic scan for services")))
+		self.sublist.append(QuickSubMenuEntryComponent("Manual Scan",_("Manual Service Searching"),_("Manual scan for services")))
 		if SATFINDER == True:		
 			self.sublist.append(QuickSubMenuEntryComponent("Sat Finder",_("Search Sats"),_("Search Sats, check signal and lock")))
 		self["sublist"].l.setList(self.sublist)
@@ -331,7 +333,7 @@ class QuickMenu(Screen, ProtectedScreen):
 	def Qsoftware(self):
 		self.sublist = []
 		self.sublist.append(QuickSubMenuEntryComponent("Software Update",_("Online software update"),_("Check/Install online updates (you must have a working internet connection)")))
-		if not getBoxType().startswith('az') and not getBoxType().startswith('dm') and not getBrandOEM().startswith('cube'):
+		if not getBoxType().startswith('az') and not getBoxType() in ('dm500hd','dm500hdv2','dm520','dm800','dm800se','dm800sev2','dm820','dm7020hd','dm7020hdv2','dm7080','dm8000') and not getBrandOEM().startswith('cube'):
 			self.sublist.append(QuickSubMenuEntryComponent("Flash Online",_("Flash Online a new image"),_("Flash on the fly your your Receiver software.")))
 		if not getBoxType().startswith('az') and not getBrandOEM().startswith('cube') and not getBrandOEM().startswith('wetek'):
 			self.sublist.append(QuickSubMenuEntryComponent("Complete Backup",_("Backup your current image"),_("Backup your current image to HDD or USB. This will make a 1:1 copy of your box")))
@@ -447,8 +449,10 @@ class QuickMenu(Screen, ProtectedScreen):
 			self.session.open(NetworkuShare)
 		elif item[0] == _("Telnet"):
 			self.session.open(NetworkTelnet)
-		elif item[0] == _("RemoteTuner"):
+                elif item[0] == _("RemoteTuner"):
 			self.session.open(RemoteTunerServer)
+                elif item[0] == _("Movistar+ Iptv Server"):
+			self.session.open(udpxyServer)
 ######## Select System Setup Menu ##############################
 		elif item[0] == _("Customise"):
 			self.openSetup("usage")
@@ -644,6 +648,7 @@ def QuickMenuEntryComponent(name, description, long_description = None, width=54
 
 	screenwidth = getDesktop(0).size().width()
 	if screenwidth and screenwidth == 1920:
+		width *= 1.5
 		return [
 			_(name),
 			MultiContentEntryText(pos=(90, 5), size=(width-90, 38), font=0, text = _(name)),
@@ -660,9 +665,10 @@ def QuickMenuEntryComponent(name, description, long_description = None, width=54
 			MultiContentEntryText(pos=(0, 0), size=(0, 0), font=0, text = _(long_description))
 		]
 
-def QuickSubMenuEntryComponent(name, description, long_description = None, width=540):
+def QuickSubMenuEntryComponent(name, description, long_description = None, width=600):
 	screenwidth = getDesktop(0).size().width()
 	if screenwidth and screenwidth == 1920:
+		width *= 1.5
 		return [
 			_(name),
 			MultiContentEntryText(pos=(15, 5), size=(width-15, 38), font=0, text = _(name)),
@@ -682,8 +688,8 @@ class QuickMenuList(MenuList):
 		MenuList.__init__(self, list, enableWrapAround, eListboxPythonMultiContent)
 		screenwidth = getDesktop(0).size().width()
 		if screenwidth and screenwidth == 1920:
-			self.l.setFont(0, gFont("Regular", 30))
-			self.l.setFont(1, gFont("Regular", 24))
+			self.l.setFont(0, gFont("Regular", 27))
+			self.l.setFont(1, gFont("Regular", 20))
 			self.l.setItemHeight(75)
 		else:
 			self.l.setFont(0, gFont("Regular", 20))
@@ -695,9 +701,9 @@ class QuickMenuSubList(MenuList):
 		MenuList.__init__(self, sublist, enableWrapAround, eListboxPythonMultiContent)
 		screenwidth = getDesktop(0).size().width()
 		if screenwidth and screenwidth == 1920:
-			self.l.setFont(0, gFont("Regular", 30))
-			self.l.setFont(1, gFont("Regular", 24))
-			self.l.setItemHeight(75)
+			self.l.setFont(0, gFont("Regular", 26))
+			self.l.setFont(1, gFont("Regular", 18))
+			self.l.setItemHeight(70)
 		else:
 			self.l.setFont(0, gFont("Regular", 20))
 			self.l.setFont(1, gFont("Regular", 16))

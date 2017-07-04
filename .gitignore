@@ -18,7 +18,6 @@ enigma2_config.h
 enigma2_config.h.in
 enigma2.pc
 index-enigma2.xml
-DEADJOE
 INSTALL
 install-sh
 *.la
@@ -26,8 +25,6 @@ install-sh
 libtool
 *.lo
 ltmain.sh
-Makefile
-Makefile.in
 missing
 moc_*.cpp
 *.o
@@ -35,4 +32,8 @@ py-compile
 stamp-h1
 *.tar.bz2
 *.tar.gz
-*.pyo
+aclocal-copy
+compile
+.dirstamp
+mipsel-oe-linux-libtool
+doxy/

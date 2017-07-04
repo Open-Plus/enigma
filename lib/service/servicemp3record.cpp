@@ -79,7 +79,9 @@ RESULT eServiceMP3Record::prepare(const char *filename, time_t begTime, time_t e
 			ret = meta.updateMeta(m_filename.c_str()) ? -255 : 0;
 			if (!ret)
 			{
-				// Inlude saveEventToFile
+				std::string fname = m_filename;
+				fname += "eit";
+				eEPGCache::getInstance()->saveEventToFile(fname.c_str(), m_ref, eit_event_id, begTime, endTime);
 			}
 			m_state = statePrepared;
 		}

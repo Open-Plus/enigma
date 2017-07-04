@@ -1,26 +1,90 @@
-OpenPlus Gui - Enigma2 based
+                                                                                            
+      # ###                                         ##### ##  ###                           
+    /  /###                                      ######  /###  ###                          
+   /  /  ###                                    /#   /  /  ###  ##                          
+  /  ##   ###                                  /    /  /    ### ##                          
+ /  ###    ###                                     /  /      ## ##                          
+##   ##     ##    /###     /##  ###  /###         ## ##      ## ##  ##   ####       /###    
+##   ##     ##   / ###  / / ###  ###/ #### /      ## ##      ## ##   ##    ###  /  / #### / 
+##   ##     ##  /   ###/ /   ###  ##   ###/     /### ##      /  ##   ##     ###/  ##  ###/  
+##   ##     ## ##    ## ##    ### ##    ##     / ### ##     /   ##   ##      ##  ####       
+##   ##     ## ##    ## ########  ##    ##        ## ######/    ##   ##      ##    ###      
+ ##  ##     ## ##    ## #######   ##    ##        ## ######     ##   ##      ##      ###    
+  ## #      /  ##    ## ##        ##    ##        ## ##         ##   ##      ##        ###  
+   ###     /   ##    ## ####    / ##    ##        ## ##         ##   ##      /#   /###  ##  
+    ######/    #######   ######/  ###   ###       ## ##         ### / ######/ ## / #### /   
+      ###      ######     #####    ###   ### ##   ## ##          ##/   #####   ##   ###/    
+               ##                           ###   #  /                              
 
-Openplus en un firmware para decodificadores de TV (TDT/SAT/CABLE) basado en el software de código abierto Enigma2.
+## Our buildserver is currently running on: ##
 
-Como novedades en esta versión, podemos citar:
+Debian Jessie (GNU/Linux 2.6.32-37-pve)
+=======
 
- - Skin Openplus como piel por defecto.
- - Skin optativo Metrix-lb basado en el skin del mismo nombre y adaptado por Villak
- - LbPanel (Versión específica para openplus
- - Traducido al español en un 98%
- - Incluidos los últimos drivers de los fabricantes
+## OpenPlus 2.0 is build using oe-alliance build-environment and several git repositories: ##
+
+> [https://github.com/oe-alliance/oe-alliance-core/tree/3.4](https://github.com/oe-alliance/oe-alliance-core/tree/3.4 "OE-Alliance")
+> 
+> [https://github.com/open-plus/enigma](https://github.com/open-plus/enigma "OpenPlus E2")
+
+> and a lot more...
 
 
-OPENPLUS está basada en código opensource de enigma2 de publicado por OpenAtv y otros autores.
-Esta imagen no contiene claves, emuladores u otros sistemas que permitan el visionado sin una subscripción de pago
+----------
 
-Openplus está constituida por un conjunto de software de múltiples autores con licencias variadas que se pueden consultar en cada paquete.
-Todo el código generado por el equipo OpenPlus se ha licenciado bajo GPL.
-Tal como se indica en la licencia este software se entrega sin ninguna garantía.
+# Building Instructions #
 
-AGRADECIMIENTOS
+1 - Install packages on your buildserver
 
-Gracias al equipo de OpenAtv por todo el desarrollo de múltiple código y en general a todas la comunidad opensource de enigma2<br>
-Gracias  al equipo de OpenSpa por el desarrollo del código del epg de 7 días<br>
-Gracias a siteincloud.com por el alojamiento del foro y los feeds<fr>
-Gracias a todos los betatesters de openplus<br>
+    sudo apt-get install -y autoconf automake bison bzip2 cvs diffstat flex g++ gawk gcc gettext git-core gzip help2man ncurses-bin ncurses-dev libc6-dev libtool make texinfo patch perl pkg-config subversion tar texi2html wget zlib1g-dev chrpath libxml2-utils xsltproc libglib2.0-dev python-setuptools zip info coreutils diffstat chrpath libproc-processtable-perl libperl4-corelibs-perl sshpass default-jre default-jre-headless java-common  libserf-dev
+----------
+2 - Set your shell to /bin/bash.
+
+    sudo dpkg-reconfigure dash
+    When asked: Install dash as /bin/sh?
+    select "NO"
+
+----------
+3 - Add user openplusbuilder
+
+    sudo adduser openplusbuilder
+
+----------
+4 - Switch to user openplusbuilder
+
+    su openplusbuilder
+
+----------
+5 - Switch to home of openplusbuilder
+
+    cd ~
+
+----------
+6 - Create folder openplus
+
+    mkdir -p ~/openplus
+
+----------
+7 - Switch to folder openplus
+
+    cd openplus
+
+----------
+8 - Clone oe-alliance git
+
+    git clone git://github.com/oe-alliance/build-enviroment.git -b 3.4
+
+----------
+9 - Switch to folder build-enviroment
+
+    cd build-enviroment
+
+----------
+10 - Update build-enviroment
+
+    make update
+
+----------
+11 - Finally you can start building a image
+
+    MACHINE=gbquadplus DISTRO=openplus make image

@@ -31,7 +31,8 @@ public:
 		DELAYED_CLOSE_FRONTEND,
 		TAKEOVER,
 		WAIT_TAKEOVER,
-		RELEASE_TAKEOVER
+		RELEASE_TAKEOVER,
+		IF_TUNER_UNLOCKED_GOTO
 	};
 	int cmd;
 	struct rotor
@@ -268,18 +269,18 @@ public:
 #define MAX_FIXED_LNB_POSITIONS		64
 #define MAX_MOVABLE_LNBS 		6
 
-#define UNICABLE_BANDWIDTH 		47000
-
 #define MAX_LNBNUM (MAX_FIXED_LNB_POSITIONS + MAX_MOVABLE_LNBS)
 
 	int SatCR_positionnumber;
 	int SatCR_positions;
 	int SatCR_idx;
 	int SatCR_format;
+	int SatCR_switch_reliable;
 	unsigned int SatCRvco;
 	unsigned int TuningWord;
+	unsigned int GuardTuningWord;
+	unsigned int GuardTuningWord_a;
 	unsigned int UnicableConfigWord;
-	long guard_frq[2]={-1,1};
 };
 
 class eDVBRegisteredFrontend;
@@ -329,7 +330,7 @@ public:
 #ifndef SWIG
 	eDVBSatelliteEquipmentControl(eSmartPtrList<eDVBRegisteredFrontend> &avail_frontends, eSmartPtrList<eDVBRegisteredFrontend> &avail_simulate_frontends);
 	RESULT prepare(iDVBFrontend &frontend, const eDVBFrontendParametersSatellite &sat, int &frequency, int frontend_id, unsigned int tunetimeout);
-	RESULT prepareSTelectronicSatCR(iDVBFrontend &frontend, eDVBSatelliteLNBParameters &lnb_param, long band, int ifreq, int &tunerfreq, unsigned int &tuningword, int guard_offest);
+	RESULT prepareSTelectronicSatCR(iDVBFrontend &frontend, eDVBSatelliteLNBParameters &lnb_param, long band, int ifreq, int &tunerfreq, unsigned int &tuningword, int guard_offset);
 	RESULT prepareRFmagicCSS(iDVBFrontend &frontend, eDVBSatelliteLNBParameters &lnb_param, long band, int ifreq, int &tunerfreq, unsigned int &tuningword, int guard_offset);
 	void prepareTurnOffSatCR(iDVBFrontend &frontend); // used for unicable
 	int canTune(const eDVBFrontendParametersSatellite &feparm, iDVBFrontend *, int frontend_id, int *highest_score_lnb=0);
@@ -366,6 +367,7 @@ public:
 	RESULT getMaxMovableLnbNum() {return MAX_MOVABLE_LNBS;}
 /* Unicable Specific Parameters */
 	RESULT setLNBSatCRpositionnumber(int UnicablePositionNumber);
+	RESULT setLNBSatCRTuningAlgo(int SatCR_switch_reliable);
 	RESULT setLNBSatCRformat(int SatCR_format);	//DiSEqc or JESS (or ...)
 	RESULT setLNBSatCR(int SatCR_idx);
 	RESULT setLNBSatCRvco(int SatCRvco);
@@ -390,7 +392,11 @@ public:
 	bool isRotorMoving();
 	bool canMeasureInputPower() { return m_canMeasureInputPower; }
 
+	PyObject *getBandCutOffFrequency(int slot_no, int orbital_position);
+	PyObject *getFrequencyRangeList(int slot_no, int orbital_position);
+
 	friend class eFBCTunerManager;
+
 };
 
 #endif

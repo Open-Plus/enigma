@@ -674,7 +674,7 @@ class MovieSelection(Screen, HelpableScreen, SelectionEventInfo, InfoBarBase, Pr
 				'reset': _("Reset"),
 				'tags': _("Tags"),
 				'addbookmark': _("Add bookmark"),
-				'bookmarks': _("Location"),
+				'bookmarks': _("Bookmarks"),
 				'rename': _("Rename"),
 				'gohome': _("Home"),
 				'sort': _("Sort"),
@@ -2023,7 +2023,7 @@ class MovieSelection(Screen, HelpableScreen, SelectionEventInfo, InfoBarBase, Pr
 		self.session.open(NetworkSetup.NetworkMountsMenu)
 
 	def showDeviceMounts(self):
-		from Plugins.Extensions.Infopanel.MountManager import HddMount
+		from Plugins.Extensions.Openpanel.MountManager import HddMount
 		self.session.open(HddMount)
 
 	def showActionFeedback(self, text):

@@ -1,4 +1,4 @@
-from boxbranding import getBoxType, getImageVersion
+from boxbranding import getBoxType, getMachineBuild, getImageVersion
 from sys import modules
 import socket, fcntl, struct, time, os
 
@@ -37,8 +37,14 @@ def getModelString():
 		return "unknown"
 
 def getChipSetString():
-	if getBoxType() in ('dm7080','dm820'):
+	if getMachineBuild() in ('dm7080','dm820'):
 		return "7435"
+	elif getMachineBuild() in ('dm520'):
+		return "73625"
+	elif getMachineBuild() in ('dm900'):
+		return "7252S"
+	elif getMachineBuild() in ('hd51','vs1500'):
+		return "7251S"
 	else:
 		try:
 			f = open('/proc/stb/info/chipset', 'r')
@@ -49,8 +55,19 @@ def getChipSetString():
 			return "unavailable"
 
 def getCPUSpeedString():
-	if getBoxType() in ('vusolo4k'):
+	if getMachineBuild() in ('vusolo4k'):
 		return "1,5 GHz"
+	elif getMachineBuild() in ('vuuno4k','vuultimo4k','dm900', 'gb7252', 'dags7252'):
+		return "1,7 GHz"
+	elif getMachineBuild() in ('hd51','hd52','sf4008','vs1500'):
+		try:
+			import binascii
+			f = open('/sys/firmware/devicetree/base/cpus/cpu@0/clock-frequency', 'rb')
+			clockfrequency = f.read()
+			f.close()
+			return "%s MHz" % str(round(int(binascii.hexlify(clockfrequency), 16)/1000000,1))
+		except:
+			return "1,7 GHz"
 	else:
 		try:
 			file = open('/proc/cpuinfo', 'r')
@@ -71,7 +88,7 @@ def getCPUSpeedString():
 			return "unavailable"
 
 def getCPUString():
-	if getBoxType() in ('xc7362', 'vusolo4k'):
+	if getMachineBuild() in ('vuuno4k', 'vuultimo4k','vusolo4k', 'hd51', 'hd52', 'sf4008', 'dm900', 'gb7252', 'dags7252' 'vs1500'):
 		return "Broadcom"
 	else:
 		try:
@@ -142,14 +159,6 @@ def getIfTransferredData(ifname):
 			rx_bytes, tx_bytes = (data[0], data[8])
 			f.close()
 			return rx_bytes, tx_bytes
-
-def getPythonVersionString():
-	try:
-		import commands
-		status, output = commands.getstatusoutput("python -V")
-		return output.split(' ')[1]
-	except:
-		return _("unknown")
 
 def getPythonVersionString():
 	try:

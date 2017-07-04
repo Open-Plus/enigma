@@ -37,7 +37,7 @@
 		</widget>
 	</screen>
 <!-- Tuner Panel -->	
-	<screen name="MeinTunerInfoPanel">
+	<screen name="MeinTunerOpenPanel">
 		<widget source="session.FrontendInfo" render="FixedLabel" position="5,285" size="28,32" text="A" foregroundColor="#04B404" font="FdLcD;24" zPosition="1" transparent="1" halign="center" >
 			<convert type="FrontendInfo">NUMBER</convert>
 			<convert type="ValueRange">0,0</convert>
@@ -125,7 +125,7 @@
 		</widget>
 		<panel name="MeinRecordingPanel" />
 		<panel name="SummaryClockPanel" />
-		<panel name="MeinTunerInfoPanel" />
+		<panel name="MeinTunerOpenPanel" />
 	</screen>
 <!-- Movieplayer auch MediaPortal-->
 	<screen name="InfoBarMoviePlayerSummary" position="5,0" size="471,320">
@@ -142,7 +142,7 @@
 		</widget>
 		<panel name="MeinRecordingPanel" />
 		<panel name="SummaryClockPanel" />
-		<panel name="MeinTunerInfoPanel" />
+		<panel name="MeinTunerOpenPanel" />
 	</screen>
 
 	<screen name="MovieContextMenuSummary" position="5,0" size="471,320">
@@ -177,7 +177,7 @@
 		</widget>
 		<panel name="MeinRecordingPanel" />
 		<panel name="SummaryClockPanel" />
-		<panel name="MeinTunerInfoPanel" />
+		<panel name="MeinTunerOpenPanel" />
 	</screen>		
 <!-- channelselection -->
 	<screen name="ChannelSelection_summary" position="5,0" size="471,320">
@@ -241,8 +241,8 @@
 		<widget source="parent.titleText" render="Label" position="0,0" size="471,237" font="FdLcD;35" foregroundColor="#87CEFA" halign="center" valign="center" />
 		<panel name="SummaryClockPanel" />
 	</screen>
-<!-- Infopanel -->
-	<screen name="Infopanel_summary" position="5,0" size="471,320">
+<!-- Openpanel -->
+	<screen name="Openpanel_summary" position="5,0" size="471,320">
 		<widget source="parent.Title" render="Label" position="0,0" size="471,113" font="FdLcD;38" foregroundColor="#87CEFA" halign="center" valign="center" />
 		<eLabel position="0,116" size="471,1" backgroundColor="white" />
 		<widget source="parent.summary_description" render="Label" position="0,117" size="471,203" zPosition="1" font="FdLcD;35" halign="center" valign="center" />
@@ -303,7 +303,7 @@
 			<convert type="ClockToText">Format:%d.%m.%Y</convert>
 		</widget>
 		<panel name="MeinRecordingPanel" />
-		<panel name="MeinTunerInfoPanel" />
+		<panel name="MeinTunerOpenPanel" />
 	</screen>
 <!-- Plugin browser -->
 	<screen name="PluginBrowserSummary" position="fill">
@@ -535,6 +535,6 @@
 		</widget>
 		<panel name="MeinRecordingPanel" />
 		<panel name="SummaryClockPanel" />
-		<panel name="MeinTunerInfoPanel" />
+		<panel name="MeinTunerOpenPanel" />
 	</screen>	
 </skin>

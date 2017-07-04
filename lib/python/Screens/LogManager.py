@@ -1,17 +1,20 @@
-from Screens.Screen import Screen
+﻿from Screens.Screen import Screen
 from Components.GUIComponent import GUIComponent
 from Components.VariableText import VariableText
 from Components.ActionMap import ActionMap
 from Components.Label import Label
 from Components.Button import Button
 from Components.FileList import FileList
+from Components.MenuList import MenuList
 from Components.ScrollLabel import ScrollLabel
 from Components.config import config, configfile
 from Components.FileList import MultiFileSelectList
 from Screens.MessageBox import MessageBox
 from os import path, remove, walk, stat, rmdir
 from time import time
-from enigma import eTimer, eBackgroundFileEraser, eLabel
+from datetime import datetime
+from enigma import eTimer, eBackgroundFileEraser, eLabel, getDesktop, gFont, fontRenderClass
+from Tools.TextBoundary import getTextBoundarySize
 from glob import glob
 
 import Components.Task
@@ -120,10 +123,18 @@ class LogManagerPoller:
 			mounts.append(parts[1])
 		f.close()
 
-		for mount in mounts:
-			if path.isdir(path.join(mount,'logs')):
-				matches.append(path.join(mount,'logs'))
-		matches.append('/home/root/logs')
+		if (datetime.now().hour == 3) or (time() - config.crash.lastfulljobtrashtime.value > 3600 * 24):
+			#full JobTrash (in all potential log file dirs) between 03:00 and 04:00 AM / every 24h
+			config.crash.lastfulljobtrashtime.setValue(int(time()))
+			config.crash.lastfulljobtrashtime.save()
+			configfile.save()
+			for mount in mounts:
+				if path.isdir(path.join(mount,'logs')):
+					matches.append(path.join(mount,'logs'))
+			matches.append('/home/root/logs')
+		else:
+			#small JobTrash (in selected log file dir only) twice a day
+			matches.append(config.crash.debug_path.value)
 
 		print "[LogManager] found following log's:", matches
 		if len(matches):
@@ -162,7 +173,14 @@ class LogManagerPoller:
 						eBackgroundFileEraser.getInstance().erase(fn)
 						bytesToRemove -= st_size
 						size -= st_size
-		self.TrashTimer.startLongTimer(43200) #twice a day
+		now = datetime.now()
+		seconds_since_0330am = (now - now.replace(hour=3, minute=30, second=0)).total_seconds()
+		if (seconds_since_0330am <= 0):
+			seconds_since_0330am += 86400
+		if (seconds_since_0330am > 43200):
+			self.TrashTimer.startLongTimer(int(86400-seconds_since_0330am)) #at 03:30 AM
+		else:
+			self.TrashTimer.startLongTimer(43200) #twice a day
 
 class LogManager(Screen):
 	def __init__(self, session):
@@ -398,7 +416,7 @@ class LogManager(Screen):
 		msg = MIMEMultipart()
 		if config.logmanager.user.value != '' and config.logmanager.useremail.value != '':
 			fromlogman = config.logmanager.user.value + '  <' + config.logmanager.useremail.value + '>'
-			tocrashlogs = 'crashlogs@open-plus.es'
+			tocrashlogs = 'crashlogs@dummy.org'
 			msg['From'] = fromlogman
 			msg['To'] = tocrashlogs
 			msg['Cc'] = fromlogman
@@ -436,13 +454,13 @@ class LogManager(Screen):
 				self.saveSelection()
 
 			# Send the email via our own SMTP server.
-			wos_user = 'crashlogs@open-plus.es'
+			wos_user = 'crashlogs@dummy.org'
 			wos_pwd = base64.b64decode('NDJJWnojMEpldUxX')
 
 			try:
-				print "connecting to server: mail.open-plus.es"
+				print "connecting to server: mail.dummy.org"
 				#socket.setdefaulttimeout(30)
-				s = smtplib.SMTP("mail.open-plus.es",26)
+				s = smtplib.SMTP("mail.dummy.org",26)
 				s.login(wos_user, wos_pwd)
 				if config.logmanager.usersendcopy.value:
 					s.sendmail(fromlogman, [tocrashlogs, fromlogman], msg.as_string())
@@ -465,19 +483,63 @@ class LogManagerViewLog(Screen):
 		self.session = session
 		Screen.__init__(self, session)
 		self.setTitle(selected)
-		if path.exists(config.crash.debug_path.value + selected):
-			log = file(config.crash.debug_path.value + selected).read()
-		else:
-			log = ""
-		self["list"] = ScrollLabel(str(log))
+		self.logfile = config.crash.debug_path.value + selected
+		self.log=[]
+		self["list"] = MenuList(self.log)
 		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "DirectionActions"],
 		{
 			"cancel": self.cancel,
 			"ok": self.cancel,
-			"up": self["list"].pageUp,
-			"down": self["list"].pageDown,
-			"right": self["list"].lastPage
+			"up": self["list"].up,
+			"down": self["list"].down,
+			"right": self["list"].pageDown,
+			"left": self["list"].pageUp,
+			"moveUp": self.gotoFirstPage,
+			"moveDown": self.gotoLastPage
 		}, -2)
+
+		self.onLayoutFinish.append(self.layoutFinished)
+
+	def layoutFinished(self):
+		screenwidth = getDesktop(0).size().width()
+		if screenwidth and screenwidth < 1920:
+			f = 1
+		elif screenwidth and screenwidth < 3840:
+			f = 1.5
+		else:
+			f = 3
+		font = gFont("Console", int(16*f))
+		if not int(fontRenderClass.getInstance().getLineHeight(font)):
+			font = gFont("Regular", int(16*f))
+		self["list"].instance.setFont(font)
+		fontwidth = getTextBoundarySize(self.instance, font, self["list"].instance.size(), _(" ")).width()
+		listwidth = int(self["list"].instance.size().width() / fontwidth) - 2
+		if path.exists(self.logfile):
+			for line in file(self.logfile ).readlines():
+				line = line.replace('\t',' '*9)
+				if len(line) > listwidth:
+					pos = 0
+					offset = 0
+					readyline = True
+					while readyline:
+						a = " " * offset + line[pos:pos+listwidth-offset]
+						self.log.append(a)
+						if len(line[pos+listwidth-offset:]):
+							pos += listwidth-offset
+							offset = 19
+						else:
+							readyline = False
+				else:
+					self.log.append(line)
+		else:
+			self.log = [_("file can not displayed - file not found")]
+		self["list"].setList(self.log)
+
+	def gotoFirstPage(self):
+		self["list"].moveToIndex(0)
+
+	def gotoLastPage(self):
+		self["list"].moveToIndex(len(self.log)-1)
 
 	def cancel(self):
 		self.close()

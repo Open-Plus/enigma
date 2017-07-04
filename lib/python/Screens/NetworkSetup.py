@@ -25,6 +25,7 @@ from Components.ConfigList import ConfigListScreen
 from Components.PluginComponent import plugins
 from Components.FileList import MultiFileSelectList
 from Components.ActionMap import ActionMap, NumberActionMap, HelpableActionMap
+from datetime import datetime
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS, SCOPE_ACTIVE_SKIN
 from Tools.LoadPixmap import LoadPixmap
 from Plugins.Plugin import PluginDescriptor
@@ -32,7 +33,10 @@ from subprocess import call
 import commands
 import os.path
 
-basegroup = "packagegroup-base"
+if float(getVersionString()) >= 4.0:
+	basegroup = "packagegroup-base"
+else:
+	basegroup = "task-base"
 
 class NetworkAdapterSelection(Screen,HelpableScreen):
 	def __init__(self, session):
@@ -567,7 +571,7 @@ class AdapterSetup(Screen, ConfigListScreen, HelpableScreen):
 				if self.hasGatewayConfigEntry.value:
 					self.list.append(getConfigListEntry(_('Gateway'), self.gatewayConfigEntry))
 			havewol = False
-			if SystemInfo["WakeOnLAN"] and not getBoxType() in ('et10000', 'gb800seplus', 'gb800ueplus', 'gbultrase', 'gbultraue', 'gbipbox', 'gbquad', 'gbx1', 'gbx3'):
+			if SystemInfo["WakeOnLAN"] and not getBoxType() in ('et10000', 'gb800seplus', 'gb800ueplus', 'gbultrase', 'gbultraue', 'gbultraueh', 'gbipbox', 'gbquad', 'gbx1', 'gbx2', 'gbx3', 'gbx3h'):
 				havewol = True
 			if getBoxType() == 'et10000' and self.iface == 'eth0':
 				havewol = False
@@ -2015,8 +2019,7 @@ class NetworkNfs(Screen):
 
 	def InstallCheck(self):
 		self.Console.ePopen('/usr/bin/opkg list_installed ' + self.service_name, self.checkNetworkState)
-		
- 
+
 	def checkNetworkState(self, str, retval, extra_args):
 		if 'Collected errors' in str:
 			self.session.openWithCallback(self.close, MessageBox, _("A background update check is in progress, please wait a few minutes and try again."), type=MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
@@ -2035,7 +2038,6 @@ class NetworkNfs(Screen):
 		elif ('wget returned 1' or 'wget returned 255' or '404 Not Found') in result:
 			self.session.openWithCallback(self.InstallPackageFailed, MessageBox, _("Sorry feeds are down for maintenance, please try again later."), type=MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 		else:
-			print result
 			self.session.openWithCallback(self.InstallPackage,MessageBox,_('Your %s %s will be restarted after the installation of service\nReady to install %s ?')  % (getMachineBrand(), getMachineName(), self.service_name), MessageBox.TYPE_YESNO)
 
 	def InstallPackage(self, val):
@@ -2058,9 +2060,8 @@ class NetworkNfs(Screen):
 		self.session.open(TryQuitMainloop, 2)
 
 	def UninstallCheck(self):
-		self.Console.ePopen('/usr/bin/opkg list-installed ' + self.service_name, self.RemovedataAvail)
-		print ('/usr/bin/opkg list-installed %s' % self.service_name)
-		
+		self.Console.ePopen('/usr/bin/opkg list_installed ' + self.service_name, self.RemovedataAvail)
+
 	def RemovedataAvail(self, str, retval, extra_args):
 		if str:
 			restartbox = self.session.openWithCallback(self.RemovePackage,MessageBox,_('Your %s %s will be restarted after the removal of service\nDo you want to remove now ?') % (getMachineBrand(), getMachineName()), MessageBox.TYPE_YESNO)
@@ -2112,8 +2113,6 @@ class NetworkNfs(Screen):
 			self['labactive'].setText(_("Enabled"))
 			self['labactive'].show()
 			self.my_nfs_active = True
-			if not os.path.isfile("/etc/exports"):
-			        os.system('echo "/media/hdd/ *(ro,sync)\n" > /etc/exports');
 		if nfs_process:
 			self.my_nfs_run = True
 		if self.my_nfs_run:
@@ -2131,6 +2130,8 @@ class NetworkNfs(Screen):
 
 		for cb in self.onChangedEntry:
 			cb(title, status_summary, autostartstatus_summary)
+#######################################################Remote tuner server ##################################################################################################
+
 
 class RemoteTunerServer(Screen):
 	def __init__(self, session):
@@ -2151,7 +2152,7 @@ class RemoteTunerServer(Screen):
 		self.my_rts_active = False
 		self.my_rts_run = False
 		self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'ok': self.close, 'back': self.close, 'red': self.UninstallCheck, 'green': self.RemoteTunerServerStartStop, 'yellow': self.RemoteTunerServerSet})
-		self.service_name = 'enigma2-plugin-extensions-lbtunerserver'
+		self.service_name = 'enigma2-plugin-extensions-optunerserver'
 		self.onLayoutFinish.append(self.InstallCheck)
 
 	def InstallCheck(self):
@@ -2198,7 +2199,7 @@ class RemoteTunerServer(Screen):
 		print "doInstall " ,callback, pkgname
 		self.message = self.session.open(MessageBox,_("please wait..."), MessageBox.TYPE_INFO, enable_input = False)
 		self.message.setTitle(_('Installing Service'))
-		self.Console.ePopen('/usr/bin/opkg install enigma2-plugin-extensions-lbtunerserver', callback)
+		self.Console.ePopen('/usr/bin/opkg install enigma2-plugin-extensions-optunerserver', callback)
 
 	def installComplete(self,result = None, retval = None, extra_args = None):
 		self.session.open(TryQuitMainloop, 2)
@@ -2274,7 +2275,6 @@ class RemoteTunerServer(Screen):
 
 		for cb in self.onChangedEntry:
 			cb(title, status_summary, autostartstatus_summary)
-
 class NetworkOpenvpn(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
@@ -2289,11 +2289,12 @@ class NetworkOpenvpn(Screen):
 		self['key_green'] = Label(_("Start"))
 		self['key_red'] = Label(_("Remove Service"))
 		self['key_yellow'] = Label(_("Autostart"))
-		self['key_blue'] = Label(_("Show Log"))
+		self['key_blue'] = Label(_("Simple Config"))
+                self['key_info'] = Label(_("Show Log"))
 		self.Console = Console()
 		self.my_vpn_active = False
 		self.my_vpn_run = False
-		self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'ok': self.close, 'back': self.close, 'red': self.UninstallCheck, 'green': self.VpnStartStop, 'yellow': self.activateVpn, 'blue': self.Vpnshowlog})
+		self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'ok': self.close, 'back': self.close, 'red': self.UninstallCheck, 'green': self.VpnStartStop, 'yellow': self.activateVpn, 'blue': self.Vpnsimpleconf, 'info': self.Vpnshowlog})
 		self.service_name = 'openvpn'
 		self.onLayoutFinish.append(self.InstallCheck)
 
@@ -2335,6 +2336,9 @@ class NetworkOpenvpn(Screen):
 		self.message = self.session.open(MessageBox,_("please wait..."), MessageBox.TYPE_INFO, enable_input = False)
 		self.message.setTitle(_('Installing Service'))
 		self.Console.ePopen('/usr/bin/opkg install ' + pkgname, callback)
+                import os
+                os.system("mkdir /etc/openvpn")
+
 
 	def installComplete(self,result = None, retval = None, extra_args = None):
 		self.message.close()
@@ -2353,7 +2357,9 @@ class NetworkOpenvpn(Screen):
 	def RemovePackage(self, val):
 		if val:
 			self.doRemove(self.removeComplete, self.service_name)
-
+                        import os
+                        os.system("rm -r /etc/openvpn")
+                        
 	def doRemove(self, callback, pkgname):
 		self.message = self.session.open(MessageBox,_("please wait..."), MessageBox.TYPE_INFO, enable_input = False)
 		self.message.setTitle(_('Removing Service'))
@@ -2368,6 +2374,9 @@ class NetworkOpenvpn(Screen):
 
 	def Vpnshowlog(self):
 		self.session.open(NetworkVpnLog)
+
+        def Vpnsimpleconf(self):
+		self.session.open(Networksimpleconf)
 
 	def VpnStartStop(self):
 		if not self.my_vpn_run:
@@ -2435,6 +2444,46 @@ class NetworkVpnLog(Screen):
 			remove('/etc/openvpn/tmp.log')
 		self['infotext'].setText(strview)
 
+class Networksimpleconf(Screen):
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		Screen.setTitle(self, _("OpenVPN Simple Config"))
+		self.skinName = "NetworkOpenvpnSetup"
+                self['data'] = Label(_('To create config for OpenVPN press green button and please wait...'))
+                self["key_red"] = Label(_("Exit"))
+                self["key_green"] = Label(_("Create"))
+                self['actions'] = ActionMap(['OkCancelActions','ColorActions'],{'cancel': self.exit, 'red': self.exit, 'green': self.check,})
+                
+        def check(self):
+                if (os.path.exists('/etc/openvpn/client1-android/client.ovpn')):
+                        self.session.openWithCallback(self.checkf,MessageBox,_('The configuration has already been created, do you want to overwrite?'), MessageBox.TYPE_YESNO)                         
+                else:
+                        self.create()
+                             
+        def checkf(self, val):
+		if val:
+			self.create()
+		else:
+			self.close() 
+                        
+        def create(self, value=1):
+                try:
+                         if value:
+			 	cod = datetime.now().strftime('%Y%m%d%H%M%S%f')
+                         	file = open('/var/volatile/tmp/systemop'+str(cod),'w+')
+                         	file.write ( "run /usr/bin/setup_openvpn.sh ")
+                         	file.close()
+                except IOError:
+                         self.session.open(MessageBox, _("Error: File Not created."), MessageBox.TYPE_INFO, timeout = 10)
+                         print "Error: File Not created."
+                         return 0    
+                resultext = 'Building server and clients in the background... \nOnce finished, you will see a message on the screen, and the configurations will already be created. \n\nYou can transfer the settings from: \netc/openvpn/client1-android \netc/openvpn/client2-ipad \netc/openvpn/client3-pc_lin \n\nYou should now configure your IP range in the server.conf eg: push route 192.168.1.0 255.255.255.0 in /etc/openvpn. Then on each generated client.ovpn remember to put the public ip or Dyndns where the server is hosted and the port if you want to change it, (remember to open it on the router for the IP of the server) eg: remote my.dyndns.org 1194. \n\nNote: Be sure to restart the OpenVPN Server after you make the changes. And to automatically start OpenVPN, choose the option in the OpenPlus graphical user interface!'
+                self.session.open(MessageBox, _("Building server and clients..."), MessageBox.TYPE_INFO, timeout = 10)
+                self['data'].setText(_(resultext)) 
+                   
+        def exit(self):
+                self.close()
+
 class NetworkSamba(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
@@ -2454,7 +2503,7 @@ class NetworkSamba(Screen):
 		self.my_Samba_active = False
 		self.my_Samba_run = False
 		self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'ok': self.close, 'back': self.close, 'red': self.UninstallCheck, 'green': self.SambaStartStop, 'yellow': self.activateSamba, 'blue': self.Sambashowlog})
-		self.service_name = basegroup + '-smbfs-server'
+		self.service_name = basegroup + '-samba'
 		self.onLayoutFinish.append(self.InstallCheck)
 
 	def InstallCheck(self):
@@ -2557,10 +2606,9 @@ class NetworkSamba(Screen):
 		self.Console.eBatch(commands, self.StartStopCallback, debug=True)
 
 	def updateService(self):
-		if '#microsoft-ds' in open('/etc/inetd.conf').read():
-                    samba_process = False
-                else:
-                    samba_process = True
+		import process		
+		p = process.ProcessList()		
+		samba_process = str(p.named('smbd')).strip('[]')
 		self['labrun'].hide()
 		self['labstop'].hide()
 		self['labactive'].setText(_("Disabled"))
@@ -3419,6 +3467,10 @@ class NetworkuShareSetup(Screen, ConfigListScreen):
 		self.close()
 
 	def selectfolders(self):
+		try:
+			self["config"].getCurrent()[1].help_window.hide()
+		except:
+			pass
 		self.session.openWithCallback(self.updateList,uShareSelection)
 
 class uShareSelection(Screen):
@@ -3882,6 +3934,10 @@ class NetworkMiniDLNASetup(Screen, ConfigListScreen):
 		self.close()
 
 	def selectfolders(self):
+		try:
+			self["config"].getCurrent()[1].help_window.hide()
+		except:
+			pass
 		self.session.openWithCallback(self.updateList,MiniDLNASelection)
 
 class MiniDLNASelection(Screen):
@@ -4268,7 +4324,7 @@ class udpxyServer(Screen):
 		print "doInstall " ,callback, pkgname
 		self.message = self.session.open(MessageBox,_("please wait..."), MessageBox.TYPE_INFO, enable_input = False)
 		self.message.setTitle(_('Installing Service'))
-		self.Console.ePopen('/usr/bin/opkg install enigma2-plugin-extensions-udpxyserver && /usr/bin/opkg install enigma2-plugin-settings-openplus.movistar.e2.iptv', callback)
+		self.Console.ePopen('/usr/bin/opkg install enigma2-plugin-settings-openplus.movistar.e2.iptv', callback)
 
 	def installComplete(self,result = None, retval = None, extra_args = None):
 		self.session.open(TryQuitMainloop, 2)
@@ -4317,10 +4373,10 @@ class udpxyServer(Screen):
 		self.updateService()
 
 	def udpxyServerSet(self):
-		if fileExists('/etc/rc3.d/S99udpxy'):
+		if fileExists('/etc/rc3.d/S20udpxy'):
 			self.Console.ePopen('update-rc.d -f udpxy remove', self.StartStopCallback)
 		else:
-			self.Console.ePopen('update-rc.d -f udpxy defaults 99', self.StartStopCallback)
+			self.Console.ePopen('update-rc.d -f udpxy defaults 20', self.StartStopCallback)
 
 	def updateService(self):
 		import process
@@ -4331,7 +4387,7 @@ class udpxyServer(Screen):
 		self['labactive'].setText(_("Disabled"))
 		self.my_mitv_active = False
 		self.my_mitv_run = False
-		if fileExists('/etc/rc3.d/S99udpxy'):
+		if fileExists('/etc/rc3.d/S20udpxy'):
 			self['labactive'].setText(_("Enabled"))
 			self['labactive'].show()
 			self.my_mitv_active = True

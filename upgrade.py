@@ -97,18 +97,14 @@ for package in packages:
 		continue
 	elif item[0].find('kernel-module-') > -1 and not overwriteDriversFiles:
 		continue
-	elif item[0].find('-lbcam-') > -1 and not overwriteEmusFiles:
-		continue
-	elif item[0].find('-opspinnerlb-spinnercam-') > -1 and not overwriteEmusFiles: 
+	elif item[0].find('-softcams-') > -1 and not overwriteEmusFiles:
 		continue
 	elif item[0].find('-picons-') > -1 and not overwritePiconsFiles:
 		continue
 	elif item[0].find('-bootlogo') > -1 and not overwriteBootlogoFiles:
 		continue
-	elif item[0].find('spinnerlb') > -1 and not overwriteSpinnerFiles:
+	elif item[0].find('openplus-spinner') > -1 and not overwriteSpinnerFiles:
 		continue
-	elif item[0].find('spinnerop') > -1 and not overwriteSpinnerFiles:
-	                continue
 	else:
 		upgradePackages.append(item[0])
 

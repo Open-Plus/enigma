@@ -75,8 +75,7 @@ class CamStart:
 		if config.softcam.restartAttempts.value == "0":
 			return
 		self.timerTime = int(config.softcam.restartTime.value)
-#modificacion
-		emuDir = "/usr/CamEmu"
+		emuDir = "/usr/CamEmu/"
 		self.emuList = []
 		self.mlist = []
 		self.emuDirlist = []
@@ -95,7 +94,6 @@ class CamStart:
 			#// check emu dir for config files
 			for x in self.emuDirlist:
 				#// if file contains the string "emu" (then this is a emu config file)
-#modificacion
 				if x.find("camemu") > -1:
 					self.emuList.append(emuDir + x)
 					em = open(emuDir + x)

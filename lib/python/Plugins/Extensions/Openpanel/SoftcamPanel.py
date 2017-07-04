@@ -122,7 +122,7 @@ class SoftcamPanel(ConfigListScreen, Screen):
 		print "************ go in the emuloop ************"
 		for x in self.emuDirlist:
 			#// if file contains the string "emu" (then this is a emu config file)
-			if x.find("emu") > -1:
+			if x.find("camemu") > -1:
 				self.emuList.append(emuDir + x)
 				em = open(emuDir + x)
 				self.emuRgui.append(0)
@@ -182,7 +182,7 @@ class SoftcamPanel(ConfigListScreen, Screen):
 		self.onLayoutFinish.append(self.layoutFinished)
 
 	def setWindowTitle(self):
-		self.setTitle(_("Softcam Open panel"))
+		self.setTitle(_("Softcam Openpanel"))
 
 	def ReadMenu(self):
 		self.whichCam()
@@ -542,12 +542,12 @@ class SoftcamPanel(ConfigListScreen, Screen):
 						return
 					if config.softcam.camstartMode.value == "0":
 						print '[SOFTCAM] Python start cam 1: ' + actcam
-						self.session.openWithCallback(self.waitTime, MessageBox, _("Starting Cam 1: ") + actcam, MessageBox.TYPE_WARNING, timeout=5, simple=True)
+						self.session.openWithCallback(self.waitTime, MessageBox, _("Starting Cam 1: ") + actcam, MessageBox.TYPE_INFO, timeout=5, simple=True)
 						self.container = eConsoleAppContainer()
 						self.container.execute(start)
 					else:
 						# Create INIT.D start
-						self.session.openWithCallback(self.doNothing, MessageBox, _("Creating start scripts and starting the cam"), MessageBox.TYPE_WARNING, timeout=10, simple=True)
+						self.session.openWithCallback(self.doNothing, MessageBox, _("Creating start scripts and starting the cam"), MessageBox.TYPE_INFO, timeout=10, simple=True)
 						self.Save_Settings2(self.cam2sel.value)
 
 						camname1 = self.emuBin[self.camIndex]
@@ -573,7 +573,7 @@ class SoftcamPanel(ConfigListScreen, Screen):
 			if config.softcam.waittime.value == '0':
 				self.startcam2(None)
 			else:
-				self.session.openWithCallback(self.startcam2, MessageBox, _("Waiting..."), MessageBox.TYPE_WARNING, timeout=int(config.softcam.waittime.value), simple=True)
+				self.session.openWithCallback(self.startcam2, MessageBox, _("Waiting..."), MessageBox.TYPE_INFO, timeout=int(config.softcam.waittime.value), simple=True)
 
 	def doNothing(self, ret):
 		pass
@@ -589,7 +589,7 @@ class SoftcamPanel(ConfigListScreen, Screen):
 					self.session.open(MessageBox, actcam + _(" Not Started !!\n\nCam binname must be in the start command line\nCheck your emu config file"), MessageBox.TYPE_ERROR, simple=True)
 					return
 			print '[SOFTCAM] Python start cam 2: ' + actcam
-			self.session.open(MessageBox, _("Starting Cam 2: ") + actcam, MessageBox.TYPE_WARNING, timeout=5, simple=True)
+			self.session.open(MessageBox, _("Starting Cam 2: ") + actcam, MessageBox.TYPE_INFO, timeout=5, simple=True)
 			self.container = eConsoleAppContainer()
 			self.container.execute(start)
 
@@ -813,8 +813,7 @@ class ShowSoftcamPackages(Screen):
 		self.container = eConsoleAppContainer()
 		self.container.appClosed.append(self.doneupdateList)
 		self.setStatus('list')
-#modificacion
-		self.container.execute('opkg lbcam')
+		self.container.execute('opkg update')
 
 	def doneupdateList(self, answer):
 		self.container.appClosed.remove(self.doneupdateList)
@@ -824,10 +823,9 @@ class ShowSoftcamPackages(Screen):
 		self.list = []
 		self.Flist = []
 		self.Elist = []
-		t = command('opkg list | grep "lbcam"')
+		t = command('opkg list | grep "enigma2-plugin-softcams"')
 		self.Flist = t.split('\n')
-#modificacion
-		tt = command('opkg list-installed | grep "lbcam"')
+		tt = command('opkg list-installed | grep "enigma2-plugin-softcams"')
 		self.Elist = tt.split('\n')
 
 		if len(self.Flist) > 0:
@@ -851,8 +849,7 @@ class ShowSoftcamPackages(Screen):
 				x_installed = False
 				Fx = x.split(' - ')
 				try:
-#modificacion
-					if Fx[0].find('-lbcam-') > -1:
+					if Fx[0].find('enigma2-plugin-softcams') > -1:
 						for exc in excludeList:
 							Ex = exc.split(' - ')
 							if Fx[0] == Ex[0]:

@@ -12,7 +12,7 @@ from Screens.ParentalControlSetup import ProtectedScreen
 from Screens.ChoiceBox import ChoiceBox
 from Tools.BoundFunction import boundFunction
 from Tools.LoadPixmap import LoadPixmap
-from Tools.Directories import resolveFilename, SCOPE_CURRENT_SKIN, SCOPE_PLUGINS
+from Tools.Directories import resolveFilename, SCOPE_CURRENT_SKIN, SCOPE_PLUGINS,  fileExists, pathExists
 from Components.MenuList import MenuList
 from Components.FileList import FileList
 from Components.Label import Label
@@ -44,14 +44,32 @@ config.softcam.actCam2 = ConfigText(visible_width = 200)
 config.softcam.waittime = ConfigSelection([('0',_("dont wait")),('1',_("1 second")), ('5',_("5 seconds")),('10',_("10 seconds")),('15',_("15 seconds")),('20',_("20 seconds")),('30',_("30 seconds"))], default='15')
 config.plugins.openpanel_redpanel = ConfigSubsection()
 
-#ruta emus
 def Check_Softcam():
 	found = False
+	if not os.path.exists('/usr/CamEmu'):
+		os.makedirs('/usr/CamEmu')
 	for x in os.listdir('/usr/CamEmu'):
 		if x.find('camemu.') > -1:
 			found = True
 			break;
 	return found
+
+def Check_SysSoftcam(): 
+        if os.path.isfile('/etc/init.d/softcam'):
+                if (os.path.islink('/etc/init.d/softcam') and not os.readlink('/etc/init.d/softcam').lower().endswith('none')):
+                        try:
+                                syscam = None
+                                syscam = os.readlink('/etc/init.d/softcam').rsplit('.', 1)[1]
+                                if syscam.lower().startswith('oscam'):
+                                        return "oscam"
+                        except:
+                                pass
+                if pathExists('/usr/bin/'):
+                        softcams = os.listdir('/usr/bin/')
+                        for softcam in softcams:
+                                if softcam.lower().startswith('oscam'):
+                                        return "oscam"
+        return None
 
 if Check_Softcam():
 	redSelection = [('0',_("Default (Instant Record)")), ('1',_("Openpanel")),('2',_("Timer List")),('3',_("Show Movies")), ('4',_("Softcam Panel"))]
@@ -72,14 +90,14 @@ timer = eTimer()
 timer.timeout.get().append(timerEvent)
 timer.startLongTimer(1)
 
-choicelist = [('0',_("Audio Selection")),('1',_("Default (Timeshift)")), ('2',_("Toggle Pillarbox <> Pan&Scan")),('3',_("Teletext"))]
+choicelist = [('0',_("Audio Selection")),('1',_("Default (Timeshift)")), ('2',_("Toggle Pillarbox <> Pan&Scan")),('3',_("Teletext")),('4',_("OpenWeather"))]
 config.plugins.openpanel_yellowkey = ConfigSubsection()
 if getBoxType() == "dm800":
 	config.plugins.openpanel_yellowkey.list = ConfigSelection(default='1', choices = choicelist)
 	config.plugins.openpanel_yellowkey.listLong = ConfigSelection(default='1', choices = choicelist)
 else:
 	config.plugins.openpanel_yellowkey.list = ConfigSelection(default='0', choices = choicelist)
-	config.plugins.openpanel_yellowkey.listLong = ConfigSelection(default='0', choices = choicelist)
+	config.plugins.openpanel_yellowkey.listLong = ConfigSelection(default='4', choices = choicelist)
 config.plugins.showopenpanelextensions = ConfigYesNo(default=False)
 config.plugins.openpanel_frozencheck = ConfigSubsection()
 config.plugins.openpanel_frozencheck.list = ConfigSelection([('0',_("Off")),('1',_("1 min.")), ('5',_("5 min.")),('10',_("10 min.")),('15',_("15 min.")),('30',_("30 min."))])
@@ -96,6 +114,8 @@ from Plugins.Extensions.Openpanel.MountManager import *
 from Plugins.Extensions.Openpanel.SoftcamPanel import *
 from Plugins.Extensions.Openpanel.CamStart import *
 from Plugins.Extensions.Openpanel.CamCheck import *
+from Plugins.Extensions.Openpanel.SpeedTest import *
+from Plugins.Extensions.Openpanel.resetpas import *
 from Plugins.Extensions.Openpanel.SwapManager import Swap, SwapAutostart
 from Plugins.Extensions.Openpanel.SoftwarePanel import SoftwarePanel
 from Plugins.SystemPlugins.SoftwareManager.BackupRestore import BackupScreen, RestoreScreen, BackupSelection, getBackupPath, getBackupFilename
@@ -149,7 +169,7 @@ machinename = getMachineName()
 machinebrand = getMachineBrand()
 OEMname = getBrandOEM()
 
-INFO_Panel_Version = 'Info-Panel V1.2'
+INFO_Panel_Version = 'OpenPanel V1.2'
 print "[Open-Panel] machinebrand: %s"  % (machinebrand)
 print "[Open-Panel] machinename: %s"  % (machinename)
 print "[Open-Panel] oem name: %s"  % (OEMname)
@@ -160,6 +180,15 @@ panel.write("Machinebrand: %s " % (machinebrand)+ '\n')
 panel.write("Machinename: %s " % (machinename)+ '\n')
 panel.write("oem name: %s " % (OEMname)+ '\n')
 panel.write("Boxtype: %s " % (boxversion)+ '\n')
+try:
+	if config.softcam.camstartMode.value == "0":
+       		global timerInstance
+       		if timerInstance is None:
+       			timerInstance = CamStart(None)
+       			timerInstance.startTimer()
+except:
+	print "[OpenPanel] failed to start Cam"
+
 try:
 	panel.write("Keymap: %s " % (config.usage.keymap.value)+ '\n')
 except:
@@ -211,14 +240,14 @@ def Plugins(**kwargs):
 	#// SwapAutostart
 	PluginDescriptor(where = [PluginDescriptor.WHERE_SESSIONSTART,PluginDescriptor.WHERE_AUTOSTART],fnc = SwapAutostart),
 	#// show Openpanel in EXTENSIONS Menu
-	PluginDescriptor(name=_("OpenPanel"), description="Info panel GUI", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = main) ]
+	PluginDescriptor(name=_("OpenPanel"), description="Open panel GUI", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = main) ]
 
 
 
 
 #############------- SKINS --------############################
 
-MENU_SKIN = """<screen position="center,center" size="500,370" title="Open Panelo">
+MENU_SKIN = """<screen position="center,center" size="500,370" title="Open Panel">
 	<widget source="global.CurrentTime" render="Label" position="312,340" size="173,26" font="Regular;20" foregroundColor="#FFFFFF" halign="right" transparent="1" zPosition="5">
 		<convert type="ClockToText">&gt;Format%H:%M:%S</convert>
 	</widget>
@@ -244,11 +273,11 @@ INFO_SKIN2 =  """<screen name="PANEL-Info2"  position="center,center" size="530,
 
 ###################  Max Test ###################
 class PanelList(MenuList):
-	def __init__(self, list, font0 = 20, font1 = 16, itemHeight = 50, enableWrapAround = True):
+	def __init__(self, list, font0 = 17, font1 = 16, itemHeight = 50, enableWrapAround = True):
 		MenuList.__init__(self, list, enableWrapAround, eListboxPythonMultiContent)
 		screenwidth = getDesktop(0).size().width()
 		if screenwidth and screenwidth == 1920:
-			self.l.setFont(0, gFont("Caviar_bold", int(font0 * 1.5)))
+			self.l.setFont(0, gFont("Regular", int(font0 * 1.5)))
 			self.l.setFont(1, gFont("Regular", int(font1 * 1.5)))
 			self.l.setItemHeight(int(itemHeight*1.5))
 		else:
@@ -260,11 +289,11 @@ def MenuEntryItem(entry):
 	res = [entry]
 	screenwidth = getDesktop(0).size().width()
 	if screenwidth and screenwidth == 1920:
-		res.append(MultiContentEntryPixmapAlphaBlend(pos=(15, 8), size=(60, 60), png=entry[0]))  # png vorn
-		res.append(MultiContentEntryText(pos=(90, 15), size=(660, 60), font=0, text=entry[1]))  # menupunkt
+		res.append(MultiContentEntryPixmapAlphaBlend(pos=(15, 12), size=(60, 60), png=entry[0]))  # png vorn
+		res.append(MultiContentEntryText(pos=(90, 10), size=(810, 60), font=0, text=entry[1]))  # menupunkt
 	else:
 		res.append(MultiContentEntryPixmapAlphaBlend(pos=(10, 5), size=(40, 40), png=entry[0]))  # png vorn
-		res.append(MultiContentEntryText(pos=(60, 10), size=(440, 40), font=0, text=entry[1]))  # menupunkt
+		res.append(MultiContentEntryText(pos=(60, 10), size=(540, 40), font=0, text=entry[1]))  # menupunkt
 	return res
 ###################  Max Test ###################
 
@@ -328,6 +357,8 @@ class Openpanel(Screen, InfoBarPiP, ProtectedScreen):
 		self["summary_description"] = StaticText("")
 
 		self.Mlist = []
+		if Check_SysSoftcam() is "oscam":
+		        self.Mlist.append(MenuEntryItem((InfoEntryComponent('OScamInfo'), _("OScamInfo"), 'OScamInfo')))
 		if Check_Softcam():
 			self.Mlist.append(MenuEntryItem((InfoEntryComponent('SoftcamPanel'), _("SoftcamPanel"), 'SoftcamPanel')))
 			self.Mlist.append(MenuEntryItem((InfoEntryComponent('SoftcamPanelSetup'), _("Softcam-Panel Setup"), 'Softcam-Panel Setup')))
@@ -340,7 +371,7 @@ class Openpanel(Screen, InfoBarPiP, ProtectedScreen):
 		if (getDesktop(0).size().width() == 1280):
 			self["Mlist"] = PanelList([])
 		else:
-			self["Mlist"] = PanelList([], font0=20, font1=16, itemHeight=50)
+			self["Mlist"] = PanelList([], font0=22, font1=16, itemHeight=50)
 		self["Mlist"].l.setList(self.Mlist)
 		menu = 0
 		self["Mlist"].onSelectionChanged.append(self.selectionChanged)
@@ -467,9 +498,16 @@ class Openpanel(Screen, InfoBarPiP, ProtectedScreen):
 		elif menu == "SystemInfo":
 			self.System()
 		elif menu == "CronManager":
-			self.session.open(CronManager)	
+			self.session.open(CronManager)
 		elif menu == "JobManager":
 			self.session.open(ScriptRunner)
+                elif menu == "SpeedTest":
+			self.session.open(SpeedTestScreen)
+                elif menu == "ResetPass":
+			self.session.open(resetpasScreen)
+		elif menu == "OScamInfo":
+		         from Screens.OScamInfo import OscamInfoMenu
+		         self.session.open(OscamInfoMenu)
 		elif menu == "SoftcamPanel":
 			self.session.open(SoftcamPanel)
 		elif menu == "software-manager":
@@ -517,6 +555,8 @@ class Openpanel(Screen, InfoBarPiP, ProtectedScreen):
 		self.tlist.append(MenuEntryItem((InfoEntryComponent('CronManager'), _("CronManager"), 'CronManager')))
 		self.tlist.append(MenuEntryItem((InfoEntryComponent('JobManager'), _("JobManager"), 'JobManager')))
 		self.tlist.append(MenuEntryItem((InfoEntryComponent('SwapManager'), _("SwapManager"), 'SwapManager')))
+                self.tlist.append(MenuEntryItem((InfoEntryComponent('SpeedTest'), _("SpeedTest"), 'SpeedTest')))
+                self.tlist.append(MenuEntryItem((InfoEntryComponent('ResetPass'), _("ResetPass"), 'ResetPass')))
 		if os.path.isfile("/usr/lib/enigma2/python/Plugins/Extensions/MultiQuickButton/plugin.pyo") is True:
 			self.tlist.append(MenuEntryItem((InfoEntryComponent('MultiQuickButton'), _("MultiQuickButton"), 'MultiQuickButton')))
 		self["Mlist"].moveToIndex(0)
@@ -1104,11 +1144,10 @@ class Info(Screen):
 			return o
 
 #// show Openpanel in EXTENSIONS plugins	
-def Plugins(**kwargs):
-	return [
-	PluginDescriptor(name = _("OpenPanel"),
-		description = _("Info panel GUI"),
-		where = [ PluginDescriptor.WHERE_PLUGINMENU,
-		PluginDescriptor.WHERE_EXTENSIONSMENU ],
-		icon = "", fnc = main)]	
+#def Plugins(**kwargs):
+#	screenwidth = getDesktop(0).size().width()
+#	if screenwidth and screenwidth == 1920:
+#		return [PluginDescriptor(name=_("OpenPanel"), description=_("OpenPanel GUI"), where = PluginDescriptor.WHERE_PLUGINMENU, icon="openhd.png", fnc=main)]
+##	else:
+#		return [PluginDescriptor(name=_("OpenPanel"), description=_("OpenPanel GUI"), where = PluginDescriptor.WHERE_PLUGINMENU, icon="open.png", fnc=main)]
 

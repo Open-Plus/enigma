@@ -174,6 +174,11 @@
 		<panel name="SummaryClockPanel" />
 	</screen>
 
+<!-- RDS info -->
+	<screen name="RdsInfoDisplaySummary" position="fill">
+		<widget source="message" render="Label" position="0,0" size="220,176" font="FdLcD;30" halign="center" valign="center" />
+	</screen>
+	
 <!-- Plugin browser -->
 	<screen name="PluginBrowserSummary" position="fill">
 		<widget source="parent.Title" render="Label" foregroundColor="#FFFF00" position="0,0" size="220,26" font="FdLcD;25" halign="center" noWrap="1" />
@@ -346,8 +351,8 @@
 		<panel name="SummaryClockPanel" />
 	</screen>	
 		
-<!-- Infopanel -->
-	<screen name="Infopanel_summary" position="0,0" size="220,176">
+<!-- Openpanel -->
+	<screen name="Openpanel_summary" position="0,0" size="220,176">
 		<widget source="parent.Title" render="Label" position="0,0" foregroundColor="#FFFF00" size="220,80" font="FdLcD;35" halign="center" valign="top" />
 		<widget source="parent.summary_description" render="Label" position="0,82" size="220,80" font="FdLcD;30" halign="center" valign="center"  />
 	</screen>

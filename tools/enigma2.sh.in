@@ -4,6 +4,25 @@ prefix=@prefix@
 exec_prefix=@exec_prefix@
 datarootdir=@datarootdir@
 
+#wetek kodi start
+if [ -e /usr/bin/kodi ]; then
+	if [ -e /etc/.kodistart ]; then
+		rm -f /etc/.kodistart
+		echo 0 >  /sys/class/video/disable_video
+		/usr/bin/kodi
+		echo 1 > /sys/class/graphics/fb0/blank
+		if grep -q 1080 /etc/enigma2/settings; then
+			echo "0 0 1919 1079" > /sys/class/video/axis
+			echo 1080p50Hz > /sys/class/display/mode
+		else
+			echo "0 0 1279 719" > /sys/class/video/axis
+			echo 720p50Hz > /sys/class/display/mode
+		fi
+		echo 0 >  /sys/class/video/disable_video
+		echo 0 > /sys/class/graphics/fb0/blank
+	fi
+fi
+
 #check for /etc/enigma2 folder
 if [ ! -d /etc/enigma2 ] ; then
 	mkdir -p /etc/enigma2
@@ -121,6 +140,9 @@ case $ret in
 		/sbin/halt
 		;;
 	2)
+		if [ -f /proc/stb/fp/force_restart ]; then
+			echo 1 > /proc/stb/fp/force_restart
+		fi
 		/sbin/reboot
 		;;
 	3)
@@ -133,6 +155,10 @@ case $ret in
 		sleep 1;
 		/sbin/rmmod fp
 		/sbin/modprobe fp
+		/sbin/reboot
+		;;
+	16)
+		echo "rescue" > /proc/stb/fp/boot_mode
 		/sbin/reboot
 		;;
 	42)
