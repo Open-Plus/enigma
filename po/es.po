@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-24 19:14+0100\n"
-"PO-Revision-Date: 2017-06-30 16:49+0200\n"
+"PO-Revision-Date: 2017-07-07 12:11+0200\n"
 "Last-Translator: VillaK <soporte@openplus.es>\n"
 "Language-Team: OpenPlus <www.open-plus.es>\n"
 "Language: es\n"
@@ -9454,7 +9454,7 @@ msgstr "Particiones"
 
 #
 msgid "pass"
-msgstr "Contraseña"
+msgstr "Escaneando"
 
 #
 msgid "Password"
@@ -11578,8 +11578,8 @@ msgstr "Buscando %s..."
 #. TRANSLATORS: The stb is performing a channel scan, progress percentage is printed in '%d' (and '%%' will show a single '%' symbol)
 msgid "Scanning - %d%% completed"
 msgid_plural "Scanning - %d%% completed"
-msgstr[0] "Escanenado - %d%% completado"
-msgstr[1] "Escanenado - %d%% completado"
+msgstr[0] "Escaneado - %d%% completado"
+msgstr[1] "Escaneado - %d%% completado"
 
 msgid "Scanning completed, %d channel found"
 msgid_plural "Scanning completed, %d channels found"
