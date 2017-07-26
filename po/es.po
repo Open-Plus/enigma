@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-24 19:14+0100\n"
-"PO-Revision-Date: 2017-07-07 12:11+0200\n"
+"PO-Revision-Date: 2017-07-26 22:01+0200\n"
 "Last-Translator: VillaK <soporte@openplus.es>\n"
 "Language-Team: OpenPlus <www.open-plus.es>\n"
 "Language: es\n"
@@ -12193,7 +12193,7 @@ msgid "Service name"
 msgstr "Nombre del Servicio"
 
 msgid "Service name font size"
-msgstr "Tamaño de letra de la información de canal"
+msgstr "Tamaño de letra del nombre del canal"
 
 #
 msgid ""
