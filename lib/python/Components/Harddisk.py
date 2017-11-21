@@ -64,7 +64,7 @@ class Harddisk:
 	def __init__(self, device, removable = False):
 		self.device = device
 
-		if os.access("/dev/.udev", 0):
+		if os.access("/dev/.udev", 0) or os.access("/run/udev/data", 0):
 			self.type = DEVTYPE_UDEV
 		elif os.access("/dev/.devfsd", 0):
 			self.type = DEVTYPE_DEVFS
@@ -373,17 +373,6 @@ class Harddisk:
 		big_o_options = ["dir_index"]
 		if isFileSystemSupported("ext4"):
 			task.setTool("mkfs.ext4")
-			if size > 20000:
-				try:
-					file = open("/proc/version","r")
-					version = map(int, file.read().split(' ', 4)[2].split('.',2)[:2])
-					file.close()
-					if (version[0] > 3) or (version[0] > 2 and version[1] >= 2):
-						# Linux version 3.2 supports bigalloc and -C option, use 256k blocks
-						task.args += ["-C", "262144"]
-						big_o_options.append("bigalloc")
-				except Exception, ex:
-					print "Failed to detect Linux version:", ex
 		else:
 			task.setTool("mkfs.ext3")
 		if size > 250000:
@@ -694,6 +683,18 @@ DEVICEDB = \
 		"/devices/rdb.4/f0470500.ehci_v2/usb4/4-0:1.0/port1/": _("Back USB"),
 		"/devices/rdb.4/f0471000.xhci_v2/usb2/2-0:1.0/port2/": _("Back USB"),
 	},
+	"dm920":
+	{
+		"/devices/platform/brcmstb-ahci.0/ata1/": _("SATA"),
+		"/devices/rdb.4/f03e0000.sdhci/mmc_host/mmc0/": _("eMMC"),
+		"/devices/rdb.4/f03e0200.sdhci/mmc_host/mmc1/": _("SD"),
+		"/devices/rdb.4/f0470600.ohci_v2/usb6/6-0:1.0/port1/": _("Front USB"),
+		"/devices/rdb.4/f0470300.ehci_v2/usb3/3-0:1.0/port1/": _("Front USB"),
+		"/devices/rdb.4/f0471000.xhci_v2/usb2/2-0:1.0/port1/": _("Front USB"),
+		"/devices/rdb.4/f0470400.ohci_v2/usb5/5-0:1.0/port1/": _("Back USB"),
+		"/devices/rdb.4/f0470500.ehci_v2/usb4/4-0:1.0/port1/": _("Back USB"),
+		"/devices/rdb.4/f0471000.xhci_v2/usb2/2-0:1.0/port2/": _("Back USB"),
+	},
 	"dm800se":
 	{
 		"/devices/pci0000:01/0000:01:00.0/host0/target0:0:0/0:0:0:0": _("SATA"),
@@ -763,7 +764,7 @@ class HarddiskManager:
 				dev = int(readFile(devpath + "/dev").split(':')[0])
 			else:
 				dev = None
-			if getMachineBuild() in ('vuuno4k','vuultimo4k','vusolo4k','hd51','hd52','sf4008','dm900','dm7080','dm820', 'gb7252', 'dags7252', 'vs1500'):
+			if getMachineBuild() in ('et1x000','vuuno4k','vuuno4kse','vuultimo4k','vusolo4k','hd51','hd52','sf4008','dm900','dm7080','dm820', 'gb7252', 'dags7252', 'vs1500','h7','xc7439','8100s','et13000','sf5008','u5'):
 				devlist = [1, 7, 31, 253, 254, 179] # ram, loop, mtdblock, romblock, ramzswap, mmc
 			else:
 				devlist = [1, 7, 31, 253, 254] # ram, loop, mtdblock, romblock, ramzswap

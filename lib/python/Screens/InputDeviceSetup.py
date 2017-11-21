@@ -9,6 +9,7 @@ from Components.ConfigList import ConfigListScreen
 from Components.ActionMap import ActionMap, HelpableActionMap
 from Tools.Directories import resolveFilename, SCOPE_ACTIVE_SKIN
 from Tools.LoadPixmap import LoadPixmap
+from Components.Pixmap import Pixmap
 from boxbranding import getBoxType, getMachineBrand, getMachineName, getBrandOEM
 
 boxtype = getBoxType()
@@ -258,7 +259,7 @@ class InputDeviceSetup(Screen, ConfigListScreen):
 
 
 class RemoteControlType(Screen, ConfigListScreen):
-	if getBrandOEM() in ('broadmedia','octagon','odin','protek','ultramini','ultramini') or getBoxType() in ('et7x00','et8500'):
+	if getBrandOEM() in ('broadmedia','octagon','odin','protek','ultramini') or getBoxType() in ('et7x00','et8500','et1x000','et13000'):
 		rcList = [
 				("0", _("Default")),
 				("3", _("MaraM9")),
@@ -267,7 +268,7 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("6", _("DMM advanced")),
 				("7", _("et5000/6000")),
 				("8", _("VU+")),
-				("9", _("et8000/et10000")),
+				("9", _("et8000/et10000/et13000/SF5008")),
 				("11", _("et9200/9500/6500")),
 				("13", _("et4000")),
 				("14", _("XP1000")),
@@ -276,12 +277,12 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("18", _("F1/F3/F4/F4-TURBO/TRIPLEX")),
 				("19", _("HD2400")),
 				("20", _("Zgemma Star S/2S/H1/H2")),
-				("21", _("Zgemma H.S/H.2S/H.2H/H5")),
+				("21", _("Zgemma H.S/H.2S/H.2H/H5/H7")),
 				("500", _("WWIO_BRE2ZE_TC")),
 				("501", _("OCTAGON_SFXXX8")),
 				("502", _("GIGABLUE Black")),
 				("503", _("MIRACLEBOX_TWINPLUS")),
-				("504", _("E3HD/XPEEDLX ")),
+				("504", _("E3HD/XPEEDLX/GI")),
 				("505", _("ODIN_M7"))
 				]
 		defaultRcList = [
@@ -292,6 +293,7 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("et7x00",16),
 				("et7000mini",16),
 				("et8000", 9),
+				("et13000", 9),
 				("et8500",16),
 				("et9000", 5),
 				("et9100", 5),
@@ -318,14 +320,17 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("sh1", 20),
 				("h3", 21),
 				("h5", 21),
+				("h7", 21),
 				("bre2ze_tc", 500),
 				("sf4008", 501),
 				("g100", 501),
 				("sf4018", 501),
+				("sf5008", 9),
 				("gbquadplus", 502),
 				("g300", 503),
 				("e3hd", 504),
 				("et7000mini", 504),
+				("et1x000", 504),
 				("xpeedc.", 504),
 				("odinm7", 505)
 				]
@@ -338,7 +343,7 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("6", _("DMM advanced")),
 				("7", _("et5000/6000")),
 				("8", _("VU+")),
-				("9", _("et8000/et10000")),
+				("9", _("et8000/et10000/et13000/SF5008")),
 				("11", _("et9200/9500/6500")),
 				("13", _("et4000")),
 				("14", _("XP1000")),
@@ -347,7 +352,7 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("18", _("F1/F3/F4/F4-TURBO/TRIPLEX")),
 				("19", _("HD2400")),
 				("20", _("Zgemma Star S/2S/H1/H2")),
-				("21", _("Zgemma H.S/H.2S/H.2H/H5"))
+				("21", _("Zgemma H.S/H.2S/H.2H/H5/H7"))
 				]
 		defaultRcList = [
 				("et4000", 13),
@@ -355,6 +360,7 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("et6000", 7),
 				("et6500", 11),
 				("et8000", 9),
+				("et13000", 9),
 				("et9000", 5),
 				("et9100", 5),
 				("et9200", 11),
@@ -378,8 +384,10 @@ class RemoteControlType(Screen, ConfigListScreen):
 				("xp1000", 14),
 				("xp3000", 17),
 				("sh1", 20),
+				("sf5008", 9),
 				("h3", 21),
-				("h5", 21)
+				("h5", 21),
+				("h7", 21)
 				]
 
 	def __init__(self, session):
@@ -392,8 +400,13 @@ class RemoteControlType(Screen, ConfigListScreen):
 			"save": self.keySave,
 		}, -1)
 
+		self["HelpWindow"] = Pixmap()
+		self["HelpWindow"].hide()
+
 		self["key_green"] = StaticText(_("Save"))
 		self["key_red"] = StaticText(_("Cancel"))
+		self["footnote"] = StaticText()
+		self["description"] = StaticText()
 
 		self.list = []
 		ConfigListScreen.__init__(self, self.list, session = self.session)

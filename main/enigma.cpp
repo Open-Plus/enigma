@@ -11,6 +11,7 @@
 #include <lib/actions/action.h>
 #include <lib/driver/rc.h>
 #include <lib/base/ioprio.h>
+#include <lib/base/e2avahi.h>
 #include <lib/base/ebase.h>
 #include <lib/base/eenv.h>
 #include <lib/base/eerror.h>
@@ -32,6 +33,7 @@
 #include <lib/python/connections.h>
 #include <lib/python/python.h>
 #include <lib/python/pythonconfig.h>
+#include <lib/service/servicepeer.h>
 
 #include "bsod.h"
 #include "version_info.h"
@@ -126,7 +128,7 @@ void keyEvent(const eRCKey &key)
 #include <lib/dvb/dvbtime.h>
 #include <lib/dvb/epgcache.h>
 
-class eMain: public eApplication, public Object
+class eMain: public eApplication, public sigc::trackable
 {
 	eInit init;
 	ePythonConfigQuery config;
@@ -139,6 +141,8 @@ class eMain: public eApplication, public Object
 public:
 	eMain()
 	{
+		e2avahi_init(this);
+		init_servicepeer();
 		init.setRunlevel(eAutoInitNumbers::main);
 		/* TODO: put into init */
 		m_dvbdb = new eDVBDB();
@@ -152,6 +156,8 @@ public:
 	{
 		m_dvbdb->saveServicelist();
 		m_mgr->releaseCachedChannel();
+		done_servicepeer();
+		e2avahi_close();
 	}
 };
 
@@ -213,11 +219,11 @@ void quitMainloop(int exitCode)
 		if (fd >= 0)
 		{
 			if (ioctl(fd, 10 /*FP_CLEAR_WAKEUP_TIMER*/) < 0)
-				eDebug("FP_CLEAR_WAKEUP_TIMER failed (%m)");
+				eDebug("[quitMainloop] FP_CLEAR_WAKEUP_TIMER failed (%m)");
 			close(fd);
 		}
 		else
-			eDebug("open /dev/dbox/fp0 for wakeup timer clear failed!(%m)");
+			eDebug("[quitMainloop] open /dev/dbox/fp0 for wakeup timer clear failed!(%m)");
 	}
 	exit_code = exitCode;
 	eApp->quit(0);
@@ -300,7 +306,7 @@ int main(int argc, char **argv)
 
 /*	if (double_buffer)
 	{
-		eDebug(" - double buffering found, enable buffered graphics mode.");
+		eDebug("[MAIN]  - double buffering found, enable buffered graphics mode.");
 		dsk.setCompositionMode(eWidgetDesktop::cmBuffered);
 	} */
 
@@ -319,28 +325,39 @@ int main(int argc, char **argv)
 
 	std::string active_skin = getConfigCurrentSpinner("config.skin.primary_skin");
 
-	eDebug("Loading spinners...");
+	eDebug("[MAIN] Loading spinners...");
 
 	{
-		int i;
+		int i = 0;
+		bool def = false;
+		std::string path = "${sysconfdir}/enigma2/spinner";
 #define MAX_SPINNER 64
 		ePtr<gPixmap> wait[MAX_SPINNER];
-		for (i=0; i<MAX_SPINNER; ++i)
+		while(i < MAX_SPINNER)
 		{
 			char filename[64];
 			std::string rfilename;
-			snprintf(filename, sizeof(filename), "${datadir}/enigma2/%s/wait%d.png", active_skin.c_str(), i + 1);
+			snprintf(filename, sizeof(filename), "%s/wait%d.png", path.c_str(), i + 1);
 			rfilename = eEnv::resolve(filename);
 			loadPNG(wait[i], rfilename.c_str());
 
 			if (!wait[i])
 			{
 				if (!i)
-					eDebug("failed to load %s! (%m)", rfilename.c_str());
+				{
+					if (!def)
+					{
+						def = true;
+						snprintf(filename, sizeof(filename), "${datadir}/enigma2/%s", active_skin.c_str());
+						path = filename;
+						continue;
+					}
+				}
 				else
-					eDebug("found %d spinner!", i);
+					eDebug("[MAIN] found %d spinner!", i);
 				break;
 			}
+			i++;
 		}
 		if (i)
 			my_dc->setSpinner(eRect(ePoint(100, 100), wait[0]->size()), wait, i);
@@ -350,9 +367,9 @@ int main(int argc, char **argv)
 
 	gRC::getInstance()->setSpinnerDC(my_dc);
 
-	eRCInput::getInstance()->keyEvent.connect(slot(keyEvent));
+	eRCInput::getInstance()->keyEvent.connect(sigc::ptr_fun(&keyEvent));
 
-	printf("executing main\n");
+	eDebug("[MAIN] executing main\n");
 
 	bsodCatchSignals();
 	catchTermSignal();
@@ -370,7 +387,7 @@ int main(int argc, char **argv)
 
 	if (exit_code == 5) /* python crash */
 	{
-		eDebug("(exit code 5)");
+		eDebug("[MAIN] (exit code 5)");
 		bsodFatal(0);
 	}
 

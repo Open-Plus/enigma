@@ -68,50 +68,50 @@ class CronManager(Screen):
 		self.onLayoutFinish.append(self.updateList)
 
 	def CrondStart(self):
-		if self.my_crond_run == False:
-			self.Console.ePopen('/etc/init.d/busybox-cron start')
-			sleep(3)
-			self.updateList()
-		elif self.my_crond_run == True:
-			self.Console.ePopen('/etc/init.d/busybox-cron stop')
-			sleep(3)
-			self.updateList()
+		if not self.my_crond_run:
+			self.Console.ePopen('/etc/init.d/crond start', self.StartStopCallback)
+		elif self.my_crond_run:
+			self.Console.ePopen('/etc/init.d/crond stop', self.StartStopCallback)
+
+	def StartStopCallback(self, result = None, retval = None, extra_args = None):
+		sleep(3)
+		self.updateList()
 
 	def autostart(self):
-		if path.exists('/etc/rc0.d/K20busybox-cron'):
-			unlink('/etc/rc0.d/K20busybox-cron')
+		if path.exists('/etc/rc0.d/K60crond'):
+			unlink('/etc/rc0.d/K60crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc0.d/K20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc0.d/K60crond')
 
-		if path.exists('/etc/rc1.d/K20busybox-cron'):
-			unlink('/etc/rc1.d/K20busybox-cron')
+		if path.exists('/etc/rc1.d/K60crond'):
+			unlink('/etc/rc1.d/K60crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc1.d/K20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc1.d/K60crond')
 
-		if path.exists('/etc/rc2.d/S20busybox-cron'):
-			unlink('/etc/rc2.d/S20busybox-cron')
+		if path.exists('/etc/rc2.d/S90crond'):
+			unlink('/etc/rc2.d/S90crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc2.d/S20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc2.d/S90crond')
 
-		if path.exists('/etc/rc3.d/S20busybox-cron'):
-			unlink('/etc/rc3.d/S20busybox-cron')
+		if path.exists('/etc/rc3.d/S90crond'):
+			unlink('/etc/rc3.d/S90crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc3.d/S20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc3.d/S90crond')
 
-		if path.exists('/etc/rc4.d/S20busybox-cron'):
-			unlink('/etc/rc4.d/S20busybox-cron')
+		if path.exists('/etc/rc4.d/S90crond'):
+			unlink('/etc/rc4.d/S90crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc4.d/S20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc4.d/S90crond')
 
-		if path.exists('/etc/rc5.d/S20busybox-cron'):
-			unlink('/etc/rc5.d/S20busybox-cron')
+		if path.exists('/etc/rc5.d/S90crond'):
+			unlink('/etc/rc5.d/S90crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc5.d/S20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc5.d/S90crond')
 
-		if path.exists('/etc/rc6.d/K20busybox-cron'):
-			unlink('/etc/rc6.d/K20busybox-cron')
+		if path.exists('/etc/rc6.d/K60crond'):
+			unlink('/etc/rc6.d/K60crond')
 		else:
-			symlink('/etc/init.d/busybox-cron', '/etc/rc6.d/K20busybox-cron')
+			symlink('/etc/init.d/crond', '/etc/rc6.d/K60crond')
 
 		self.updateList()
 
@@ -128,7 +128,7 @@ class CronManager(Screen):
 		self['labdisabled'].hide()
 		self.my_crond_active = False
 		self.my_crond_run = False
-		if path.exists('/etc/rc3.d/S20busybox-cron'):
+		if path.exists('/etc/rc3.d/S90crond'):
 			self['labdisabled'].hide()
 			self['labactive'].show()
 			self.my_crond_active = True

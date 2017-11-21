@@ -58,13 +58,14 @@ public:
 };
 
 class eServiceDVD: public iPlayableService, public iPauseableService, public iSeekableService, public iAudioTrackSelection,
-	public iServiceInformation, public iSubtitleOutput, public iServiceKeys, public iCueSheet, public eThread, public Object
+	public iServiceInformation, public iSubtitleOutput, public iServiceKeys, public iCueSheet, public eThread, public sigc::trackable
 {
 	friend class eServiceFactoryDVD;
 	DECLARE_REF(eServiceDVD);
 public:
 	virtual ~eServiceDVD();
 		// not implemented (yet)
+	RESULT setTarget(int target, bool noaudio = false) { return -1; }
 	RESULT audioChannel(ePtr<iAudioChannelSelection> &ptr) { ptr = 0; return -1; }
 	RESULT audioTracks(ePtr<iAudioTrackSelection> &ptr);
 	RESULT frontendInfo(ePtr<iFrontendInformation> &ptr) { ptr = 0; return -1; }
@@ -75,12 +76,12 @@ public:
 	RESULT stream(ePtr<iStreamableService> &ptr) { ptr = 0; return -1; }
 	RESULT streamed(ePtr<iStreamedService> &ptr) { ptr = 0; return -1; }
 	RESULT cueSheet(ePtr<iCueSheet> &ptr);
+	void setQpipMode(bool value, bool audio) { }
 
 		// iPlayableService
-	RESULT connectEvent(const Slot2<void,iPlayableService*,int> &event, ePtr<eConnection> &connection);
+	RESULT connectEvent(const sigc::slot2<void,iPlayableService*,int> &event, ePtr<eConnection> &connection);
 	RESULT start();
 	RESULT stop();
-	RESULT setTarget(int target);
 	RESULT info(ePtr<iServiceInformation> &ptr);
 	RESULT pause(ePtr<iPauseableService> &ptr);
 	RESULT subtitle(ePtr<iSubtitleOutput> &ptr);
@@ -141,7 +142,7 @@ private:
 
 	eServiceReference m_ref;
 
-	Signal2<void,iPlayableService*,int> m_event;
+	sigc::signal2<void,iPlayableService*,int> m_event;
 
 	struct ddvd *m_ddvdconfig;
 	ePtr<gPixmap> m_pixmap;

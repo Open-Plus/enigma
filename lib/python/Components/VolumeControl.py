@@ -75,10 +75,10 @@ class VolumeControl:
 
 	def stepVolume(self):
 		if self.stepVolTimer.isActive():
-			step = config.usage.volume_step_fast.value
+			step = config.av.volume_stepsize_fastmode.value
 		else:
 			self.getInputConfig()
-			step = config.usage.volume_step_slow.value
+			step = config.av.volume_stepsize.value
 		self.stepVolTimer.start(self.repeat,True)
 		return step
 
@@ -127,6 +127,12 @@ class VolumeControl:
 
 	def volHide(self):
 		self.volumeDialog.hide()
+		self.muteDialog.hide()
+
+	def showMute(self):
+		if self.volctrl.isMuted():
+			self.muteDialog.show()
+			self.hideVolTimer.start(3000, True)
 
 	def volMute(self, showMuteSymbol=True, force=False):
 		vol = self.volctrl.getVolume()
@@ -134,7 +140,7 @@ class VolumeControl:
 			self.volctrl.volumeToggleMute()
 			if self.volctrl.isMuted():
 				if showMuteSymbol:
-					self.muteDialog.show()
+					self.showMute()
 				self.volumeDialog.setValue(0)
 			else:
 				self.muteDialog.hide()

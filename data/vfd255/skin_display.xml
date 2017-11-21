@@ -331,7 +331,7 @@
 	</screen>
 
 	<screen name="PowerTimerEditListSummary" position="0,0" size="255,64">
-		<widget source="service" render="Label" position="0,0" size="160,22" font="FdLcD;18" halign="left" noWrap="1" />
+		<widget source="after" render="Label" position="0,0" size="160,22" font="FdLcD;18" halign="left" noWrap="1" />
 		<widget source="name" render="Label" position="0,21" size="255,18" font="FdLcD;17" halign="left" noWrap="1" />
 		<widget source="time" render="Label" position="0,39" size="190,35" font="FdLcD;14" halign="left" transparent="1" />
 		<widget source="duration" render="Label" position="0,52" size="190,35" font="FdLcD;13" halign="left" transparent="1" />
@@ -552,5 +552,10 @@
 		<panel name="SummaryIconsPanel" />
 		<panel name="SummaryTunerStatusPanel" />
 		<panel name="SummaryClockPanel" />
+	</screen>
+	<screen name="MediaPlayerLCDScreen" position="0,0" size="255,64" >
+		<widget name="text1" position="4,0" size="255,35" font="Regular;16"/>
+		<widget name="text3" position="4,36" size="255,14" font="Regular;10"/>
+		<widget name="text4" position="4,49" size="255,14" font="Regular;10"/>
 	</screen>
 </skin>

@@ -2545,7 +2545,7 @@ msgstr "Klasický"
 msgid "Classic Rock"
 msgstr "Classic Rock"
 
-msgid "Clean network trash can's"
+msgid "Clean network trash cans"
 msgstr "Používat mazání koše"
 
 msgid "Cleaning Trashes"
@@ -4595,7 +4595,7 @@ msgstr "Povolit blikající 'rec' symbol na LCD displeji"
 msgid "Enable bouquet selection in multi-EPG"
 msgstr "Povolit výběr přehledu při spuštění multi-EPG"
 
-msgid "Enable debug log"
+msgid "Enable debug log *"
 msgstr "Povolit protokol ladění"
 
 msgid "Enable fallback remote receiver"
@@ -11693,7 +11693,7 @@ msgstr "Zobrazit stisk tlačítek v ladění telnetu"
 msgid "Show record indicator"
 msgstr "Zobrazit indikátor nahrávání"
 
-msgid "Show recording symbol depending on recording type"
+msgid "Show recording symbol"
 msgstr "Zobrazit vhodný symbol nahrávání"
 
 msgid "Show satellites list"
@@ -11789,7 +11789,7 @@ msgstr "Zobrazit překlad balíčků"
 msgid "Show transponder remaining/elapsed as"
 msgstr "Zobrazit čas události Zbývající/Uplynulý"
 
-msgid "Show warning before box restart based on recording type"
+msgid "Show warning before restart"
 msgstr "Varovat před restartem přijímače při nahrávání"
 
 msgid "Show warning when timeshift is stopped"

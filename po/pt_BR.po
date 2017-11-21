@@ -6115,7 +6115,7 @@ msgstr "Pausar o filme quando terminar"
 msgid "Pause playback"
 msgstr "Pausar"
 
-msgid "Pauze/Continue playback"
+msgid "Pause/Continue playback"
 msgstr ""
 
 msgid "Peak load (max queued requests per workerthread)"
@@ -13187,9 +13187,6 @@ msgstr ""
 msgid "Choose which tuner to configure."
 msgstr "Escolha qual tuner configurar."
 
-msgid "Clean network trash can's"
-msgstr ""
-
 msgid "Clone TV screen to LCD"
 msgstr ""
 
@@ -13684,7 +13681,7 @@ msgstr ""
 msgid "Enable blinking rec symbol on the LCD Display"
 msgstr ""
 
-msgid "Enable debug log"
+msgid "Enable debug log *"
 msgstr ""
 
 msgid "Enable fallback remote receiver"
@@ -14495,7 +14492,7 @@ msgstr "Mostrar movimento do posicionador"
 msgid "Show record indicator"
 msgstr ""
 
-msgid "Show recording symbol depending on recording type"
+msgid "Show recording symbol"
 msgstr ""
 
 msgid "Show screensaver"
@@ -14531,7 +14528,7 @@ msgstr "Mostrar animação enquanto ocupado"
 msgid "Show transponder remaining/elapsed as"
 msgstr "mostrar a 'info' do transponder"
 
-msgid "Show warning before box restart based on recording type"
+msgid "Show warning before restart"
 msgstr ""
 
 #, fuzzy

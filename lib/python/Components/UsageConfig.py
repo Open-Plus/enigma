@@ -1,10 +1,10 @@
 import os
 from time import time
-from enigma import eDVBDB, eEPGCache, setTunerTypePriorityOrder, setPreferredTuner, setSpinnerOnOff, setEnableTtCachingOnOff, eEnv, Misc_Options, eBackgroundFileEraser, eServiceEvent, RT_HALIGN_LEFT, RT_HALIGN_RIGHT, RT_HALIGN_CENTER, RT_VALIGN_CENTER, RT_WRAP
+from enigma import eDVBDB, eEPGCache, setTunerTypePriorityOrder, setPreferredTuner, setSpinnerOnOff, setEnableTtCachingOnOff, eEnv, Misc_Options, eBackgroundFileEraser, eServiceEvent, eDVBFrontend, RT_HALIGN_LEFT, RT_HALIGN_RIGHT, RT_HALIGN_CENTER, RT_VALIGN_CENTER, RT_WRAP
 
 from Components.About import about
 from Components.Harddisk import harddiskmanager
-from config import ConfigSubsection, ConfigYesNo, config, ConfigSelection, ConfigText, ConfigNumber, ConfigSet, ConfigLocations, NoSave, ConfigClock, ConfigInteger, ConfigBoolean, ConfigPassword, ConfigIP, ConfigSlider, ConfigSelectionNumber
+from config import ConfigSubsection, ConfigYesNo, config, ConfigSelection, ConfigText, ConfigNumber, ConfigSet, ConfigLocations, NoSave, ConfigClock, ConfigInteger, ConfigBoolean, ConfigPassword, ConfigIP, ConfigSlider, ConfigSelectionNumber, ConfigFloat, ConfigDictionarySet, ConfigDirectory
 from Tools.Directories import resolveFilename, SCOPE_HDD, SCOPE_TIMESHIFT, SCOPE_AUTORECORD, SCOPE_SYSETC, defaultRecordingLocation, fileExists
 from Components.NimManager import nimmanager
 from Components.ServiceList import refreshServiceList
@@ -12,8 +12,32 @@ from SystemInfo import SystemInfo
 from Tools.HardwareInfo import HardwareInfo
 from boxbranding import getBoxType
 from keyids import KEYIDS
+from sys import maxint
+import glob
+import os
+from Components.RcModel import rc_model
 
 def InitUsageConfig():
+	AvailRemotes=glob.glob('/usr/share/enigma2/rc_models/*')
+	RemoteChoices=[]
+	DefaultRemote=rc_model.getRcFolder(GetDefault=True)
+	
+	remoteSelectable=False
+	if AvailRemotes is not None:
+		for remote in AvailRemotes:
+			if os.path.isfile(remote+'/rc.png') and os.path.isfile(remote+'/rcpositions.xml') and os.path.isfile(remote+'/remote.html'):
+				pass
+			else:
+				AvailRemotes.remove(remote)
+		if len(AvailRemotes)>1:
+			remoteSelectable=True
+			for remote in AvailRemotes:
+				toadd = (remote.split('/')[-1], remote.split('/')[-1])
+				RemoteChoices.append(toadd)
+	config.misc.SettingsVersion = ConfigFloat(default = [1,1], limits = [(1,10),(0,99)])
+	config.misc.SettingsVersion.value = [1,1]
+	config.misc.SettingsVersion.save_forced = True
+	config.misc.SettingsVersion.save()
 	config.misc.useNTPminutes = ConfigSelection(default = "30", choices = [("30", "30" + " " +_("minutes")), ("60", _("Hour")), ("1440", _("Once per day"))])
 	config.misc.remotecontrol_text_support = ConfigYesNo(default = True)
 
@@ -24,6 +48,13 @@ def InitUsageConfig():
 	config.workaround.wakeupwindow = ConfigSelectionNumber(default = 5, stepwidth = 5, min = 5, max = 60, wraparound = True)
 
 	config.usage = ConfigSubsection()
+
+	#settings for servicemp3 and handling from cuesheet file
+	config.usage.useVideoCuesheet = ConfigYesNo(default = True)		#use marker for video media file
+	config.usage.useAudioCuesheet = ConfigYesNo(default = True)		#use marker for audio media file
+	config.usage.useChapterInfo = ConfigYesNo(default = True) 		#show chapter positions (gst >= 1 and supported media files)
+	###
+
 	config.usage.shutdownOK = ConfigBoolean(default = True)
 	config.usage.shutdownNOK_action = ConfigSelection(default = "normal", choices = [("normal", _("just boot")), ("standby", _("goto standby")), ("deepstandby", _("goto deep-standby"))])
 	config.usage.boot_action = ConfigSelection(default = "normal", choices = [("normal", _("just boot")), ("standby", _("goto standby"))])
@@ -33,6 +64,11 @@ def InitUsageConfig():
 	config.usage.numzaptimeoutmode = ConfigSelection(default = "standard", choices = [("standard", _("Standard")), ("userdefined", _("User defined")), ("off", _("off"))])
 	config.usage.numzaptimeout1 = ConfigSlider(default = 3000, increment = 250, limits = (750, 5000))
 	config.usage.numzaptimeout2 = ConfigSlider(default = 1000, increment = 250, limits = (750, 5000))
+	config.usage.numzappicon = ConfigYesNo(default = False)
+	config.usage.use_pig = ConfigYesNo(default = False)
+	config.usage.update_available = NoSave(ConfigYesNo(default = False))
+	config.misc.ecm_info = ConfigYesNo(default = False)
+	config.usage.menu_show_numbers = ConfigYesNo(default = False)
 
 	config.usage.alternative_number_mode = ConfigYesNo(default = False)
 	def alternativeNumberModeChange(configElement):
@@ -64,14 +100,21 @@ def InitUsageConfig():
 		("keep reverseB", _("Keep service") + " + " + _("Reverse bouquet buttons"))])
 	config.usage.multiepg_ask_bouquet = ConfigYesNo(default = False)
 	config.usage.showpicon = ConfigYesNo(default = True)
+	
+#########  Workaround for VTI Skins   ##############
+	config.usage.picon_dir = ConfigDirectory(default = "/usr/share/enigma2/picon")
+	config.usage.movielist_show_picon = ConfigYesNo(default = False)
+	config.usage.use_extended_pig = ConfigYesNo(default = False)
+	config.usage.use_extended_pig_channelselection = ConfigYesNo(default = False)
+	config.usage.servicelist_preview_mode = ConfigYesNo(default = False)
+	config.usage.numberzap_show_picon = ConfigYesNo(default = False)
+	config.usage.numberzap_show_servicename = ConfigYesNo(default = False)
+#####################################################
 
 	config.usage.panicbutton = ConfigYesNo(default = False)
 	config.usage.panicchannel = ConfigInteger(default = 1, limits=(1,5000) )
 	config.usage.quickzap_bouquet_change = ConfigYesNo(default = False)
 	config.usage.e1like_radio_mode = ConfigYesNo(default = False)
-
-	config.usage.volume_step_slow = ConfigSelectionNumber(default = 1, stepwidth = 1, min = 1, max = 10, wraparound = False)
-	config.usage.volume_step_fast = ConfigSelectionNumber(default = 3, stepwidth = 1, min = 1, max = 10, wraparound = False)
 
 	choicelist = []
 	for i in range(1, 30):
@@ -79,6 +122,7 @@ def InitUsageConfig():
 	config.usage.infobar_timeout = ConfigSelection(default = "5", choices = [("0", _("No timeout"))] + choicelist)
 	config.usage.show_infobar_on_zap = ConfigYesNo(default = True)
 	config.usage.show_infobar_on_skip = ConfigYesNo(default = True)
+	config.usage.show_infobar_locked_on_pause = ConfigYesNo(default = True)
 	config.usage.show_infobar_on_event_change = ConfigYesNo(default = False)
 	config.usage.show_infobar_channel_number = ConfigYesNo(default = False)	
 	config.usage.show_infobar_lite = ConfigYesNo(default = False)
@@ -99,12 +143,54 @@ def InitUsageConfig():
 
 	config.usage.show_spinner = ConfigYesNo(default = True)
 	config.usage.enable_tt_caching = ConfigYesNo(default = True)
+
+	config.usage.tuxtxt_font_and_res = ConfigSelection(default = "TTF_SD", choices = [("X11_SD", _("Fixed X11 font (SD)")), ("TTF_SD", _("TrueType font (SD)")), ("TTF_HD", _("TrueType font (HD)")), ("TTF_FHD", _("TrueType font (full-HD)")), ("expert_mode", _("Expert mode"))])
+	config.usage.tuxtxt_UseTTF = ConfigSelection(default = "1", choices = [("0", "0"), ("1", "1")])
+	config.usage.tuxtxt_TTFBold = ConfigSelection(default = "1", choices = [("0", "0"), ("1", "1")])
+	config.usage.tuxtxt_TTFScreenResX = ConfigSelection(default = "720", choices = [("720", "720"), ("1280", "1280"), ("1920", "1920")])
+	config.usage.tuxtxt_StartX = ConfigInteger(default=50, limits = (0, 200))
+	config.usage.tuxtxt_EndX = ConfigInteger(default=670, limits = (500, 1920))
+	config.usage.tuxtxt_StartY = ConfigInteger(default=30, limits = (0, 200))
+	config.usage.tuxtxt_EndY = ConfigInteger(default=555, limits = (400, 1080))
+	config.usage.tuxtxt_TTFShiftY = ConfigSelection(default = "2", choices = [("-9", "-9"), ("-8", "-8"), ("-7", "-7"), ("-6", "-6"), ("-5", "-5"), ("-4", "-4"), ("-3", "-3"), ("-2", "-2"), ("-1", "-1"), ("0", "0"), ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4"), ("5", "5"), ("6", "6"), ("7", "7"), ("8", "8"), ("9", "9")])
+	config.usage.tuxtxt_TTFShiftX = ConfigSelection(default = "0", choices = [("-9", "-9"), ("-8", "-8"), ("-7", "-7"), ("-6", "-6"), ("-5", "-5"), ("-4", "-4"), ("-3", "-3"), ("-2", "-2"), ("-1", "-1"), ("0", "0"), ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4"), ("5", "5"), ("6", "6"), ("7", "7"), ("8", "8"), ("9", "9")])
+	config.usage.tuxtxt_TTFWidthFactor16 = ConfigInteger(default=29, limits = (8, 31))
+	config.usage.tuxtxt_TTFHeightFactor16 = ConfigInteger(default=14, limits = (8, 31))
+	config.usage.tuxtxt_CleanAlgo = ConfigInteger(default=0, limits = (0, 9))
+	config.usage.tuxtxt_ConfFileHasBeenPatched = NoSave(ConfigYesNo(default=False))
+
+	config.usage.tuxtxt_font_and_res.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_UseTTF.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_TTFBold.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_TTFScreenResX.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_StartX.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_EndX.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_StartY.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_EndY.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_TTFShiftY.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_TTFShiftX.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_TTFWidthFactor16.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_TTFHeightFactor16.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	config.usage.tuxtxt_CleanAlgo.addNotifier(patchTuxtxtConfFile, initial_call = False, immediate_feedback = False, call_on_save_or_cancel = True)
+	
 	config.usage.sort_settings = ConfigYesNo(default = False)
-	config.usage.sort_menus = ConfigYesNo(default = False)
+	config.usage.sort_menu_byname = ConfigYesNo(default = False)
+	config.usage.sort_plugins_byname = ConfigYesNo(default = True)
+	config.usage.plugins_sort_mode = ConfigSelection(default = "user", choices = [
+		("a_z", _("alphabetical")),
+		("default", _("Default")),
+		("user", _("user defined")),])
+	config.usage.plugin_sort_weight = ConfigDictionarySet()
+	config.usage.menu_sort_weight = ConfigDictionarySet(default = { "mainmenu" : {"submenu" : {} }})
+	config.usage.menu_sort_mode = ConfigSelection(default = "user", choices = [
+		("a_z", _("alphabetical")),
+		("default", _("Default")),
+		("user", _("user defined")),])
 	config.usage.sort_pluginlist = ConfigYesNo(default = True)
 	config.usage.sort_extensionslist = ConfigYesNo(default = False)
 	config.usage.show_restart_network_extensionslist = ConfigYesNo(default = True)
 	config.usage.movieplayer_pvrstate = ConfigYesNo(default = False)
+	config.usage.rc_model = ConfigSelection(default = DefaultRemote, choices = RemoteChoices)
 
 	choicelist = []
 	for i in (10, 30):
@@ -228,7 +314,7 @@ def InitUsageConfig():
 		choicelist.append((str(i), _("Execute in ") + m))
 	config.usage.sleep_timer = ConfigSelection(default = "0", choices = choicelist)
 
-	choicelist = [("show_menu", _("Show shutdown menu")), ("shutdown", _("Immediate shutdown")), ("standby", _("Standby")), ("sleeptimer", _("SleepTimer")), ("powertimerStandby", _("PowerTimer Standby")), ("powertimerDeepStandby", _("PowerTimer DeepStandby"))]
+	choicelist = [("show_menu", _("Show shutdown menu")), ("shutdown", _("Immediate shutdown")), ("standby", _("Standby")), ("standby_noTVshutdown", _("Standby without TV shutdown")), ("sleeptimer", _("SleepTimer")), ("powertimerStandby", _("PowerTimer Standby")), ("powertimerDeepStandby", _("PowerTimer DeepStandby"))]
 	config.usage.on_long_powerpress = ConfigSelection(default = "show_menu", choices = choicelist)
 	config.usage.on_short_powerpress = ConfigSelection(default = "standby", choices = choicelist)
 
@@ -246,7 +332,7 @@ def InitUsageConfig():
 		(str(KEYIDS["KEY_SUBTITLE"]), _("Subtitle")),
 		(str(KEYIDS["KEY_FAVORITES"]), _("Favorites")) ])
 
-	choicelist = [("0", "Disabled")]
+	choicelist = [("0", _("Disabled"))]
 	for i in (5, 30, 60, 300, 600, 900, 1200, 1800, 2700, 3600):
 		if i < 60:
 			m = ngettext("%d second", "%d seconds", i) % i
@@ -268,15 +354,32 @@ def InitUsageConfig():
 		("127", _("No priority")) ])
 
 	config.usage.remote_fallback_enabled = ConfigYesNo(default = False)
-	config.usage.remote_fallback = ConfigText(default = "", visible_width = 50, fixed_size = False)
+	config.usage.remote_fallback = ConfigText(default = "http://IP-ADRESS:8001", visible_width = 50, fixed_size = False)
 
-	nims = [("-1", _("auto"))]
-	rec_nims = [("-2", _("Disabled")), ("-1", _("auto"))]
+	nims = [("-1", _("auto")), ("expert_mode", _("Expert mode")), ("experimental_mode", _("Experimental mode"))]
+	rec_nims = [("-2", _("Disabled")), ("-1", _("auto")), ("expert_mode", _("Expert mode")), ("experimental_mode", _("Experimental mode"))]
 	for x in nimmanager.nim_slots:
 		nims.append((str(x.slot), x.getSlotName()))
 		rec_nims.append((str(x.slot), x.getSlotName()))
-	config.usage.frontend_priority = ConfigSelection(default = "-1", choices = nims)
-	config.usage.recording_frontend_priority = ConfigSelection(default = "-2", choices = rec_nims)
+	nims_multi = [("-1", _("auto"))]
+	rec_nims_multi = [("-2", _("Disabled")), ("-1", _("auto"))]
+	for i in xrange(1,2**min(12,len(nimmanager.nim_slots))):
+		slot_names = ""
+		for x in xrange(min(12,len(nimmanager.nim_slots))):
+			if (i & 2**x):
+				if slot_names != "": slot_names = slot_names + "+"
+				slot_names = slot_names + nimmanager.nim_slots[x].getSlotName()
+		nims_multi.append((str(i), slot_names))
+		rec_nims_multi.append((str(i), slot_names))
+	priority_strictly_choices = [("no", _("No")), ("yes", _("Yes")), ("while_available", _("While available"))]
+	config.usage.frontend_priority                       = ConfigSelection(default = "-1", choices = nims)
+	config.usage.frontend_priority_multiselect           = ConfigSelection(default = "-1", choices = nims_multi)
+	config.usage.frontend_priority_strictly              = ConfigSelection(default = "no", choices = priority_strictly_choices)
+	config.usage.frontend_priority_intval                = NoSave(ConfigInteger(default = 0, limits = (-99, maxint)))
+	config.usage.recording_frontend_priority             = ConfigSelection(default = "-2", choices = rec_nims)
+	config.usage.recording_frontend_priority_multiselect = ConfigSelection(default = "-2", choices = rec_nims_multi)
+	config.usage.recording_frontend_priority_strictly    = ConfigSelection(default = "no", choices = priority_strictly_choices)
+	config.usage.recording_frontend_priority_intval      = NoSave(ConfigInteger(default = 0, limits = (-99, maxint)))
 	config.misc.disable_background_scan = ConfigYesNo(default = False)
 
 	config.usage.jobtaksextensions = ConfigYesNo(default = True)
@@ -333,7 +436,7 @@ def InitUsageConfig():
 
 	config.usage.blinking_display_clock_during_recording = ConfigYesNo(default = False)
 	
-	if getBoxType() in ('vimastec1000', 'vimastec1500','et7000', 'et7500', 'et8000', 'triplex', 'formuler1', 'mutant1200', 'solo2', 'mutant1265', 'mutant1100', 'mutant500c', 'mutant530c', 'mutant1500', 'osminiplus', 'ax51', 'mutant51', '9910lx', '9911lx'):
+	if getBoxType() in ('tiviaraplus','formuler1tc','zgemmah7','vimastec1000', 'vimastec1500','et7000', 'et7500', 'et8000', 'triplex', 'formuler1', 'mutant1200', 'solo2', 'mutant1265', 'mutant1100', 'mutant500c', 'mutant530c', 'mutant1500', 'osminiplus', 'ax51', 'mutant51', '9910lx', '9911lx'):
 		config.usage.blinking_rec_symbol_during_recording = ConfigSelection(default = "Channel", choices = [
 						("Rec", _("REC Symbol")), 
 						("RecBlink", _("Blinking REC Symbol")), 
@@ -387,8 +490,22 @@ def InitUsageConfig():
 	config.usage.alternatives_priority.addNotifier(TunerTypePriorityOrderChanged, immediate_feedback=False)
 
 	def PreferredTunerChanged(configElement):
-		setPreferredTuner(int(configElement.value))
+		config.usage.frontend_priority_intval.setValue(calcFrontendPriorityIntval(config.usage.frontend_priority, config.usage.frontend_priority_multiselect, config.usage.frontend_priority_strictly))
+		debugstring = ""
+		elem2 = config.usage.frontend_priority_intval.value
+		if (int(elem2) > 0) and (int(elem2) & eDVBFrontend.preferredFrontendBinaryMode):
+			elem2 = int(elem2) - eDVBFrontend.preferredFrontendBinaryMode
+			debugstring = debugstring + "Binary +"
+		if (int(elem2) > 0) and (int(elem2) & eDVBFrontend.preferredFrontendPrioForced):
+			elem2 = int(elem2) - eDVBFrontend.preferredFrontendPrioForced
+			debugstring = debugstring + "Forced +"
+		if (int(elem2) > 0) and (int(elem2) & eDVBFrontend.preferredFrontendPrioHigh):
+			elem2 = int(elem2) - eDVBFrontend.preferredFrontendPrioHigh
+			debugstring = debugstring + "High +"
+		setPreferredTuner(int(config.usage.frontend_priority_intval.value))
 	config.usage.frontend_priority.addNotifier(PreferredTunerChanged)
+	config.usage.frontend_priority_multiselect.addNotifier(PreferredTunerChanged)
+	config.usage.frontend_priority_strictly.addNotifier(PreferredTunerChanged)
 
 	config.usage.hide_zap_errors = ConfigYesNo(default = True)
 	config.misc.use_ci_assignment = ConfigYesNo(default = True)
@@ -397,6 +514,7 @@ def InitUsageConfig():
 	config.usage.show_eit_nownext = ConfigYesNo(default = True)
 	config.usage.show_vcr_scart = ConfigYesNo(default = False)
 	config.usage.pic_resolution = ConfigSelection(default = None, choices = [(None, _("Same resolution as skin")), ("(720, 576)","720x576"), ("(1280, 720)", "1280x720"), ("(1920, 1080)", "1920x1080")])
+	config.usage.enable_delivery_system_workaround = ConfigYesNo(default = False)
 
 	config.epg = ConfigSubsection()
 	config.epg.eit = ConfigYesNo(default = True)
@@ -504,6 +622,8 @@ def InitUsageConfig():
 		config.usage.output_12V.addNotifier(set12VOutput, immediate_feedback=False)
 
 	config.usage.keymap = ConfigText(default = eEnv.resolve("${datadir}/enigma2/keymap.xml"))
+	config.usage.keytrans = ConfigText(default = eEnv.resolve("${datadir}/enigma2/keytranslation.xml"))
+	config.usage.keymap_usermod = ConfigText(default = eEnv.resolve("${datadir}/enigma2/keymap_usermod.xml"))
 
 	config.network = ConfigSubsection()
 	if SystemInfo["WakeOnLAN"]:
@@ -532,7 +652,7 @@ def InitUsageConfig():
 	config.softwareupdate.updateisunstable = ConfigInteger(default=0)
 
 	config.timeshift = ConfigSubsection()
-	choicelist = [("0", "Disabled")]
+	choicelist = [("0", _("Disabled"))]
 	for i in (2, 3, 4, 5, 10, 20, 30):
 		choicelist.append(("%d" % i, ngettext("%d second", "%d seconds", i) % i))
 	for i in (60, 120, 300):
@@ -611,8 +731,10 @@ def InitUsageConfig():
 					 "Your receiver restarts in 10 seconds!\n" \
 					 "Component: enigma2") % config.crash.debug_path.value
 	config.crash.debug_text = ConfigText(default=crashlogheader, fixed_size=False)
+	config.crash.skin_error_crash = ConfigYesNo(default = True)
 
 	config.usage.timerlist_finished_timer_position = ConfigSelection(default = "end", choices = [("beginning", _("at beginning")), ("end", _("at end"))])
+	config.usage.timerlist_show_epg = ConfigYesNo(default = True)
 
 	def updateEnterForward(configElement):
 		if not configElement.value:
@@ -643,28 +765,14 @@ def InitUsageConfig():
 		("1", _("Internal hdd only")),
 		("3", _("Everywhere"))])
 	config.misc.erase_flags.addNotifier(updateEraseFlags, immediate_feedback = False)
-
+	
 	if SystemInfo["ZapMode"]:
-		try:
-			if os.path.exists("/proc/stb/video/zapping_mode"):
-				zapoptions = [("mute", _("Black screen")), ("hold", _("Hold screen"))]
-				zapfile = "/proc/stb/video/zapping_mode"
-			else:
-				zapoptions = [("mute", _("Black screen")), ("hold", _("Hold screen")), ("mutetilllock", _("Black screen till locked")), ("holdtilllock", _("Hold till locked"))]
-				zapfile = "/proc/stb/video/zapmode"
-		except:
-			zapoptions = [("mute", _("Black screen")), ("hold", _("Hold screen")), ("mutetilllock", _("Black screen till locked")), ("holdtilllock", _("Hold till locked"))]
-			zapfile = "/proc/stb/video/zapmode"
-
 		def setZapmode(el):
-			try:
-				file = open(zapfile, "w")
-				file.write(el.value)
-				file.close()
-			except:
-				pass
-		config.misc.zapmode = ConfigSelection(default = "mute", choices = zapoptions )
+			open(SystemInfo["ZapMode"], "w").write(el.value)
+		config.misc.zapmode = ConfigSelection(default = "mute", choices = [
+			("mute", _("Black screen")), ("hold", _("Hold screen")), ("mutetilllock", _("Black screen till locked")), ("holdtilllock", _("Hold till locked"))])
 		config.misc.zapmode.addNotifier(setZapmode, immediate_feedback = False)
+
 	config.usage.historymode = ConfigSelection(default = "1", choices = [("0", _("Just zap")), ("1", _("Show menu"))])
 
 	config.subtitles = ConfigSubsection()
@@ -729,9 +837,11 @@ def InitUsageConfig():
 		("eus baq", _("Basque")),
 		("bul", _("Bulgarian")),
 		("hrv", _("Croatian")),
+		("chn sgp", _("Simplified Chinese")),
+		("twn hkn",_("Traditional Chinese")),
 		("ces cze", _("Czech")),
 		("dan", _("Danish")),
-		("dut ndl Dutch", _("Dutch")),
+		("dut ndl nld Dutch", _("Dutch")),
 		("eng qaa Englisch", _("English")),
 		("est", _("Estonian")),
 		("fin", _("Finnish")),
@@ -884,7 +994,7 @@ def InitUsageConfig():
 	config.epgselection.graph_primetimehour = ConfigSelectionNumber(default = 20, stepwidth = 1, min = 00, max = 23, wraparound = True)
 	config.epgselection.graph_primetimemins = ConfigSelectionNumber(default = 00, stepwidth = 1, min = 00, max = 59, wraparound = True)
 	config.epgselection.graph_servicetitle_mode = ConfigSelection(default = "picon+servicename", choices = [("servicename", _("Service Name")),("picon", _("Picon")),("picon+servicename", _("Picon and Service Name")) ])
-	config.epgselection.graph_channel1 = ConfigYesNo(default = False)
+	config.epgselection.graph_startmode = ConfigSelection(default = "standard", choices = [("standard", _("Standard")), ("primetime", _("Primetime")),("channel1", _("Channel 1")), ("channel1+primetime", _("Channel 1 with Primetime")) ])
 	config.epgselection.graph_servfs = ConfigSelectionNumber(default = 0, stepwidth = 1, min = -8, max = 10, wraparound = True)
 	config.epgselection.graph_eventfs = ConfigSelectionNumber(default = 0, stepwidth = 1, min = -8, max = 10, wraparound = True)
 	possibleAlignmentChoices = [
@@ -952,6 +1062,7 @@ def InitUsageConfig():
 	config.streaming = ConfigSubsection()
 	config.streaming.stream_ecm = ConfigYesNo(default = False)
 	config.streaming.descramble = ConfigYesNo(default = True)
+	config.streaming.descramble_client = ConfigYesNo(default = False)
 	config.streaming.stream_eit = ConfigYesNo(default = True)
 	config.streaming.stream_ait = ConfigYesNo(default = True)
 	config.streaming.authentication = ConfigYesNo(default = False)
@@ -959,6 +1070,19 @@ def InitUsageConfig():
 	config.pluginbrowser = ConfigSubsection()
 	config.pluginbrowser.po = ConfigYesNo(default = False)
 	config.pluginbrowser.src = ConfigYesNo(default = False)
+
+def calcFrontendPriorityIntval(config_priority, config_priority_multiselect, config_priority_strictly):
+	elem = config_priority.value
+	if elem in ("expert_mode", "experimental_mode"):
+		elem = int(config_priority_multiselect.value)
+		if elem > 0:
+			elem = int(elem) + int(eDVBFrontend.preferredFrontendBinaryMode)
+			if config_priority.value == "experimental_mode":
+				if config_priority_strictly.value == "yes":
+					elem += eDVBFrontend.preferredFrontendPrioForced
+				elif config_priority_strictly.value == "while_available":
+					elem += eDVBFrontend.preferredFrontendPrioHigh
+	return elem
 
 def updateChoices(sel, choices):
 	if choices:
@@ -999,3 +1123,84 @@ def refreshServiceList(configElement = None):
 		servicelist = InfoBarInstance.servicelist
 		if servicelist:
 			servicelist.setMode()
+
+def patchTuxtxtConfFile(dummyConfigElement):
+	print "[tuxtxt] patching tuxtxt2.conf"
+	if config.usage.tuxtxt_font_and_res.value == "X11_SD":
+		tuxtxt2 = [["UseTTF",0],
+		           ["TTFBold",1],
+		           ["TTFScreenResX",720],
+		           ["StartX",50],
+		           ["EndX",670],
+		           ["StartY",30],
+		           ["EndY",555],
+		           ["TTFShiftY",0],
+		           ["TTFShiftX",0],
+		           ["TTFWidthFactor16",26],
+		           ["TTFHeightFactor16",14]]
+	elif config.usage.tuxtxt_font_and_res.value == "TTF_SD":
+		tuxtxt2 = [["UseTTF",1],
+		           ["TTFBold",1],
+		           ["TTFScreenResX",720],
+		           ["StartX",50],
+		           ["EndX",670],
+		           ["StartY",30],
+		           ["EndY",555],
+		           ["TTFShiftY",2],
+		           ["TTFShiftX",0],
+		           ["TTFWidthFactor16",29],
+		           ["TTFHeightFactor16",14]]
+	elif config.usage.tuxtxt_font_and_res.value == "TTF_HD":
+		tuxtxt2 = [["UseTTF",1],
+		           ["TTFBold",0],
+		           ["TTFScreenResX",1280],
+		           ["StartX",80],
+		           ["EndX",1200],
+		           ["StartY",35],
+		           ["EndY",685],
+		           ["TTFShiftY",-3],
+		           ["TTFShiftX",0],
+		           ["TTFWidthFactor16",26],
+		           ["TTFHeightFactor16",14]]
+	elif config.usage.tuxtxt_font_and_res.value == "TTF_FHD":
+		tuxtxt2 = [["UseTTF",1],
+		           ["TTFBold",0],
+		           ["TTFScreenResX",1920],
+		           ["StartX",140],
+		           ["EndX",1780],
+		           ["StartY",52],
+		           ["EndY",1027],
+		           ["TTFShiftY",-6],
+		           ["TTFShiftX",0],
+		           ["TTFWidthFactor16",26],
+		           ["TTFHeightFactor16",14]]
+	elif config.usage.tuxtxt_font_and_res.value == "expert_mode":
+		tuxtxt2 = [["UseTTF",            int(config.usage.tuxtxt_UseTTF.value)],
+		           ["TTFBold",           int(config.usage.tuxtxt_TTFBold.value)],
+		           ["TTFScreenResX",     int(config.usage.tuxtxt_TTFScreenResX.value)],
+		           ["StartX",            config.usage.tuxtxt_StartX.value],
+		           ["EndX",              config.usage.tuxtxt_EndX.value],
+		           ["StartY",            config.usage.tuxtxt_StartY.value],
+		           ["EndY",              config.usage.tuxtxt_EndY.value],
+		           ["TTFShiftY",         int(config.usage.tuxtxt_TTFShiftY.value)],
+		           ["TTFShiftX",         int(config.usage.tuxtxt_TTFShiftX.value)],
+		           ["TTFWidthFactor16",  config.usage.tuxtxt_TTFWidthFactor16.value],
+		           ["TTFHeightFactor16", config.usage.tuxtxt_TTFHeightFactor16.value]]
+	tuxtxt2.append(    ["CleanAlgo",         config.usage.tuxtxt_CleanAlgo.value] )
+
+	TUXTXT_CFG_FILE = "/etc/tuxtxt/tuxtxt2.conf"
+	command = "sed -i -r '"
+	for f in tuxtxt2:
+		#replace keyword (%s) followed by any value ([-0-9]+) by that keyword \1 and the new value %d
+		command += "s|(%s)\s+([-0-9]+)|\\1 %d|;" % (f[0],f[1])
+	command += "' %s" % TUXTXT_CFG_FILE
+	for f in tuxtxt2:
+		#if keyword is not found in file, append keyword and value
+		command += " ; if ! grep -q '%s' %s ; then echo '%s %d' >> %s ; fi"  % (f[0],TUXTXT_CFG_FILE,f[0],f[1],TUXTXT_CFG_FILE)
+	try:
+		os.system(command)
+	except:
+		print "Error: failed to patch %s!" % TUXTXT_CFG_FILE
+	print "[tuxtxt] patched tuxtxt2.conf"
+
+	config.usage.tuxtxt_ConfFileHasBeenPatched.setValue(True)

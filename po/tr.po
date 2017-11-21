@@ -6466,7 +6466,7 @@ msgstr "Bittiğinde filmi duraklat"
 msgid "Pause playback"
 msgstr "Yürütmeyi duraklat"
 
-msgid "Pauze/Continue playback"
+msgid "Pause/Continue playback"
 msgstr ""
 
 msgid "Peak load (max queued requests per workerthread)"
@@ -13994,9 +13994,6 @@ msgstr ""
 msgid "Choose which tuner to configure."
 msgstr "Yapılandırılacak tuneri seçin."
 
-msgid "Clean network trash can's"
-msgstr ""
-
 msgid "Clone TV screen to LCD"
 msgstr ""
 
@@ -14475,7 +14472,7 @@ msgstr ""
 msgid "Enable blinking rec symbol on the LCD Display"
 msgstr ""
 
-msgid "Enable debug log"
+msgid "Enable debug log *"
 msgstr "Hata ayıklama kaydını etkinleştir"
 
 msgid "Enable fallback remote receiver"
@@ -15276,7 +15273,7 @@ msgstr "Konumlayıcı hareketini göster"
 msgid "Show record indicator"
 msgstr ""
 
-msgid "Show recording symbol depending on recording type"
+msgid "Show recording symbol"
 msgstr ""
 
 msgid "Show screensaver"
@@ -15310,7 +15307,7 @@ msgstr "Çeviri paketlerini göster"
 msgid "Show transponder remaining/elapsed as"
 msgstr "Transponder kalan/geçen zamanı göster"
 
-msgid "Show warning before box restart based on recording type"
+msgid "Show warning before restart"
 msgstr ""
 
 #

@@ -5985,7 +5985,7 @@ msgstr "Zatrzymaj film na końcu"
 msgid "Pause playback"
 msgstr "Wstrzymaj odtwarzanie"
 
-msgid "Pauze/Continue playback"
+msgid "Pause/Continue playback"
 msgstr ""
 
 msgid "Peak load (max queued requests per workerthread)"
@@ -12995,9 +12995,6 @@ msgstr ""
 msgid "Choose which tuner to configure."
 msgstr "Wybierz tuner do konfiguracji."
 
-msgid "Clean network trash can's"
-msgstr ""
-
 msgid "Clone TV screen to LCD"
 msgstr "Lustro TV obraz na LCD"
 
@@ -13507,7 +13504,7 @@ msgstr "Tutaj możesz aktywować migający zegar na wyświetlaczu LCD."
 msgid "Enable blinking rec symbol on the LCD Display"
 msgstr "Tutaj można aktywować ikonę migającą nagrywania na wyświetlaczu."
 
-msgid "Enable debug log"
+msgid "Enable debug log *"
 msgstr "Włącz Crash log"
 
 msgid "Enable fallback remote receiver"
@@ -14335,7 +14332,7 @@ msgstr "Pokazać ruchy pozycjonera"
 msgid "Show record indicator"
 msgstr "Pokazać wskaźnik nagrywania"
 
-msgid "Show recording symbol depending on recording type"
+msgid "Show recording symbol"
 msgstr ""
 
 msgid "Show screensaver"
@@ -14368,7 +14365,7 @@ msgstr "Pokazać tłumaczenie pakietów"
 msgid "Show transponder remaining/elapsed as"
 msgstr "Pokazać transponder pozostały/upływający jako"
 
-msgid "Show warning before box restart based on recording type"
+msgid "Show warning before restart"
 msgstr ""
 
 msgid "Show warning when timeshift is stopped"

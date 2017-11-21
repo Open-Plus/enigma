@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-24 19:14+0100\n"
-"PO-Revision-Date: 2017-07-26 22:01+0200\n"
+"PO-Revision-Date: 2017-07-07 12:11+0200\n"
 "Last-Translator: VillaK <soporte@openplus.es>\n"
 "Language-Team: OpenPlus <www.open-plus.es>\n"
 "Language: es\n"
@@ -3095,10 +3095,6 @@ msgstr "Circular derecha"
 
 msgid "CIselectMainMenu"
 msgstr "Menú principal CI"
-
-#
-msgid "Clean network trash can's"
-msgstr "Vaciar las papeleras en red"
 
 #
 msgid "Clean network trash cans"
@@ -7170,6 +7166,18 @@ msgstr "¿Es correcto este modo de vídeo?"
 #
 msgid "ISO file is too large for this filesystem!"
 msgstr "El archivo ISO es demasiado grande para este sistema de archivos."
+
+msgid "Pause playback"
+msgstr "Pausar la reproducción"
+
+msgid "Pause/Continue playback"
+msgstr "Pausar/Continuar reproducción"
+
+msgid "Peak load (max queued requests per workerthread)"
+msgstr "Carga máxima (solicitudes máximas en cola por Workerthread)"
+
+msgid "Percentage"
+msgstr "Porcentaje"
 
 #
 msgid "ISO path"
@@ -12193,7 +12201,7 @@ msgid "Service name"
 msgstr "Nombre del Servicio"
 
 msgid "Service name font size"
-msgstr "Tamaño de letra del nombre del canal"
+msgstr "Tamaño de letra de la información de canal"
 
 #
 msgid ""
@@ -15975,6 +15983,9 @@ msgstr "Configurar Interfaz y uso"
 msgid "Usage Setup"
 msgstr "Configurar uso"
 
+msgid "Clone TV screen to LCD"
+msgstr "Clonar pantalla de TV al LCD"
+
 #
 msgid "USALS"
 msgstr "USALS"
@@ -16413,6 +16424,9 @@ msgstr "Formato de vídeo"
 
 msgid "Videomode"
 msgstr "Modo de video:"
+=======
+msgid "Enable debug log *"
+msgstr "Habilitar historial de depuración"
 
 msgid "Videosize"
 msgstr "Tamaño de vídeo"
@@ -17262,6 +17276,34 @@ msgstr "Sí, volver a la lista de películas"
 msgid "Yes, shut down now."
 msgstr "Sí, apagar ahora."
 
+msgid "Show positioner movement"
+msgstr "Mostrar movimiento del motor"
+
+msgid "Show record indicator"
+msgstr "Mostrar indicador de grabación"
+
+msgid "Show recording symbol"
+msgstr "Mostrar símbolo de grabación según tipo de grabación"
+
+msgid "Show screensaver"
+msgstr "Mostrar salvapantallas"
+
+msgid "Show service type icons"
+msgstr "Mostrar iconos de tipo de servicio"
+
+msgid "Show source packages"
+msgstr "Mostrar paquetes de fuente"
+
+# Menue Anpassungen OSD
+msgid "Show spinning logo when system is busy."
+msgstr "Mostrar spinner cuando el sistema está ocupado."
+
+msgid "Show status messages when switch to live TV"
+msgstr "Mostrar mensajes de estado al cambiar a TV en directo"
+
+msgid "Show time elapsed as positive"
+msgstr "Mostrar el tiempo transcurrido en positivo"
+
 msgid "Yesterday"
 msgstr "Ayer"
 
@@ -17283,6 +17325,9 @@ msgstr "Puedes cancelar la desinstalación."
 
 msgid "You can continue watching TV etc. while this is running."
 msgstr "Puedes seguir viendo la televisión mientras esto funciona."
+
+msgid "Show warning before restart"
+msgstr "Mostrar advertencia antes de reiniciar según el tipo de grabación"
 
 msgid "You can Display MiniTV with or without OSD Menu"
 msgstr "Puedes ver la MiniTV con o sin OSD"

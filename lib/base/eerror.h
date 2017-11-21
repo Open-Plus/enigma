@@ -110,7 +110,7 @@ void DumpUnfreed();
 
 #define CHECKFORMAT __attribute__ ((__format__(__printf__, 1, 2)))
 
-extern Signal2<void, int, const std::string&> logOutput;
+extern sigc::signal2<void, int, const std::string&> logOutput;
 extern int logOutputConsole;
 extern int logOutputColors;
 
@@ -128,6 +128,7 @@ enum { lvlDebug=1, lvlWarning=2, lvlFatal=4 };
 	void CHECKFORMAT eDebugNoNewLine(const char*, ...);
 #define eLogNoNewLine(level, args ...) eDebugNoNewLine(args)
 	void CHECKFORMAT eDebugNoNewLineEnd(const char*, ...);
+	void eDebugEOL(void);
 	void _eWarning(const char *file, int line, const char *function, const char* fmt, ...);
 #define eWarning(args ...) _eWarning(__FILE__, __LINE__, __FUNCTION__, args)
 	#define ASSERT(x) { if (!(x)) eFatal("%s:%d ASSERTION %s FAILED!", __FILE__, __LINE__, #x); }

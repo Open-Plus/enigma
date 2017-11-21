@@ -5,14 +5,14 @@ from time import localtime, strftime, ctime, time
 from bisect import insort
 from sys import maxint
 import os
-
-from enigma import eEPGCache, getBestPlayableServiceReference, eServiceReference, eServiceCenter, iRecordableService, quitMainloop, eActionMap, setPreferredTuner
+from enigma import eEPGCache, getBestPlayableServiceReference, eStreamServer, eServiceReference, iRecordableService, quitMainloop, eActionMap, setPreferredTuner, eServiceCenter
 
 from Components.config import config
 from Components import Harddisk
-from Components.UsageConfig import defaultMoviePath
+from Components.UsageConfig import defaultMoviePath, calcFrontendPriorityIntval
 from Components.TimerSanityCheck import TimerSanityCheck
 import Components.RecordingConfig
+Components.RecordingConfig.InitRecordingConfig()
 from Screens.MessageBox import MessageBox
 import Screens.Standby
 from Tools import Directories, Notifications, ASCIItranslit, Trashcan
@@ -20,7 +20,7 @@ from Tools.XMLTools import stringToXML
 import timer
 import NavigationInstance
 from ServiceReference import ServiceReference
-from enigma import pNavigation
+from enigma import pNavigation, eDVBFrontend
 
 
 # ok, for descriptions etc we have:
@@ -74,6 +74,15 @@ class AFTEREVENT:
 	DEEPSTANDBY = 2
 	AUTO = 3
 
+	DEFAULT = int(config.recording.default_afterevent.value)
+
+class TIMERTYPE:
+	def __init__(self):
+		pass
+
+	JUSTPLAY = config.recording.default_timertype.value == "zap"
+	ALWAYS_ZAP = config.recording.default_timertype.value == "zap+record"
+
 def findSafeRecordPath(dirname):
 	if not dirname:
 		return None
@@ -122,7 +131,7 @@ def getBqRootStr(ref):
 
 # please do not translate log messages
 class RecordTimerEntry(timer.TimerEntry, object):
-	def __init__(self, serviceref, begin, end, name, description, eit, disabled = False, justplay = False, afterEvent = AFTEREVENT.AUTO, checkOldTimers = False, dirname = None, tags = None, descramble = 'notset', record_ecm = 'notset', rename_repeat = True, isAutoTimer = False, always_zap = False, MountPath = None):
+	def __init__(self, serviceref, begin, end, name, description, eit, disabled = False, justplay = TIMERTYPE.JUSTPLAY, afterEvent = AFTEREVENT.DEFAULT, checkOldTimers = False, dirname = None, tags = None, descramble = 'notset', record_ecm = 'notset', rename_repeat = True, isAutoTimer = False, always_zap = TIMERTYPE.ALWAYS_ZAP, MountPath = None):
 		timer.TimerEntry.__init__(self, int(begin), int(end))
 		if checkOldTimers:
 			if self.begin < time() - 1209600:
@@ -173,7 +182,9 @@ class RecordTimerEntry(timer.TimerEntry, object):
 			self.descramble = descramble
 			self.record_ecm = record_ecm
 
-		self.needChangePriorityFrontend = config.usage.recording_frontend_priority.value != "-2" and config.usage.recording_frontend_priority.value != config.usage.frontend_priority.value
+		config.usage.frontend_priority_intval.setValue(calcFrontendPriorityIntval(config.usage.frontend_priority, config.usage.frontend_priority_multiselect, config.usage.frontend_priority_strictly))
+		config.usage.recording_frontend_priority_intval.setValue(calcFrontendPriorityIntval(config.usage.recording_frontend_priority, config.usage.recording_frontend_priority_multiselect, config.usage.recording_frontend_priority_strictly))
+		self.needChangePriorityFrontend = config.usage.recording_frontend_priority_intval.value != "-2" and config.usage.recording_frontend_priority_intval.value != config.usage.frontend_priority_intval.value
 		self.change_frontend = False
 		self.rename_repeat = rename_repeat
 		self.isAutoTimer = isAutoTimer
@@ -189,6 +200,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		###
 
 		self.log_entries = []
+		self.check_justplay()
 		self.resetState()
 
 	def __repr__(self):
@@ -421,6 +433,9 @@ class RecordTimerEntry(timer.TimerEntry, object):
 				return True
 
 			self.log(7, "prepare failed")
+			if eStreamServer.getInstance().getConnectedClients():
+				eStreamServer.getInstance().stopStream()
+				return False
 			if self.first_try_prepare == 0:
 				# (0) try to make a tuner available by disabling PIP
 				self.first_try_prepare += 1
@@ -594,6 +609,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 									notFound = True
 									break
 
+
 								if bouquet.flags & eServiceReference.isDirectory:
 									ChannelSelectionInstance.clearPath()
 									ChannelSelectionInstance.setRoot(bouquet)
@@ -731,10 +747,10 @@ class RecordTimerEntry(timer.TimerEntry, object):
 		if self.needChangePriorityFrontend:
 			elem = None
 			if not self.change_frontend and not setdefault:
-				elem = config.usage.recording_frontend_priority.value
+				elem = config.usage.recording_frontend_priority_intval.value
 				self.change_frontend = True
 			elif self.change_frontend and setdefault:
-				elem = config.usage.frontend_priority.value
+				elem = config.usage.frontend_priority_intval.value
 				self.change_frontend = False
 			if elem is not None:
 				setPreferredTuner(int(elem))
@@ -950,6 +966,10 @@ class RecordTimerEntry(timer.TimerEntry, object):
 
 		if int(old_prepare) > 60 and int(old_prepare) != int(self.start_prepare):
 			self.log(15, _("record time changed, start prepare is now: %s") % ctime(self.start_prepare))
+
+	def check_justplay(self):
+		if self.justplay:
+			self.always_zap = False
 
 	def gotRecordEvent(self, record, event):
 		# TODO: this is not working (never true), please fix. (comparing two swig wrapped ePtrs)
@@ -1275,6 +1295,7 @@ class RecordTimer(timer.Timer):
 		return False
 
 	def record(self, entry, ignoreTSC=False, dosave=True): # is called by loadTimer with argument dosave=False
+		entry.check_justplay()
 		timersanitycheck = TimerSanityCheck(self.timer_list,entry)
 		if not timersanitycheck.check():
 			if not ignoreTSC:
@@ -1293,7 +1314,7 @@ class RecordTimer(timer.Timer):
 			self.saveTimer()
 		return None
 
-	def isInTimer(self, eventid, begin, duration, service):
+	def isInTimer(self, eventid, begin, duration, service, getTimer = False):
 		returnValue = None
 		type = 0
 		time_match = 0
@@ -1453,7 +1474,10 @@ class RecordTimer(timer.Timer):
 							type = type_offset + 2
 
 				if time_match:
-					returnValue = (time_match, type, isAutoTimer)
+					if getTimer:
+						returnValue = (time_match, type, isAutoTimer, x)
+					else:
+						returnValue = (time_match, type, isAutoTimer)
 					if type in (2,7,12): # when full recording do not look further
 						break
 		return returnValue

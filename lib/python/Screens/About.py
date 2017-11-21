@@ -1,8 +1,9 @@
 from Screen import Screen
+from skin import isVTISkin
 from Components.ActionMap import ActionMap
 from Components.Button import Button
 from Components.Sources.StaticText import StaticText
-from Components.Harddisk import Harddisk
+from Components.Harddisk import Harddisk, harddiskmanager
 from Components.NimManager import nimmanager
 from Components.About import about
 from Components.ScrollLabel import ScrollLabel
@@ -17,6 +18,38 @@ from Tools.StbHardware import getFPVersion
 
 from os import path
 from re import search
+
+def parse_ipv4(ip):
+	ret = ""
+	idx = 0
+	if ip is not None:
+		for x in ip:
+			if idx == 0:
+				ret += str(x)
+			else:
+				ret += "." + str(x)
+			idx += 1
+	return ret
+
+def parseFile(filename):
+	ret = "N/A"
+	try:
+		f = open(filename, "rb")
+		ret = f.read().strip()
+		f.close()
+	except IOError:
+		print "[ERROR] failed to open file %s" % filename
+	return ret
+
+def parseLines(filename):
+	ret = ["N/A"]
+	try:
+		f = open(filename, "rb")
+		ret = f.readlines()
+		f.close()
+	except IOError:
+		print "[ERROR] failed to open file %s" % filename
+	return ret
 
 def getAboutText():
 	AboutText = ""
@@ -33,11 +66,15 @@ def getAboutText():
 		AboutText += _("Chipset:\t%s") % about.getChipSetString() + "\n"
 
 	cpuMHz = ""
-	if getMachineBuild() in ('vusolo4k'):
+	if getMachineBuild() in ('vusolo4k','vuultimo4k'):
 		cpuMHz = "   (1,5 GHz)"
-	elif getMachineBuild() in ('vuuno4k','vuultimo4k','dm900', 'gb7252', 'dags7252'):
+	elif getMachineBuild() in ('formuler1tc','formuler1', 'triplex', 'tiviaraplus'):
+		cpuMHz = "   (1,3 GHz)"
+	elif getMachineBuild() in ('u5'):
+		cpuMHz = "   (1,6 GHz)"
+	elif getMachineBuild() in ('vuuno4kse','vuuno4k','dm900','dm920', 'gb7252', 'dags7252','xc7439','8100s'):
 		cpuMHz = "   (1,7 GHz)"
-	elif getMachineBuild() in ('hd52','hd51','sf4008','vs1500'):
+	elif getMachineBuild() in ('sf5008','et13000','et1x000','hd52','hd51','sf4008','vs1500','h7'):
 		try:
 			import binascii
 			f = open('/sys/firmware/devicetree/base/cpus/cpu@0/clock-frequency', 'rb')
@@ -78,6 +115,13 @@ def getAboutText():
 		f.close()
 		if bootname: bootname = "   (%s)" %bootname 
 		AboutText += _("Selected Image:\t%s") % "STARTUP_" + image + bootname + "\n"
+	elif path.exists('/boot/cmdline.txt'):
+		f = open('/boot/cmdline.txt', 'r')
+		f.seek(38)
+		image = f.read(1) 
+		f.close()
+		if bootname: bootname = "   (%s)" %bootname 
+		AboutText += _("Selected Image:\t%s") % "STARTUP_" + image + bootname + "\n"
 
 	AboutText += _("Version:\t%s") % getImageVersion() + "\n"
 	AboutText += _("Build:\t%s") % getImageBuild() + "\n"
@@ -93,7 +137,7 @@ def getAboutText():
 	AboutText += _("GStreamer:\t%s") % about.getGStreamerVersionString() + "\n"
 	AboutText += _("Python:\t%s") % about.getPythonVersionString() + "\n"
 
-	if getMachineBuild() not in ('hd51','hd52','vusolo4k','vuuno4k','vuultimo4k','sf4008','dm820','dm7080','dm900', 'gb7252', 'dags7252', 'vs1500'):
+	if getMachineBuild() not in ('sf5008','et13000','et1x000','hd51','hd52','vusolo4k','vuuno4k','vuuno4kse','vuultimo4k','sf4008','dm820','dm7080','dm900','dm920', 'gb7252', 'dags7252', 'vs1500','h7','xc7439','8100s'):
 		AboutText += _("Installed:\t%s") % about.getFlashDateString() + "\n"
 
 	AboutText += _("Last update:\t%s") % getEnigmaVersionString() + "\n"
@@ -127,6 +171,14 @@ def getAboutText():
 		f = open('/proc/stb/fp/temp_sensor_avs', 'r')
 		tempinfo = f.read()
 		f.close()
+	elif path.exists('/sys/devices/virtual/thermal/thermal_zone0/temp'):
+		try:
+			f = open('/sys/devices/virtual/thermal/thermal_zone0/temp', 'r')
+			tempinfo = f.read()
+			tempinfo = tempinfo[:-4]
+			f.close()
+		except:
+			tempinfo = ""
 	if tempinfo and int(tempinfo.replace('\n', '')) > 0:
 		mark = str('\xc2\xb0')
 		AboutText += _("Processor temperature:\t%s") % tempinfo.replace('\n', '').replace(' ','') + mark + "C\n"
@@ -138,7 +190,7 @@ class About(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
 		Screen.setTitle(self, _("Image Information"))
-		self.skinName = "AboutOE"
+		self.skinName = ["AboutOE","About"]
 		self.populate()
 
 		self["key_green"] = Button(_("Translations"))
@@ -147,20 +199,22 @@ class About(Screen):
 				"cancel": self.close,
 				"ok": self.close,
 				"log": self.showAboutReleaseNotes,
-				"up": self["AboutScrollLabel"].pageUp,
-				"down": self["AboutScrollLabel"].pageDown,
+				"up": self.pageUp,
+				"down": self.pageDown,
 				"green": self.showTranslationInfo,
 			})
+
 
 	def populate(self):
 		self["lab1"] = StaticText(_("OpenPlus"))
 		self["lab2"] = StaticText(_("By OpenPlus Image Team"))
 		model = None
 		self["lab3"] = StaticText(_("Support at") + " www.open-plus.es")
-
 		AboutText = getAboutText()[0]
-
 		self["AboutScrollLabel"] = ScrollLabel(AboutText)
+
+	def populate_vti(self):
+		pass
 
 	def showTranslationInfo(self):
 		self.session.open(TranslationInfo)
@@ -170,6 +224,18 @@ class About(Screen):
 
 	def createSummary(self):
 		return AboutSummary
+
+	def pageUp(self):
+		if isVTISkin:
+			self["FullAbout"].pageUp()
+		else:
+			self["AboutScrollLabel"].pageUp()
+
+	def pageDown(self):
+		if isVTISkin:
+			self["FullAbout"].pageDown()
+		else:
+			self["AboutScrollLabel"].pageDown()
 
 class Devices(Screen):
 	def __init__(self, session):
@@ -302,6 +368,8 @@ class SystemMemoryInfo(Screen):
 		Screen.setTitle(self, _("Memory Information"))
 		self.skinName = ["SystemMemoryInfo", "About"]
 		self["AboutScrollLabel"] = ScrollLabel()
+		self["lab1"] = StaticText()
+		self["lab2"] = StaticText()
 
 		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 			{

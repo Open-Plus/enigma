@@ -25,7 +25,7 @@ from Components.Playlist import PlaylistIOInternal, PlaylistIOM3U, PlaylistIOPLS
 from Components.AVSwitch import AVSwitch
 from Components.Harddisk import harddiskmanager
 from Components.config import config
-from Tools.Directories import fileExists, resolveFilename, SCOPE_CONFIG, SCOPE_PLAYLIST
+from Tools.Directories import fileExists, resolveFilename, SCOPE_CONFIG, SCOPE_PLAYLIST, SCOPE_ACTIVE_SKIN
 from Tools.BoundFunction import boundFunction
 from settings import MediaPlayerSettings, Load_defaults
 
@@ -103,6 +103,7 @@ class MediaPlayerInfoBar(Screen):
 class MediaPlayer(Screen, InfoBarBase, InfoBarScreenSaver, InfoBarSeek, InfoBarAudioSelection, InfoBarAspectSelection, InfoBarCueSheetSupport, InfoBarNotifications, InfoBarSubtitleSupport, HelpableScreen, InfoBarResolutionSelection):
 	ALLOW_SUSPEND = True
 	ENABLE_RESUME_SUPPORT = True
+	FLAG_CENTER_DVB_SUBS = 2048
 
 	def __init__(self, session, args = None):
 		Screen.__init__(self, session)
@@ -1120,18 +1121,6 @@ class MediaPlayer(Screen, InfoBarBase, InfoBarScreenSaver, InfoBarSeek, InfoBarA
 				self.clear_playlist()
 
 class MediaPlayerLCDScreen(Screen):
-	skin = (
-	"""<screen name="MediaPlayerLCDScreen" position="0,0" size="132,64" id="1">
-		<widget name="text1" position="4,0" size="132,35" font="Regular;16"/>
-		<widget name="text3" position="4,36" size="132,14" font="Regular;10"/>
-		<widget name="text4" position="4,49" size="132,14" font="Regular;10"/>
-	</screen>""",
-	"""<screen name="MediaPlayerLCDScreen" position="0,0" size="96,64" id="2">
-		<widget name="text1" position="0,0" size="96,35" font="Regular;14"/>
-		<widget name="text3" position="0,36" size="96,14" font="Regular;10"/>
-		<widget name="text4" position="0,49" size="96,14" font="Regular;10"/>
-	</screen>""")
-
 	def __init__(self, session, parent):
 		Screen.__init__(self, session)
 		self["text1"] = Label("Media player")

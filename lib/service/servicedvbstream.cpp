@@ -1,5 +1,6 @@
 #include <lib/service/servicedvbstream.h>
 #include <lib/base/eerror.h>
+#include <lib/dvb/db.h>
 #include <lib/dvb/epgcache.h>
 #include <lib/dvb/metaparser.h>
 #include <lib/base/nconfig.h>
@@ -22,12 +23,12 @@ eDVBServiceStream::eDVBServiceStream()
 
 void eDVBServiceStream::serviceEvent(int event)
 {
-	eDebug("STREAM service event %d", event);
+	eDebug("[eDVBServiceStream] STREAM service event %d", event);
 	switch (event)
 	{
 	case eDVBServicePMTHandler::eventTuned:
 	{
-		eDebug("tuned..");
+		eDebug("[eDVBServiceStream] tuned.. m_state %d m_want_record %d", m_state, m_want_record);
 		m_tuned = 1;
 
 			/* start feeding EIT updates */
@@ -35,23 +36,16 @@ void eDVBServiceStream::serviceEvent(int event)
 		if (!m_service_handler.getDataDemux(m_demux))
 		{
 			eServiceReferenceDVB &ref = (eServiceReferenceDVB&) m_ref;
-			int sid = ref.getParentServiceID().get();
-			if (!sid)
-				sid = ref.getServiceID().get();
-			if ( ref.getParentTransportStreamID().get() &&
-				ref.getParentTransportStreamID() != ref.getTransportStreamID() )
-				m_event_handler.startOther(m_demux, sid);
-			else
-				m_event_handler.start(m_demux, sid);
+			m_event_handler.start(m_demux, ref);
 		}
 
-		if (m_state == stateRecording && m_want_record)
+		if (m_state > stateIdle && m_want_record)
 			doRecord();
 		break;
 	}
 	case eDVBServicePMTHandler::eventTuneFailed:
 	{
-		eDebug("stream failed to tune");
+		eDebug("[eDVBServiceStream] stream failed to tune");
 		tuneFailed();
 		break;
 	}
@@ -84,7 +78,7 @@ int eDVBServiceStream::start(const char *serviceref, int fd)
 
 RESULT eDVBServiceStream::stop()
 {
-	eDebug("stop streaming");
+	eDebug("[eDVBServiceStream] stop streaming m_state %d", m_state);
 
 	if (m_state == stateRecording)
 	{
@@ -124,40 +118,78 @@ int eDVBServiceStream::doRecord()
 	int err = doPrepare();
 	if (err)
 	{
+		eDebug("[eDVBServiceStream] doPrerare err %d", err);
 		return err;
 	}
 
 	if (!m_tuned)
+	{
+		eDebug("[eDVBServiceStream] try it again when we are tuned in");
 		return 0; /* try it again when we are tuned in */
+	}
 
 	if (!m_record && m_tuned)
 	{
 		ePtr<iDVBDemux> demux;
 		if (m_service_handler.getDataDemux(demux))
 		{
-			eDebug("eDVBServiceStream - NO DEMUX available");
+			eDebug("[eDVBServiceStream] NO DEMUX available");
 			return -1;
 		}
 		demux->createTSRecorder(m_record, /*packetsize*/ 188, /*streaming*/ true);
 		if (!m_record)
 		{
-			eDebug("eDVBServiceStream - no ts recorder available.");
+			eDebug("[eDVBServiceStream] no ts recorder available.");
 			return -1;
 		}
 		m_record->setTargetFD(m_target_fd);
-		m_record->connectEvent(slot(*this, &eDVBServiceStream::recordEvent), m_con_record_event);
+		m_record->connectEvent(sigc::mem_fun(*this, &eDVBServiceStream::recordEvent), m_con_record_event);
 	}
 
-	eDebug("start streaming...");
+	eDebug("[eDVBServiceStream] start streaming...");
+
+	if (recordCachedPids())
+	{
+		eDebug("[eDVBServiceStream] streaming pids from cache.");
+		return 0;
+	}
 
 	eDVBServicePMTHandler::program program;
 	if (m_service_handler.getProgramInfo(program))
 	{
-		eDebug("getting program info failed.");
+		eDebug("[eDVBServiceStream] getting program info failed.");
 	}
 	else
 	{
 		std::set<int> pids_to_record;
+
+		eServiceReferenceDVB ref = m_ref.getParentServiceReference();
+		ePtr<eDVBService> service;
+
+		if (!ref.valid())
+			ref = m_ref;
+
+		if(!eDVBDB::getInstance()->getService(ref, service))
+		{
+			// cached pids
+			for (int x = 0; x < eDVBService::cacheMax; ++x)
+			{
+				if (x == 5)
+				{
+					x += 3; // ignore cVTYPE, cACHANNEL, cAC3DELAY, cPCMDELAY
+					continue;
+				}
+				int entry = service->getCacheEntry((eDVBService::cacheID)x);
+				if (entry != -1)
+				{
+					if (eDVBService::cSUBTITLE == (eDVBService::cacheID)x)
+					{
+						entry = (entry&0xFFFF0000)>>16;
+					}
+					pids_to_record.insert(entry);
+				}
+			}
+		}
 
 		pids_to_record.insert(0); // PAT
 
@@ -167,7 +199,7 @@ int eDVBServiceStream::doRecord()
 		int timing_pid = -1, timing_stream_type = -1;
 		iDVBTSRecorder::timing_pid_type timing_pid_type = iDVBTSRecorder::none;
 
-		eDebugNoNewLineStart("STREAM: have %zd video stream(s)", program.videoStreams.size());
+		eDebugNoNewLineStart("[eDVBServiceStream] have %zd video stream(s)", program.videoStreams.size());
 		if (!program.videoStreams.empty())
 		{
 			eDebugNoNewLine(" (");
@@ -257,44 +289,103 @@ int eDVBServiceStream::doRecord()
 		/* include TDT pid, really low bandwidth, should not hurt anyone */
 		pids_to_record.insert(0x14);
 
-			/* find out which pids are NEW and which pids are obsolete.. */
-		std::set<int> new_pids, obsolete_pids;
-
-		std::set_difference(pids_to_record.begin(), pids_to_record.end(),
-				m_pids_active.begin(), m_pids_active.end(),
-				std::inserter(new_pids, new_pids.begin()));
-
-		std::set_difference(
-				m_pids_active.begin(), m_pids_active.end(),
-				pids_to_record.begin(), pids_to_record.end(),
-				std::inserter(obsolete_pids, obsolete_pids.begin())
-				);
-
-		for (std::set<int>::iterator i(new_pids.begin()); i != new_pids.end(); ++i)
-		{
-			eDebug("ADD PID: %04x", *i);
-			m_record->addPID(*i);
-		}
-
-		for (std::set<int>::iterator i(obsolete_pids.begin()); i != obsolete_pids.end(); ++i)
-		{
-			eDebug("REMOVED PID: %04x", *i);
-			m_record->removePID(*i);
-		}
-
-		if (timing_pid != -1)
-			m_record->setTimingPID(timing_pid, timing_pid_type, timing_stream_type);
-
-		m_pids_active = pids_to_record;
-
-		if (m_state != stateRecording)
-		{
-			m_record->start();
-			m_state = stateRecording;
-		}
+		recordPids(pids_to_record, timing_pid, timing_stream_type, timing_pid_type);
 	}
 
 	return 0;
+}
+
+bool eDVBServiceStream::recordCachedPids()
+{
+	eServiceReferenceDVB ref = m_ref.getParentServiceReference();
+	ePtr<eDVBService> service;
+	std::set<int> pids_to_record;
+
+	if (!ref.valid())
+		ref = m_ref;
+
+	if (!eDVBDB::getInstance()->getService(ref, service) && !service->usePMT())
+	{
+		// cached pids
+		for (int x = 0; x < eDVBService::cacheMax; ++x)
+		{
+			if (x == 5)
+			{
+				x += 3; // ignore cVTYPE, cACHANNEL, cAC3DELAY, cPCMDELAY
+				continue;
+			}
+			int entry = service->getCacheEntry((eDVBService::cacheID)x);
+			if (entry != -1)
+			{
+				if (eDVBService::cSUBTITLE == (eDVBService::cacheID)x)
+				{
+					entry = (entry&0xFFFF0000)>>16;
+				}
+				pids_to_record.insert(entry);
+			}
+		}
+	}
+
+	// check if cached pids found
+	if (!pids_to_record.size())
+	{
+		eDebug("[eDVBServiceStream] no cached pids found");
+		return false;
+	}
+
+	pids_to_record.insert(0); // PAT
+
+	if (m_stream_eit)
+	{
+		pids_to_record.insert(0x12);
+	}
+
+	/* include TDT pid, really low bandwidth, should not hurt anyone */
+	pids_to_record.insert(0x14);
+
+	recordPids(pids_to_record, -1, -1, iDVBTSRecorder::none);
+
+	return true;
+}
+
+void eDVBServiceStream::recordPids(std::set<int> pids_to_record, int timing_pid,
+	int timing_stream_type, iDVBTSRecorder::timing_pid_type timing_pid_type)
+{
+	/* find out which pids are NEW and which pids are obsolete.. */
+	std::set<int> new_pids, obsolete_pids;
+
+	std::set_difference(pids_to_record.begin(), pids_to_record.end(),
+			m_pids_active.begin(), m_pids_active.end(),
+			std::inserter(new_pids, new_pids.begin()));
+
+	std::set_difference(
+			m_pids_active.begin(), m_pids_active.end(),
+			pids_to_record.begin(), pids_to_record.end(),
+			std::inserter(obsolete_pids, obsolete_pids.begin())
+			);
+
+	for (std::set<int>::iterator i(new_pids.begin()); i != new_pids.end(); ++i)
+	{
+		eDebug("[eDVBServiceStream] ADD PID: %04x", *i);
+		m_record->addPID(*i);
+	}
+
+	for (std::set<int>::iterator i(obsolete_pids.begin()); i != obsolete_pids.end(); ++i)
+	{
+		eDebug("[eDVBServiceStream] REMOVED PID: %04x", *i);
+		m_record->removePID(*i);
+	}
+
+	if (timing_pid != -1)
+		m_record->setTimingPID(timing_pid, timing_pid_type, timing_stream_type);
+
+	m_pids_active = pids_to_record;
+
+	if (m_state != stateRecording)
+	{
+		m_record->start();
+		m_state = stateRecording;
+	}
 }
 
 void eDVBServiceStream::recordEvent(int event)
@@ -306,7 +397,7 @@ void eDVBServiceStream::recordEvent(int event)
 		streamStopped();
 		break;
 	default:
-		eDebug("unhandled record event %d", event);
+		eDebug("[eDVBServiceStream] unhandled record event %d", event);
 		break;
 	}
 }

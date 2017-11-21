@@ -103,7 +103,7 @@ long long eStaticServiceHDMIInfo::getFileSize(const eServiceReference &ref)
 }
 
 eServiceHDMI::eServiceHDMI(eServiceReference ref)
- : m_ref(ref), m_decoder_index(0)
+ : m_ref(ref), m_decoder_index(0), m_noaudio(false)
 {
 
 }
@@ -114,7 +114,7 @@ eServiceHDMI::~eServiceHDMI()
 
 DEFINE_REF(eServiceHDMI);
 
-RESULT eServiceHDMI::connectEvent(const Slot2<void,iPlayableService*,int> &event, ePtr<eConnection> &connection)
+RESULT eServiceHDMI::connectEvent(const sigc::slot2<void,iPlayableService*,int> &event, ePtr<eConnection> &connection)
 {
 	connection = new eConnection((iPlayableService*)this, m_event.connect(event));
 	return 0;
@@ -124,7 +124,8 @@ RESULT eServiceHDMI::start()
 {
 	m_decoder = new eTSMPEGDecoder(NULL, m_decoder_index);
 	m_decoder->setVideoPID(1, 0);
-	m_decoder->setAudioPID(1, 0);
+	if (!m_noaudio)
+		m_decoder->setAudioPID(1, 0);
 	m_decoder->play();
 	m_event(this, evStart);
 	return 0;
@@ -137,9 +138,10 @@ RESULT eServiceHDMI::stop()
 	return 0;
 }
 
-RESULT eServiceHDMI::setTarget(int target)
+RESULT eServiceHDMI::setTarget(int target, bool noaudio = false)
 {
 	m_decoder_index = target;
+	m_noaudio = noaudio;
 	return 0;
 }
 
@@ -189,7 +191,7 @@ eServiceHDMIRecord::eServiceHDMIRecord(const eServiceReference &ref)
 	m_thread = NULL;
 }
 
-RESULT eServiceHDMIRecord::prepare(const char *filename, time_t begTime, time_t endTime, int eit_event_id, const char *name, const char *descr, const char *tags, bool descramble, bool recordecm)
+RESULT eServiceHDMIRecord::prepare(const char *filename, time_t begTime, time_t endTime, int eit_event_id, const char *name, const char *descr, const char *tags, bool descramble, bool recordecm, int packetsize)
 {
 	m_filename = filename;
 
@@ -215,7 +217,7 @@ RESULT eServiceHDMIRecord::start(bool simulate)
 RESULT eServiceHDMIRecord::stop()
 {
 	if (!m_simulate)
-		eDebug("stop recording!");
+		eDebug("[eServiceHDMIRecord] stop recording!");
 	if (m_state == stateRecording)
 	{
 		if (m_thread)
@@ -231,7 +233,7 @@ RESULT eServiceHDMIRecord::stop()
 
 		m_state = statePrepared;
 	} else if (!m_simulate)
-		eDebug("(was not recording)");
+		eDebug("[eServiceHDMIRecord] (was not recording)");
 	if (m_state == statePrepared)
 	{
 		m_thread = NULL;
@@ -266,12 +268,12 @@ int eServiceHDMIRecord::doRecord()
 
 	if (!m_thread && !m_simulate)
 	{
-		eDebug("Recording to %s...", m_filename.c_str());
+		eDebug("[eServiceHDMIRecord] Recording to %s...", m_filename.c_str());
 		::remove(m_filename.c_str());
 		int fd = ::open(m_filename.c_str(), O_WRONLY | O_CREAT | O_LARGEFILE | O_CLOEXEC, 0666);
 		if (fd < 0)
 		{
-			eDebug("eServiceHDMIRecord - can't open recording file!");
+			eDebug("[eServiceHDMIRecord] can't open recording file!");
 			m_error = errOpenRecordFile;
 			m_event((iRecordableService*)this, evRecordFailed);
 			return errOpenRecordFile;
@@ -283,7 +285,7 @@ int eServiceHDMIRecord::doRecord()
 		m_target_fd = fd;
 	}
 
-	eDebug("start recording...");
+	eDebug("[eServiceHDMIRecord] start recording...");
 
 	if (m_state != stateRecording)
 	{
@@ -318,7 +320,7 @@ RESULT eServiceHDMIRecord::frontendInfo(ePtr<iFrontendInformation> &ptr)
 	return 0;
 }
 
-RESULT eServiceHDMIRecord::connectEvent(const Slot2<void,iRecordableService*,int> &event, ePtr<eConnection> &connection)
+RESULT eServiceHDMIRecord::connectEvent(const sigc::slot2<void,iRecordableService*,int> &event, ePtr<eConnection> &connection)
 {
 	connection = new eConnection((iRecordableService*)this, m_event.connect(event));
 	return 0;

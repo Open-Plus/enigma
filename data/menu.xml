@@ -153,7 +153,8 @@ self.session.openWithCallback(msgClosed, EpgDeleteMsg)
 		<!-- Menu / Settings / Service Searching -->
 		<menu weight="25" level="0" text="Service searching" entryID="service_searching_selection">
 			<id val="scan" />
-			<item weight="0" level="0" text="Tuner configuration" entryID="tuner_setup"><screen module="Satconfig" screen="NimSelection" /></item>
+			<item weight="0" level="1" text="Basic settings" requires="USETunersetup" entryID="tuner_setup"><screen module="Satconfig" screen="TunerSetup" /></item>
+			<item weight="1" level="0" text="Tuner configuration" entryID="tuner_setup"><screen module="Satconfig" screen="NimSelection" /></item>
 			<item weight="5" level="0" text="Automatic scan" entryID="auto_scan"><screen module="ScanSetup" screen="ScanSimple" /></item>
 			<item weight="10" level="0" text="Manual scan" entryID="manual_scan"><screen module="ScanSetup" /></item>
 		</menu>
@@ -249,7 +250,10 @@ else:
 </code>
 		</item>
 		<item weight="5" level="0" text="Shutdown" requires="!DeepstandbySupport" entryID="deep_standby"><screen module="Standby" screen="TryQuitMainloop">1</screen></item>
-		<item weight="6" level="0" text="MultiBoot" requires="HaveMultiBoot" entryID="deep_standby"><screen module="MultiBootStartup" screen="MultiBootStartup" /></item>
+		<item weight="6" level="0" text="MultiBoot" requires="HaveMultiBootHD" entryID="deep_standby"><screen module="MultiBootStartup" screen="MultiBootStartup" /></item>
+		<item weight="6" level="0" text="MultiBoot" requires="HaveMultiBootXC" entryID="deep_standby"><screen module="MultiBootStartupXC" screen="MultiBootStartup" /></item>
+		<item weight="6" level="0" text="MultiBoot" requires="HaveMultiBootGB" entryID="deep_standby"><screen module="MultiBootStartupGB" screen="MultiBootStartup" /></item>
+		<item weight="6" level="0" text="MultiBoot" requires="HaveMultiBootCY" entryID="deep_standby"><screen module="MultiBootStartupCY" screen="MultiBootStartup" /></item>
 		<item weight="10" level="0" text="WOL Standby" requires="GBWOL" entryID="deep_standby">
 			<code>
 from Screens.Standby import TryQuitMainloop

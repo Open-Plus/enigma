@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: tuxbox-enigma 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-05 14:38+0000\n"
-"PO-Revision-Date: 2016-10-27 14:24+0200\n"
+"PO-Revision-Date: 2017-11-02 00:16+0100\n"
 "Last-Translator: mike99 <mike99@mail.to>\n"
 "Language-Team: openATV\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Stop recording now"
@@ -242,6 +242,22 @@ msgstr "%a %e/%m"
 msgid "%a %e/%m  %-H:%M"
 msgstr "%a %e/%m  %-H:%M"
 
+# EventView.py#L308
+msgid ""
+"\n"
+"%d.%d.%d, %2d:%02d  -  %s"
+msgstr ""
+"\n"
+"%02d.%02d.%d, %02d:%02d  -  %s"
+
+# EpgList.py#L686
+msgid "%e/%m, %-H:%M"
+msgstr "%02e.%02m, %H:%M"
+
+# Date & Time in Timer-Log ( Timer & PowerTimer )
+msgid "%Y-%m-%d %H-%M"
+msgstr "%d.%m.%Y %H:%M"
+
 #, python-format
 msgid "%d Gb"
 msgstr "%d GB"
@@ -356,7 +372,7 @@ msgstr "(ZAP)"
 
 #
 msgid "ZAP"
-msgstr "ZAP"
+msgstr "Umschalten"
 
 #
 msgid "(empty)"
@@ -524,7 +540,7 @@ msgid "4:3 PanScan"
 msgstr "4:3 PanScan"
 
 msgid "4X"
-msgstr "4X"
+msgstr "4x"
 
 msgid "4 hours"
 msgstr "4 Stunden"
@@ -1610,8 +1626,8 @@ msgstr "Funktion der gelben Taste"
 msgid "Select Yellow Key Action long"
 msgstr "Funktion der gelben Taste - lang"
 
-msgid "Channel 1 at start"
-msgstr "Starte auf Programmplatz 1"
+msgid "Start mode"
+msgstr "Start Modus"
 
 #: ButtonSetup.py
 msgid "Channel Info"
@@ -1811,6 +1827,12 @@ msgstr "Wählen Sie, ob AC3-Tonspuren ( Dolby Digital ) zu Stereo heruntergerech
 
 msgid "Choose whether DTS channel sound tracks should be downmixed to stereo."
 msgstr "Wählen Sie, ob DTS-Tonspuren zu Stereo heruntergerechnet werden soll."
+
+msgid "Choose whether DTS channel sound tracks should be downmixed or transcoded."
+msgstr "Wählen Sie, ob DTS-Tonspuren zu Stereo heruntergerechnet werden soll oder transkodiert."
+
+msgid "Choose whether WMA Pro channel sound tracks should be downmixed or transcoded."
+msgstr "Wählen Sie, ob WMA Pro Tonspuren zu Stereo heruntergerechnet werden soll oder transkodiert."
 
 msgid "Choose whether AAC sound tracks should be transcoded."
 msgstr "Wählen Sie, ob AAC-Tonspuren transkodiert werden sollen."
@@ -2051,15 +2073,9 @@ msgstr "Typ der Statusanzeige in der Filmliste"
 msgid "Configure the vertical position of the subtitles, measured from the bottom of the screen."
 msgstr "Konfiguriere die vertikale Position von Untertiteln, gemessen vom unteren Bildrand."
 
-#: setup.xml / don´t use \n for linefeed in source text, it will not find the translation
-msgid ""
-"Configure how recording filenames are constructed. "
-"Standard: Date Time - Channel - Title "
-"Very very short: Title "
-"Very short: Title - Date Time "
-"Short with time: Date Time - Title "
-"Short: Date - Title "
-"Long: Date Time - Channel - Title - Info"
+#: setup.xml / don´t use \n for linefeed in source text, it will not find the
+#: translation
+msgid "Configure how recording filenames are constructed. Standard: Date Time - Channel - Title Very very short: Title Very short: Title - Date Time Short with time: Date Time - Title Short: Date - Title Long: Date Time - Channel - Title - Info"
 msgstr ""
 "Zusammensetzung des Dateinamens von Aufnahmen.\n"
 "Standard: Datum Zeit - Sender - Titel\n"
@@ -2074,6 +2090,12 @@ msgstr "Konfigurieren der bevorzugten von mehreren für einen Sender verfügbare
 
 msgid "Configure which tuner will be preferred, when more than one tuner is available. If set to 'auto' the system will give priority to the tuner having the lowest number of channels/satellites."
 msgstr "Konfigurieren, welcher von mehreren Tunern bevorzugt benutzt werden soll. Bei 'Automatisch' wird zuerst der Tuner mit den wenigsten Sendern/Satelliten genommen."
+
+msgid "In expert mode, configure which tuners will be preferred, when more than one tuner is available."
+msgstr "Konfiguriere im Expertenmodus, welche von mehreren Tunern bevorzugt benutzt werden sollen."
+
+msgid "Configure whether another tuner from the preferred list is allocated instead of sharing a tuner that is already active recording the same channel."
+msgstr "Konfiguriere, ob ein weiterer bevorzugter Tuner belegt wird, selbst wenn ein anderer Tuner mit verwendet werden könnte, der den gleichen Kanal aufnimmt."
 
 msgid "Configure your internal LAN"
 msgstr "Internes Netzwerk konfigurieren"
@@ -2373,6 +2395,46 @@ msgstr "Benutzerdefinierte Textposition"
 msgid "Customize"
 msgstr "Extras"
 
+# AtileHD
+msgid "Setup - %s"
+msgstr "Setup - %s"
+
+msgid "Style:"
+msgstr "Style:"
+
+msgid "Font:"
+msgstr "Schrift:"
+
+msgid "Enable %s pro:"
+msgstr "Aktiviere %s pro"
+
+msgid "Change skin"
+msgstr "Wechsle Skin"
+
+msgid "Search weather location ID"
+msgstr "Suche Wetter ID"
+
+msgid "---Weather---"
+msgstr "---Wetter---"
+
+msgid "Refresh interval in minutes:"
+msgstr "Aktualisiere nach in Minuten"
+
+msgid "Temperature unit:"
+msgstr "Temperatur Einheit"
+
+msgid "Location # (http://weather.yahoo.com/):"
+msgstr "Ort # (http://weather.yahoo.com/):"
+
+msgid "Please enter search string for your location"
+msgstr "Geben Sie den Ort ein, nach dem gesucht werden soll"
+
+msgid "Sorry, there was a problem:"
+msgstr "Sorry es gibt ein Problem:"
+
+msgid "Restart necessary, restart GUI now?"
+msgstr "Restart erforderlich! Möchten Sie die Oberfläche jetzt neu starten? "
+
 #
 msgid "Cut"
 msgstr "Schneiden"
@@ -2580,6 +2642,9 @@ msgstr "Netzwerkadapter-Einstellungen"
 msgid "Devices"
 msgstr "Geräte"
 
+msgid "Device: "
+msgstr "Gerät: "
+
 #
 msgid "DiSEqC"
 msgstr "DiSEqC"
@@ -2648,7 +2713,7 @@ msgstr "Umschalten LCD/LiveTV"
 
 #: ButtonSetup.py
 msgid "Back/Recall"
-msgstr ""
+msgstr "Zurück"
 
 #: ButtonSetup.py
 msgid "long"
@@ -3217,8 +3282,8 @@ msgstr "5V für aktive Antenne aktivieren"
 msgid "Enable Cleanup Wizard?"
 msgstr "Aufräumassistent aktivieren?"
 
-msgid "Enable debug log"
-msgstr "Debug-Log aktivieren"
+msgid "Enable debug log *"
+msgstr "Debug-Log aktivieren *"
 
 msgid "Enable EIT EPG"
 msgstr "EIT EPG aktivieren"
@@ -3268,6 +3333,99 @@ msgstr "Jugendschutz aktivieren"
 
 msgid "Enable teletext caching"
 msgstr "Teletext-Zwischenspeicher aktivieren"
+
+msgid "Teletext font and resolution"
+msgstr "Videotext-Zeichensatz und Auflösung"
+
+msgid "Configure the display resolution and the font used for teletext."
+msgstr "Bestimmt die Bildschirmauflösung und den Zeichensatz für die Videotext-Darstellung."
+
+msgid "Teletext UseTTF (0=fixed font, 1=TrueType)"
+msgstr "Videotext UseTTF (0=Bitmap-Zeichensatz, 1=TrueType-Zeichensatz)"
+
+msgid "Configure whether a fixed font or a scalable TrueType font is used for teletext."
+msgstr "Bestimmt, ob ein fester Zeichensatz oder ein skalierbarer TrueType-Zeichensatz für die Videotext-Darstellung verwendet wird."
+
+msgid "Teletext TTFBold (0=normal, 1=bold)"
+msgstr "Videotext TTFBold (0=normal, 1=fett)"
+
+msgid "Configure whether a bold TrueType font is used for teletext."
+msgstr "Bestimmt, ob ein regulärer oder ein fetter Zeichensatz für die Videotext-Darstellung verwendet wird."
+
+msgid "Teletext TTFScreenResX (screen X resolution)"
+msgstr "Videotext TTFScreenResX (Bildschirmauflösung in X)"
+
+msgid "Configure the screen resolution for teletext (Not all skins support full-HD teletext)."
+msgstr "Bestimmt die Videotext-Bildschirmauflösung (Nicht alle Skins unterstützen Full-HD Videotext)."
+
+msgid "Teletext StartX (left border)"
+msgstr "Videotext StartX (linker Rand)"
+
+msgid "Configure the start coordinate in x of the teletext display area."
+msgstr "Bestimmt die X-Startkoordinate des Anzeigebereichs für Videotext."
+
+msgid "Teletext EndX (right border)"
+msgstr "Videotext EndX (rechter Rand)"
+
+msgid "Configure the end coordinate in x of the teletext display area."
+msgstr "Bestimmt die X-Endkoordinate des Anzeigebereichs für Videotext."
+
+msgid "Teletext StartY (lower border)"
+msgstr "Videotext StartY (unterer Rand)"
+
+msgid "Configure the start coordinate in y of the teletext display area."
+msgstr "Bestimmt die Y-Startkoordinate des Anzeigebereichs für Videotext."
+
+msgid "Teletext EndY (upper border)"
+msgstr "Videotext EndY (oberer Rand)"
+
+msgid "Configure the end coordinate in y of the teletext display area."
+msgstr "Bestimmt die Y-Endkoordinate des Anzeigebereichs für Videotext."
+
+msgid "Teletext TTFShiftY (vertical letter position)"
+msgstr "Videotext TTFShiftY (vertikale Zeichenposition)"
+
+msgid "Adjust the vertical position of the letters used for teletext."
+msgstr "Justiert die vertikale Position der Zeichen für die Videotext-Darstellung."
+
+msgid "Teletext TTFShiftX (horizontal letter position)"
+msgstr "Videotext TTFShiftX (horizontale Zeichenposition)"
+
+msgid "Adjust the horizontal position of the letters used for teletext."
+msgstr "Justiert die horizontale Position der Zeichen für die Videotext-Darstellung."
+
+msgid "Teletext TTFWidthFactor16 (TrueType letter width)"
+msgstr "Videotext TTFWidthFactor16 (Breite der TrueType-Zeichen)"
+
+msgid "Configure the width of the TrueType font letters used for teletext."
+msgstr "Bestimmt die Breite der Zeichen des TrueType-Zeichensatzes für die Videotext-Darstellung."
+
+msgid "Teletext TTFHeightFactor16 (TrueType letter height)"
+msgstr "Videotext TTFHeightFactor16 (Höhe der TrueType-Zeichen)"
+
+msgid "Configure the height of the TrueType font letters used for teletext."
+msgstr "Bestimmt die Höhe der Zeichen des TrueType-Zeichensatzes für die Videotext-Darstellung."
+
+msgid "Teletext CleanAlgo (resolution reset algorithm)"
+msgstr "Videotext CleanAlgo (Algorithmus zum Rücksetzen der Auflösung)"
+
+msgid "Select the method of restoring screen resolution and framebuffer when leaving teletext."
+msgstr "Bestimmt die Methode, wie die Bildschirmauflösung und der Framebuffer beim Verlassen des Videotexts zurückgesetzt werden."
+
+msgid "Fixed X11 font (SD)"
+msgstr "Fester X11 Zeichensatz (SD)"
+
+msgid "TrueType font (SD)"
+msgstr "TrueType Zeichensatz (SD)"
+
+msgid "TrueType font (HD)"
+msgstr "TrueType Zeichensatz (HD)"
+
+msgid "TrueType font (full-HD)"
+msgstr "TrueType Zeichensatz (Full-HD)"
+
+msgid "Expert mode"
+msgstr "Expertenmodus"
 
 #
 msgid "Enable timer"
@@ -4101,8 +4259,14 @@ msgstr "Wenn 'Ja' eingestellt ist, werden Sender ohne EPG nicht angezeigt."
 msgid "If set to 'yes' shows a small TV-screen in the EPG."
 msgstr "Wenn 'Ja' eingestellt ist, wird PIG (kleines TV-Bild) im EPG angezeigt."
 
-msgid "If set to 'yes' the EPG will alway open at the first channel. If set to 'no' the EPG will open on the present channel."
-msgstr "Wenn 'Ja' eingestellt ist, öffnet sich das EPG jedes Mal auf dem ersten Sender. Wenn 'Nein' eingestellt ist, öffnet sich das EPG auf dem aktuellen Sender."
+msgid "Here can set the EPG will alway open at the current channel, the first channel or one of both with primetime. If no primetime selected, the current time is used."
+msgstr "Hier können Sie einstellen ob das EPG mit dem aktuellem Kanal, dem erstem Kanal oder eines von beiden mit der Primetime geöffnet wird. Wenn keine Primetime ausgewählt ist wird die aktuelle Zeit verwendet."
+
+msgid "Channel 1"
+msgstr "Kanal 1"
+
+msgid "Channel 1 with Primetime"
+msgstr "Kanal 1 mit Primetime"
 
 msgid "If set to 'yes' the bouquets will be shown each time you open the EPG"
 msgstr "Wenn 'Ja' eingestellt ist, werden Favoriten jedes Mal beim Öffnen vom EPG angezeigt"
@@ -4135,6 +4299,9 @@ msgstr "Wenn 'Ja' Programmvorschau im EPG. Mit OK die Vorschau, ein zweiter Druc
 
 msgid "If set to 'yes; the infobar will be displayed when Fast Forwarding or Rewinding during media playback."
 msgstr "Wenn 'Ja' eingestellt ist, wird die Infobar bei schnellem Vor- und Rücklauf in der Medienwiedergabe angezeigt."
+
+msgid "If set to 'yes; the infobar will remain shown permanently in 'paused' state (no timeout)."
+msgstr "Wenn 'Ja' eingestellt ist, wird die Infobar im pausierten Zustand dauerhaft angezeigt und nicht ausgeblendet."
 
 msgid "If the text is too long to be displayed on the front panel, it will be repeated (number of times):"
 msgstr "Wenn der Text zu lang für das Display ist läuft es mehrfach durch (Anzahl der Durchgänge):"
@@ -4353,7 +4520,7 @@ msgid "Internal hdd only"
 msgstr "Nur interne Festplatte"
 
 #
-msgid "Invalid Location"
+msgid "Invalid location"
 msgstr "Unzulässiger Ort"
 
 #
@@ -4510,10 +4677,6 @@ msgstr "Breitengrad"
 msgid "Leave DVD Player?"
 msgstr "DVD Player beenden?"
 
-#: ButtonSetup.py
-msgid "Left"
-msgstr "Links"
-
 msgid "Left Fontsize"
 msgstr "Linke Schriftgröße"
 
@@ -4644,7 +4807,7 @@ msgid "Long key press"
 msgstr "Langer Tastendruck"
 
 # Help
-msgid "Pauze/Continue playback"
+msgid "Pause/Continue playback"
 msgstr "Pause/Wiedergabe fortsetzen"
 
 msgid "Long filenames"
@@ -4849,7 +5012,7 @@ msgstr "OK lang"
 
 #: ButtonSetup.py
 msgid "Media"
-msgstr ""
+msgstr "Medien"
 
 #: ButtonSetup.py
 msgid "Media long"
@@ -4926,6 +5089,14 @@ msgstr "Modulator"
 #
 msgid "Mon"
 msgstr "Mo."
+
+#
+msgid "Weekend"
+msgstr "Wochenende"
+
+#
+msgid "Everyday"
+msgstr "Jeder Tag"
 
 #
 msgid "Mon-Fri"
@@ -6141,7 +6312,7 @@ msgid "Port:"
 msgstr "Port:"
 
 msgid "Position of finished Timers in Timerlist"
-msgstr "Position beenderter Timer-Aufnahmen in Timer-Liste"
+msgstr "Position beendeter Timer-Aufnahmen in Timer-Liste"
 
 #
 msgid "Positioner"
@@ -6210,10 +6381,28 @@ msgid "Prefer subtitles stored by service"
 msgstr "Standard-Untertitel des Programms bevorzugen"
 
 msgid "Preferred tuner"
-msgstr "Bevorzugter Tuner "
+msgstr "Bevorzugter Tuner"
+
+msgid "Experimental mode"
+msgstr "Experimenteller Modus"
+
+msgid "Preferred tuners, multiple selection allowed"
+msgstr "Bevorzugte Tuner, Mehrfachauswahl möglich"
+
+msgid "Experimental: strict limitation to preferred tuners"
+msgstr "Experimentell: strikte Beschränkung auf bevorzugte Tuner"
+
+msgid "While available"
+msgstr "Solange verfügbar"
 
 msgid "Preferred tuner for recordings"
 msgstr "Bevorzugter Tuner bei Aufnahmen"
+
+msgid "Preferred tuners for recordings, multiple selection allowed"
+msgstr "Bevorzugte Tuner bei Aufnahmen, Mehrfachauswahl möglich"
+
+msgid "Experimental: strict limitation to preferred tuners for recordings"
+msgstr "Experimentell: strikte Beschränkung auf bevorzugte Tuner bei Aufnahmen"
 
 msgid "Prepare another USB stick for image flashing"
 msgstr "Weiteren USB-Stick zum Image-Flashen vorbereiten"
@@ -6461,7 +6650,7 @@ msgstr "Keine Aufnahme wegen Timerkonflikt mit Timer '%s'"
 
 #: InfoBarGenerics.py:3704
 msgid "Could not record due to invalid service %s"
-msgstr "Could not record due to invalid service '%s'"
+msgstr "Aufgrund ungültiger Dienst %s konnte nicht aufgezeichnet werden."
 
 #: InfoBarGenerics.py
 msgid "Dolby Digital downmix is now"
@@ -6489,6 +6678,18 @@ msgstr "Demux-Puffer-Größe für Aufnahmen"
 
 msgid "Recording in progress"
 msgstr "Laufende Aufnahme"
+
+#: Satfinder/plugin.py
+msgid ""
+"\n"
+"Recording in progress."
+msgstr ""
+"\n"
+"Laufende Aufnahme."
+
+#: Satfinder/plugin.py
+msgid "%s not available."
+msgstr "%s nicht verfügbar."
 
 #
 msgid "Recording(s) are in progress or coming up in few seconds!"
@@ -6784,8 +6985,20 @@ msgid "Rewrap teletext subtitles"
 msgstr "Teletext-Untertitel neu wrappen"
 
 #: ButtonSetup.py
+msgid "Left"
+msgstr "Links"
+
+#: ButtonSetup.py
+msgid "Left long"
+msgstr "Links lang"
+
+#: ButtonSetup.py
 msgid "Right"
 msgstr "Rechts"
+
+#: ButtonSetup.py
+msgid "Right long"
+msgstr "Rechts lang"
 
 msgid "Roll-off"
 msgstr "Roll-off"
@@ -7737,6 +7950,10 @@ msgid "Show infobar on skip forward/backward"
 msgstr "Zeige Infoleiste beim Spulen"
 
 #
+msgid "Show infobar permanently while paused"
+msgstr "Zeige Infoleiste permanent während Pause"
+
+#
 msgid "Show positioner movement"
 msgstr "Rotorbewegung anzeigen"
 
@@ -8016,6 +8233,9 @@ msgstr "Standard"
 #: ButtonSetup.py
 msgid "Standby"
 msgstr "Standby"
+
+msgid "Standby without TV shutdown"
+msgstr "Standby ohne TV auszuschalten"
 
 #
 msgid "Standby / restart"
@@ -8336,6 +8556,14 @@ msgstr "Kabel-Dienste entfernen"
 
 msgid "Are you sure to remove all cable services?"
 msgstr "Sind Sie sicher, dass alle Kabel-Dienste entfernt werden sollen?"
+
+#: ChannelSelection.py:211
+msgid "Hide VBI line for this service"
+msgstr "Verstecke VBI Line für diesen Kanal"
+
+#: ChannelSelection.py:209
+msgid "Remove hide VBI line for this service"
+msgstr "Verstecken der VBI Line deaktivieren"
 
 #: ChannelSelection.py:1176
 msgid "Are you sure to remove all %d.%d%s%s services?"
@@ -8811,6 +9039,10 @@ msgstr "Diese Option bestimmt die Farbsättigung."
 
 msgid "This option sets the scaler sharpness, used when stretching picture from 4:3 to 16:9."
 msgstr "Diese Option bestimmt die Skalierschärfe die benutzt wird, wenn von 4:3 auf 16:9 skaliert wird."
+
+#
+msgid "This option configures the picture sharpness."
+msgstr "Diese Option bestimmt die Skalierschärfe."
 
 msgid "This option sets the surpression of false digital contours, that are the result of a limited number of discrete values."
 msgstr "Diese Option bestimmt die Unterdrückung falscher, digitaler Umrisse. Diese Fehler enstehen durch zu wenige diskrete Werte."
@@ -10483,6 +10715,18 @@ msgid "This allows you to set the number of digits to 5, if you have more than 9
 msgstr "Hier können Sie die Anzahl der Stellen auf 5 setzen, wenn Sie mehr als 9999 Kanäle haben."
 
 #: data/setup.xml
+msgid "Default 'Timer type' *"
+msgstr "Standard 'Timer-Art' *"
+
+#: data/setup.xml
+msgid "Default 'After event'"
+msgstr "Standard 'Nach der Aufnahme'"
+
+#: data/setup.xml
+msgid "Configure default setting for new timers. Need a restart after changing."
+msgstr "Legt die Standardeinstellung für neu angelegte Timer fest. Benötigt nach der Änderung einen Neustart."
+
+#: data/setup.xml
 msgid "Long press emulation with button"
 msgstr "Emulation 'Langer-Druck' mit Taste"
 
@@ -11467,7 +11711,7 @@ msgid "record"
 msgstr "Aufnehmen"
 
 msgid "zap and record"
-msgstr "Umschalten und Aufnehmen"
+msgstr "Umschalten und aufnehmen"
 
 #
 msgid "recording..."
@@ -11551,6 +11795,10 @@ msgid "by date"
 msgstr "Datum"
 
 msgid "alphabetic"
+msgstr "Alphabetisch"
+
+#: UsageConfig.py
+msgid "alphabetical"
 msgstr "Alphabetisch"
 
 msgid "flat alphabetic"
@@ -12032,7 +12280,7 @@ msgstr "Ihre %s %s könnte jetzt unbenutzbar sein. Bitte konsultieren Sie das Ha
 
 #
 msgid "zap"
-msgstr "Zap"
+msgstr "Umschalten"
 
 #
 msgid "zapped"
@@ -12306,16 +12554,26 @@ msgstr ""
 "backupstick oder backupstick.txt vorhanden sein."
 
 # ImageBackup.py
-msgid "No USB-Device found for fullbackup !!\n\n\n"
-msgstr "Kein USB-Stick für das Fullbackup gefunden!!\n\n\n"
+msgid ""
+"No USB-Device found for fullbackup !!\n"
+"\n"
+"\n"
+msgstr ""
+"Kein USB-Stick für das Fullbackup gefunden!!\n"
+"\n"
+"\n"
 
 # ImageBackup.py
 msgid "To back-up directly to the USB-stick, the USB-stick MUST\n"
 msgstr "Für ein Backup auf dem USB-Stick,\n"
 
 # ImageBackup.py
-msgid "contain a file with the name: \n\n"
-msgstr "muss eine Datei mit dem Namen:\n\n"
+msgid ""
+"contain a file with the name: \n"
+"\n"
+msgstr ""
+"muss eine Datei mit dem Namen:\n"
+"\n"
 
 # ImageBackup.py
 msgid "backupstick or backupstick.txt"
@@ -12829,6 +13087,10 @@ msgstr "Nummer"
 msgid "Quick Actions"
 msgstr "Nur Nummern"
 
+# UsageConfig.py
+msgid "Behave like stop-button"
+msgstr "Wie Stopp-Taste behandeln"
+
 msgid "Show infobar lite *"
 msgstr "Zeige einfache Infoleiste *"
 
@@ -12962,6 +13224,14 @@ msgstr "Maximale Anzahl von Tagen:"
 msgid "Maximum space used (MB):"
 msgstr "Maximale Speicherplatznutzung (MB):"
 
+# data/setup.xml
+msgid "Crash at skin error for debug reasons ?"
+msgstr "Auch bei Skin-Fehlern abstürzen?"
+
+# data/setup.xml
+msgid "if set to 'no', only an debug message is written to the Debug log "
+msgstr "Wenn die Option auf 'Nein' gesetzt wird, dann gibt es bei Fehlern im Skin nur einen Debug-Log-Eintrag."
+
 msgid "Space used:"
 msgstr "Speicherplatznutzung:"
 
@@ -13079,6 +13349,14 @@ msgstr "Das Display wird nach der angegebenen Zeit gedimmt."
 msgid "Brightness (Standby)"
 msgstr "Helligkeit (Standby)"
 
+#: data/setup.xml
+msgid "Show menu numbers"
+msgstr "Menüeinträge nummerieren"
+
+#: data/setup.xml
+msgid "This option allows you to show menu number quick links."
+msgstr "Diese Option erlaubt es Ihnen, Nummern vor den Menüeinträgen für die Schnellanwahl anzuzeigen."
+
 msgid "Power LED State in Deep-Standby/Standby"
 msgstr "Power-LED im Deep-Standby/Standby"
 
@@ -13139,6 +13417,18 @@ msgstr "Plugin-Browser Einträge alphabetisch sortieren"
 
 msgid "Sort setting screen's alphabetically"
 msgstr "Einstellungs Einträge alphabetisch sortieren"
+
+msgid "Sort order for menu entries"
+msgstr "Sortierung der Menüeinträge"
+
+msgid "This option allows you to hide and sorting of the menus"
+msgstr "Diese Option erlaubt es Ihnen, Menüeinträge zu sortieren und zu verstecken"
+
+msgid "Sort plug-in browser entries"
+msgstr "Sortierung der Einträge im Plugin-Manager"
+
+msgid "This option allows you to hide and sorting of the plugin browser."
+msgstr "Diese Option erlaubt es Ihnen, Einträge im Plugin-Manager zu sortieren und zu verstecken."
 
 msgid "Transponder Time"
 msgstr "Transponder Zeit"
@@ -13376,10 +13666,10 @@ msgid "Use the Networkwizard to configure your Network. The wizard will help you
 msgstr "Verwenden Sie den Netzwerk-Assistent um Ihr Netzwerk zu konfigurieren"
 
 msgid "Select Lan/Wlan"
-msgstr "Auswahl Lan/Wlan"
+msgstr "Auswahl LAN/WLAN"
 
 msgid "Setup your network interface. If no Wlan stick is used, you only can select Lan"
-msgstr "Einstellungen Netzwerk Interface. Wenn kein WLAN-Stick verwendet wird, können Sie nur Lan wählen"
+msgstr "Einstellungen Netzwerk Interface. Wenn kein WLAN-Stick verwendet wird, können Sie nur LAN wählen"
 
 msgid "Setup interface"
 msgstr "Einstellungen Netzwerk"
@@ -13394,7 +13684,7 @@ msgid "Restart network and remount connections"
 msgstr "Starten Sie die Netzwerkdienste und Remount-Verbindungen"
 
 msgid "Setup Network Services"
-msgstr "Konfig Netzwerk Server"
+msgstr "Konfiguration Netzwerk Server"
 
 msgid "Setup Network Services (Samba, Ftp, NFS, ...)"
 msgstr "Konfiguration der Netzwerk Server(Samba, FTP, NFS,...)"
@@ -13645,12 +13935,12 @@ msgid "Long << / >>"
 msgstr "Lang << / >>"
 
 #: Einstellunen HDMI CEC
-msgid "Put your %s %s in standby"
-msgstr "%s %s in Standby versetzen"
+msgid "Put your AV Receiver in standby"
+msgstr "AV Receiver in Standby versetzen"
 
 #: Einstellunen HDMI CEC
-msgid "Wakeup your %s %s from standby"
-msgstr "%s %s aus dem Standby aufwecken"
+msgid "Wakeup your AV Receiver from standby"
+msgstr "AV Receiver aus dem Standby aufwecken"
 
 #: Einstellunen Netzwerk Menue
 msgid "Mounts Setup"
@@ -14181,10 +14471,6 @@ msgstr "Gelöschte Aufnahmen nach (Tagen) aus dem Papierkorb entfernen"
 msgid "Clean network trash cans"
 msgstr "Netzwerk-Papierkörbe leeren"
 
-#
-msgid "Clean network trash can's"
-msgstr "Netzwerk-Papierkörbe leeren"
-
 msgid "When enabled, network trash can's are probed for cleaning."
 msgstr "Wenn aktiviert, werden die Netzwerk-Papierkörbe geleert."
 
@@ -14323,7 +14609,7 @@ msgid ""
 "Are you sure you want to restore your STB backup?\n"
 "STB will restart after the restore"
 msgstr ""
-"Sind Sie sicher, dass die Einstellungen Ihres Receivers wieder hergestellt werden sollen?\n"
+"Sind Sie sicher, dass die Einstellungen Ihres Receivers wiederhergestellt werden sollen?\n"
 "\n"
 "Ihr Receiver wird neu gestartet, nachdem die Einstellungen wiederhergestellt wurden!"
 
@@ -14580,9 +14866,22 @@ msgstr "Ausschaltzeit"
 msgid "Overwrite Spinner Files ?"
 msgstr "Spinner-Dateien überschreiben?"
 
-#
 msgid "Overwrite spinner files during software upgrade?"
 msgstr "Überschreiben der Spinner-Dateien beim Update erlauben?"
+
+# SoftwareManager/plugin.py
+msgid "Mode for autorestore"
+msgstr "Modus für automatische Wiederherstellung"
+
+# SoftwareManager/plugin.py
+msgid ""
+"Turbo: One reboot after flash\n"
+"Fast: One reboot after flash, one reboot after restore\n"
+"Slow: One reboot after flash, one reboot after restore in GUI"
+msgstr ""
+"Turbo: Ein Neustart nach dem Flashen\n"
+"Schnell: Ein Neustart nach Flashen, ein Neustart nach Wiederherstellung\n"
+"Slow: Ein Neustart nach Flashen, ein Neustart nach Wiederherstellung in der GUI"
 
 msgid "System_Info"
 msgstr "System Information"
@@ -15042,13 +15341,37 @@ msgid "Extensions/QuickMenu"
 msgstr "Erweiterungen/Schnellstartmenü"
 
 msgid "Wakeup time before a timer begins [mins]"
-msgstr "Aufwachzeit bevor ein Timer beginnt [min]"
+msgstr "Aufwachzeit bevor ein Timer beginnt (min)"
 
 msgid "Time window for detection of the wakeup by a timer [mins]"
-msgstr "Zeitfenster für die Erkennung des Aufwachens durch einen Timer [min]"
+msgstr "Zeitfenster für die Erkennung des Aufwachens durch einen Timer (min)"
 
 msgid "Use workaround for wakeup from deep-standby?"
 msgstr "Workaround für das Aufwachen aus dem Deep-Standby benutzen?"
+
+msgid "Remote control model shown"
+msgstr "Zeige Fernbedienungsmodell"
+
+msgid "Enable cut file support for non *.ts files"
+msgstr "Schnittdateisupport für nicht *.ts-Dateien aktivieren"
+
+msgid "Enable cut file support for audio files"
+msgstr "Schnittdateisupport für Audiodateien aktivieren"
+
+msgid "Enable chapter support for video files"
+msgstr "Kapitelunterstützung für Videodateien aktivieren"
+
+msgid "Enable cut file support for non *.ts files. (e.g. mp4)"
+msgstr "Aktivieren Sie die Unterstützung von Schnittdateien für nicht *.ts-Dateien. (z.B. MP4)"
+
+msgid "Enable cut file support for audio files. (e.g. mp3)"
+msgstr "Aktivieren Sie die Unterstützung von Schnittdateien für Audiodateien. (z.B. MP3)"
+
+msgid "Show chapter positions for supported video files. (gstreamer version must be greather than 1)"
+msgstr "Zeige Kapitelpositionen für unterstützte Videodateien an. ( Ab GStreamer Version 1 )"
+
+msgid "Which remote control gets shown. Only influences graphical representation."
+msgstr "Hier können Sie einstellen, welche Fernbedienung grafisch dargestellt werden soll."
 
 msgid "Switch Blue-Short (QuickMenu) with Blue-Long (Extensions)"
 msgstr "Blau-Kurz (Schnellstart Menü) tauschen mit Blau-Lang (Erweiterungen)"
@@ -15101,11 +15424,17 @@ msgstr "Senderlogos anzeigen"
 msgid "Service picons downsize"
 msgstr "Senderlogos verkleinern"
 
+msgid "show picons in quickzap"
+msgstr "Senderlogos beim Quickzap anzeigen"
+
 msgid "Reduce the size of the service picons for more line spacing between them."
 msgstr "Reduzieren Sie die Größe der Senderlogos für mehr Zeilenabstand zwischen ihnen."
 
 msgid "Configure if service picons will be shown in the servicelist."
 msgstr "Wenn aktiviert, werden die Picons in der Kanalliste angezeigt."
+
+msgid "Configure if service picons will be shown in quickzap."
+msgstr "Wenn aktiviert, werden die Picons beim Quickzap ( Umschalten ) angezeigt."
 
 #
 msgid "Flash Online a new image"
@@ -15367,8 +15696,17 @@ msgstr ""
 msgid "Storage devices"
 msgstr "Speichergeräte"
 
+# setup.xml
 msgid "Channel list cursor behavior"
 msgstr "Cursorverhalten"
+
+# setup.xml 6.1 Version
+msgid "Channel list show MiniTV"
+msgstr "MiniTV in der Kanalliste anzeigen"
+
+# setup.xml 6.1 Version
+msgid "Channel list show MiniTV when Skin use."
+msgstr "MiniTV in der Kanalliste anzeigen, wenn der Skin es ermöglicht."
 
 # 4.2 Version
 msgid "Configure the cursor behaviour in the channel selection list. When opening the channel selection list you can keep on the current service or already select up/down and you are able to revert the B+/B- buttons."
@@ -15777,6 +16115,10 @@ msgid "Turn on HDMI-IN Full screen mode"
 msgstr "HDMI IN als Vollbild wiedergeben"
 
 #
+msgid "Turn off HDMI-IN Full screen mode"
+msgstr "HDMI IN als Vollbild beenden"
+
+#
 msgid "Turn on HDMI-IN PiP mode"
 msgstr "HDMI IN als Bild in Bild wiedergeben"
 
@@ -15805,7 +16147,7 @@ msgstr "Konfigurieren Sie, ob und wie das Verschlüsselungs Symbol angezeigt wer
 
 #: extra setup
 msgid "Use time jumps for fast forward/backward"
-msgstr "Zeitsprünge für schnellen Vorlauf/Rücklauf( << / >> ) benutzen"
+msgstr "Zeitsprünge für schnellen Vorlauf/Rücklauf ( << / >> ) benutzen"
 
 #: extra setup
 msgid "This will go fast forward/backward with time frames of x secs"
@@ -15861,7 +16203,7 @@ msgstr "EPG/Info lang"
 
 #: ButtonSetup.py
 msgid "Select the desired function and click on \"OK\" to assign it. Use \"CH+/-\" to toggle between the lists. Select an assigned function and click on \"OK\" to de-assign it. Use \"Next/Previous\" to change the order of the assigned functions."
-msgstr "Gewünschte Funktion auswählen und \"OK\" drücken um sie zu belegen. Benutze  \"CH+/-\" um zwischen den Listen umzuschalten. Wähle zugeordnete Funktion aus und drücke  \"OK\" um die Belegung zu entfernen."
+msgstr "Gewünschte Funktion auswählen und \"OK\" drücken um sie zu belegen. Benutze  \"CH+/-\" um zwischen den Listen umzuschalten. Wähle zugeordnete Funktion aus und drücke  \"OK\" um die Belegung zu entfernen. Benutze \"Next/Previous\" um die Funktionen zu sortieren."
 
 #: ButtonSetup.py
 msgid "Up"
@@ -15897,7 +16239,7 @@ msgstr "Seite zurück lang"
 
 #: ButtonSetup.py
 msgid "TV"
-msgstr ""
+msgstr "TV"
 
 #: ButtonSetup.py
 msgid "Rec"
@@ -16001,7 +16343,7 @@ msgstr "Suche/Web lang"
 
 #: ButtonSetup.py
 msgid "Mark/Portal/Playlist"
-msgstr ""
+msgstr "Mark/Portal/Playlist"
 
 #: ButtonSetup.py
 msgid "Sleep"
@@ -16028,11 +16370,11 @@ msgid "Context long"
 msgstr "Kontext lang"
 
 msgid "F1/F3"
-msgstr ""
+msgstr "F1/F3"
 
 #: ButtonSetup.py
 msgid "F1/LAN"
-msgstr ""
+msgstr "F1/LAN"
 
 #: ButtonSetup.py
 msgid "F1/LAN long"
@@ -16040,7 +16382,7 @@ msgstr "F1/LAN lang"
 
 #: ButtonSetup.py
 msgid "F2"
-msgstr ""
+msgstr "F2"
 
 #: ButtonSetup.py
 msgid "F2 long"
@@ -16048,7 +16390,7 @@ msgstr "F2 lang"
 
 #: ButtonSetup.py
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: ButtonSetup.py
 msgid "F3 long"
@@ -16090,6 +16432,12 @@ msgstr "URL des Reservereceiver"
 
 msgid "Configure which tuner will be preferred for recordings, when more than one tuner is available. 'Disabled' would select a tuner based on preferred tuner in customise screen. 'Auto' would choose based on E2's default rules, ignoring preferred tuner in customise screen."
 msgstr "Konfiguriere welcher Tuner für Aufnahmen bevorzugt werden soll, wenn mehr als ein Tuner verfügbar ist. 'Deaktiviert' verwendet den bevorzugten Tuner der unter Anpassen eingestellt ist. 'Automatisch' wählt den Tuner nach E2-Regeln und ignoriert die Einstellung in Anpassen."
+
+msgid "In expert mode, configure which tuners will be preferred for recordings, when more than one tuner is available."
+msgstr "Konfiguriere im Expertenmodus, welche Tuner für Aufnahmen bevorzugt werden sollen, wenn mehr als ein Tuner verfügbar ist."
+
+msgid "Configure whether another tuner from the preferred list is allocated for recordings instead of sharing a tuner that is already active receiving the same live TV channel."
+msgstr "Konfiguriere, ob bei Aufnahmen ein weiterer bevorzugter Tuner belegt wird, selbst wenn ein anderer Tuner mit verwendet werden könnte, der den gleichen Kanal live empfängt."
 
 #: ButtonSetup.py
 msgid "Show graphical multi EPG"
@@ -16428,11 +16776,11 @@ msgstr "Sundtek Control-Center"
 
 #: ButtonSetup.py
 msgid "Pause"
-msgstr ""
+msgstr "Anhalten"
 
 #: ButtonSetup.py
 msgid "SAT"
-msgstr ""
+msgstr "SAT"
 
 #: ButtonSetup.py
 msgid "SAT long"
@@ -16496,7 +16844,7 @@ msgstr "Untertitelmenü"
 
 #: ButtonSetup.py
 msgid "Letterbox zoom"
-msgstr ""
+msgstr "Letterbox-zoom"
 
 #: ButtonSetup.py
 msgid "Show PIP"
@@ -16529,6 +16877,10 @@ msgstr "HDMI-In als Bild in Bild wiedergeben"
 #: ButtonSetup.py
 msgid "CI (Common Interface) Setup"
 msgstr "CI-Einstellungen"
+
+#: ButtonSetup.py
+msgid "Videosetup"
+msgstr "Video-Einstellungen"
 
 #: ButtonSetup.py
 msgid "Network menu"
@@ -16572,15 +16924,15 @@ msgstr "Untertitel Einstellungen"
 
 #: ButtonSetup.py
 msgid "PPanel"
-msgstr ""
+msgstr "PPanel"
 
 #: ButtonSetup.py:
 msgid "Shellscript"
-msgstr ""
+msgstr "Shellscript"
 
 #: ButtonSetup.py
 msgid "EnhancedMovieCenter"
-msgstr ""
+msgstr "EnhancedMovieCenter"
 
 #: ButtonSetup.py
 msgid "QuickMenu"
@@ -16717,7 +17069,7 @@ msgid "When enabled, a recording is allowed to abort streaming, when there are n
 msgstr "Wenn aktiviert, werden Streamings bei Aufnahmen beendet, falls kein freier Tuner zur Verfügung steht."
 
 # data/setup.xml
-msgid "Show recording symbol depending on recording type"
+msgid "Show recording symbol"
 msgstr "Zeige Aufnahmesymbol, wenn Aufnahmetyp"
 
 # data/setup.xml
@@ -16725,7 +17077,7 @@ msgid "Configure whether the 'recording' symbol (in the display skin and LCD ski
 msgstr "Legt fest, ob das Aufnahme-Symbol (auf Bildschirm und LCD Display) nur bei echten Aufnahmen sichtbar ist oder auch bei Streaming bzw. Pseudo-Aufnahmen (z.B. EPG Refresh)"
 
 # data/setup.xml
-msgid "Show warning before box restart based on recording type"
+msgid "Show warning before restart"
 msgstr "Zeige Warnung bei Neustart, wenn Aufnahmetyp"
 
 # data/setup.xml
@@ -16920,6 +17272,22 @@ msgstr ""
 "Hier können Sie mit Pfeiltasten Links/Rechts\n"
 "den Tuner-Typ ändern. %s"
 
+# satconfig.py
+msgid "Force LNB Power"
+msgstr "LNB Power erzwingen"
+
+# satconfig.py
+msgid "Force LNB Tuner Power settings."
+msgstr "Einstellung für LNB Power."
+
+# satconfig.py
+msgid "Force ToneBurst"
+msgstr "Toneburst erzwingen"
+
+# satconfig.py
+msgid "Force LNB Tuner ToneBurst settings."
+msgstr "Einstellung für Toneburst."
+
 #: ParentalControlSetup.py:109 (4.2)
 msgid "Reload black-/white lists"
 msgstr "\"schwarz/weiß\" Liste neu laden"
@@ -17106,11 +17474,11 @@ msgstr "Sind Sie sicher, alle gelöschten Userbouquets zu entfernen?"
 
 #: TimerEntry.py
 msgid "normal"
-msgstr ""
+msgstr "normal"
 
 #: TimerEntry.py
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #: TimerEntry.py
 msgid "Set the name the recording will get."
@@ -17174,7 +17542,7 @@ msgstr "Wähle einen Tag aus, um die Aufnahme später leichter wieder zu finden.
 
 #: TimerEntry.py
 msgid "Please enter new description:"
-msgstr "Neue Beschreibung eingeben:"
+msgstr "Bitte geben Sie eine neue Beschreibung ein:"
 
 #: TimerEntry.py
 msgid "Select target folder"
@@ -17397,14 +17765,14 @@ msgstr "Video Clipping"
 
 #: SystemPlugins/VideoClippingSetup/plugin.py:135
 msgid "clip overscan / letterbox borders"
-msgstr ""
+msgstr "Clip \"Overscan\" / Letterbox Grenzen"
 
 msgid ""
 "\n"
 "<This tuner is configured automatically>"
 msgstr ""
 "\n"
-"<Diese Tuner wird automatisch verwaltet>"
+"<Dieser Tuner wird automatisch verwaltet>"
 
 msgid "HDMI Colorspace"
 msgstr "HDMI Farbraum"
@@ -17657,6 +18025,9 @@ msgstr "Maximale Anzahl von Tagen vom EPG"
 msgid "Use for load only x days in EPG"
 msgstr "Festlegen der Tage zum Laden des EPG"
 
+msgid "Change Configuration mode simple to advanced"
+msgstr "Hier können Sie den Konfigurations-Modus wechseln"
+
 msgid "Tuning algorithm"
 msgstr "Tuning-Algorithmus"
 
@@ -17665,22 +18036,6 @@ msgstr "zuverlässig"
 
 msgid "traditional (fast)"
 msgstr "klassisch (schnell)"
-
-msgid "Volume adjust slow"
-msgstr "Lautstärkeeinstellung langsam"
-
-msgid "Volume adjust fast"
-msgstr "Lautstärkeeinstellung schnell"
-
-msgid "Step value for single press the volume button. Depending on the setting (if greater) and the current volume (if less) will adjusted the step. (30 to 4, 18 to 3, 9 to 2 and 3 to 1)"
-msgstr ""
-"Schrittwert für einmaliges Drücken der Lautstärketaste. Je nach Einstellung (falls größer) und der aktuellen Lautstärke (wenn kleiner) wird der Schritt angepasst.\n"
-"(ab 30 auf 4, ab 18 auf 3, ab 9 auf 2, ab 3 auf 1)"
-
-msgid "Step value for fast switching or long press the volume button. Depending on the setting (if greater) and the current volume (if less) will adjusted the step. (30 to 4, 18 to 3, 9 to 2 and 3 to 1)"
-msgstr ""
-"Schrittwert für schnelles Schalten oder langes Drücken der Lautstärketaste. Je nach Einstellung (falls größer) und der aktuellen Lautstärke (wenn kleiner) wird der Schritt angepasst.\n"
-"(ab 30 auf 4, ab 18 auf 3, ab 9 auf 2, ab 3 auf 1)"
 
 msgid "This allows you to show drivers modules in downloads"
 msgstr "Dies erlaubt Ihnen die Anzeige von Treibern im Downloadbereich"
@@ -17749,8 +18104,18 @@ msgid "Do you want to reboot now with selected image?"
 msgstr "Soll die Box jetzt mit dem gewählten Image neu gestartet werden?"
 
 #: MultiBootStartup.py
-msgid "Your box needs Bootloaderversion(s)\n\n%s\n\nto make compatible with Bootoptions!"
-msgstr "Ihre Box braucht Bootloaderversion\n\n%s\n\num Bootoptionen nutzen zu können!"
+msgid ""
+"Your box needs Bootloaderversion(s)\n"
+"\n"
+"%s\n"
+"\n"
+"to make compatible with Bootoptions!"
+msgstr ""
+"Ihre Box braucht Bootloaderversion\n"
+"\n"
+"%s\n"
+"\n"
+"um Bootoptionen nutzen zu können!"
 
 #: MultiBootStartup.py
 msgid "File not found - rename failed!"
@@ -17844,6 +18209,14 @@ msgstr ""
 "Bitte stellen Sie für Tuner A\n"
 "das Hybrid-Tuner-Modell ein, ändern mit Steuerkreuz links/rechts"
 
+#: data/startwizard.xml - test
+msgid ""
+"Please set up tuner B\n"
+"For Hybrid Tuner Models switch Tuner Type with left and right keys"
+msgstr ""
+"Bitte stellen Sie für Tuner B\n"
+"das Hybrid-Tuner-Modell ein, ändern mit Steuerkreuz links/rechts"
+
 #: InfoBarGenerics.py:4204
 msgid "4_3_letterbox"
 msgstr "4:3 Letterbox"
@@ -17877,6 +18250,22 @@ msgid "HDMI Colorimetry"
 msgstr "HDMI Farbprofile"
 
 #: VideoMode.py
+msgid "Change Boxmode to control Hardware Chip Modes*"
+msgstr "Boxmodus zur Hardwaresteuerung *"
+
+#: VideoMode.py
+msgid "Switch Mode to enable HDR Modes or PIP Functions"
+msgstr "Wechselt den Boxmodus zur Aktivierung des HDR-Modus oder für PIP-Funktionen"
+
+#: AVSwitch.py
+msgid "enable PIP no HDR"
+msgstr "aktiviere PIP ohne HDR"
+
+#: AVSwitch.py
+msgid "12bit 4:2:0/4:2:2 no PIP"
+msgstr "12bit 4:2:0/4:2:2 ohne PIP"
+
+#: VideoMode.py
 msgid "This option allows you can config the Colorimetry for HDR"
 msgstr "Diese Option erlaubt die Farbprofile Steuerung im HDR Modus"
 
@@ -17904,14 +18293,36 @@ msgstr "Wirklich einen Neustart in den Wartungsmodus durchführen?"
 msgid "controlled by HDMI"
 msgstr "Steuerung über HDMI"
 
+msgid "use best / controlled by HDMI"
+msgstr "Best Mögliches / Steuerung über HDMI"
+
+msgid "convert to AC3"
+msgstr "Konvertieren zu AC3"
+
+msgid "force AC3plus"
+msgstr "Erzwinge AC3 Plus"
+
+msgid "convert to DTS"
+msgstr "Konvertieren zu DTS"
+
+msgid "force_dts"
+msgstr "Erzwinge DTS"
+
+msgid "convert to multi-channel PCM"
+msgstr "Konvertieren zu Mehrkanalton PCM"
+
 msgid "always"
 msgstr "immer"
 
 msgid "Don't ask again!"
 msgstr "Nicht mehr nachfragen"
 
-msgid "DO NOT POWER OFF YOUR DEVICE WHILE UPDATING!\nUpdate now?"
-msgstr "Die Box nicht ausschalten beim Update!\nJetzt Updaten?"
+msgid ""
+"DO NOT POWER OFF YOUR DEVICE WHILE UPDATING!\n"
+"Update now?"
+msgstr ""
+"Die Box nicht ausschalten beim Update!\n"
+"Jetzt Updaten?"
 
 msgid "Bootloader update required!"
 msgstr "Bootloader Update Erforderlich!"
@@ -17925,11 +18336,1081 @@ msgstr "Kein Update erforderlich!"
 msgid "Update failed!"
 msgstr "Update Fehlerhaft!"
 
-msgid "Don't worry your device is still ok! There are several safety mechanisms in place!\nYour device is still as fine as it was before this procedure!"
-msgstr "Keine sorge das Gerät ist weiterhin Betriebsbereit! Es gibt diverse Sicherheitsfunktionen!\nDas Gerät Arbeitet wie vor dem Update!"
+msgid ""
+"Don't worry your device is still ok! There are several safety mechanisms in place!\n"
+"Your device is still as fine as it was before this procedure!"
+msgstr ""
+"Keine sorge das Gerät ist weiterhin Betriebsbereit! Es gibt diverse Sicherheitsfunktionen!\n"
+"Das Gerät Arbeitet wie vor dem Update!"
 
 msgid "Update finished!"
 msgstr "Update Fertig!"
 
-msgid "Update succeeded!\nYour Bootloader is now up-to-date!"
-msgstr "Update Erfolgreich!\nDer Bootloader ist nun Aktuell!"
+msgid ""
+"Update succeeded!\n"
+"Your Bootloader is now up-to-date!"
+msgstr ""
+"Update Erfolgreich!\n"
+"Der Bootloader ist nun Aktuell!"
+
+msgid "Use Manual dns-nameserver"
+msgstr "DNS-Server manuell einstellen"
+
+msgid "Use only for Wake on WLan (WoW)"
+msgstr "Nur für Wake on WLan (WoW) aktivieren"
+
+msgid "8 character"
+msgstr "8 Zeichen"
+
+msgid "12 character"
+msgstr "12 Zeichen"
+
+msgid "switch 12 to 8 character display mode"
+msgstr "Umschalten von 12 nach 8 Display Zeichen"
+
+msgid "12, show latin-1 characters except for greek and cyrillic, switch to 8 if needed."
+msgstr "12, zeigt latin-1 Zeichensatz außer griechisch und kyrillisch, umschalten auf 8 wenn benötigt."
+
+msgid "Descramble receiving http streams"
+msgstr "Empfangene HTTP-Streams entschlüsseln"
+
+msgid "When enabled, always descramble receiving http streams. This takes up more resources (descrambling demuxers), only enable if necessary. Individual streams are always descrambled if 0x100 is added to the service type, regardless of this setting. Default off."
+msgstr "Wenn aktiviert, dann werden empfangene HTTP-Streams immer entschlüsselt. Dies verbraucht mehr Ressourcen (Demuxer). Aktivieren Sie diese Option nur, wenn es notwendig ist. Individuelle Streams sind immer entschlüsselt, wenn 0x100 zum Servicetyp hinzugefügt wurde, unabhängig von dieser Einstellung."
+
+msgid "Always include ECM in recordings"
+msgstr "Immer ECM mit aufnehmen"
+
+msgid "Always include ECM messages in recordings. This overrides the individual timer settings globally. It allows recordings to be always decrypted afterwards (sometimes called offline decoding), if supported by your receiver. Default: off."
+msgstr "Immer ECM mit aufnehmen. Diese Einstellung setzt die Timer Einstellung außer Kraft. Aufzeichnungen werden immer verschlüsselt gespeichert und nachträglich entschlüsselt, wenn die Hardware diese Funktion unterstützt. Standard: Aus."
+
+msgid "Never decrypt while recording"
+msgstr "Bei der Aufnahme niemals entschlüsseln"
+
+msgid "Never decrypt the content while recording. This overrides the individual timer settings globally. If enabled, recordings are stored in crypted presentation and must be decrypted afterwards (sometimes called offline decoding). Default: off."
+msgstr "Während einer Aufnahme niemals entschlüsseln. Diese Funktion setzt die Timer Einstellung außer Kraft. Aufzeichnungen werden immer verschlüsselt gespeichert und müssen nachträglich entschlüsselt werden. Standard: Aus."
+
+msgid "Do not center DVB subs on this service"
+msgstr "Untertitel auf diesem Sender niemals zentrieren"
+
+msgid "Do center DVB subs on this service"
+msgstr "Untertitel auf diesem Sender immer zentrieren"
+
+msgid "Audio volume step size"
+msgstr "Lautstärke Schrittweite"
+
+msgid "Audio volume step size fast mode"
+msgstr "Lautstärke Schrittweite im Schnellmodus"
+
+msgid "Configure the general audio volume step size (limit 1-10)."
+msgstr "Konfigurieren Sie die generelle Schrittweite für die Lautstärke (von 1-10)."
+
+msgid "Configure the fast mode audio volume step size (limit 1-10). Activated when volume key permanent press or press fast in a row."
+msgstr "Konfigurieren Sie die Schrittweite für die Lautstärke im Schnellmodus (von 1-10). Wird aktiviert, wenn die Lautstärketaste permanent oder schnell hintereinander gedrückt wird."
+
+msgid "Delivery system workaround"
+msgstr "Tuner System Spezial Funktion"
+
+msgid "Workaround for old tuner driver"
+msgstr "Nur aktivieren, wenn es Probleme mit Multituner gibt"
+
+msgid ""
+"Incorrect format for skip value: '%s'\n"
+"Skip cancelled."
+msgstr ""
+"Es wurde kein gültiger Wert eingegeben: '%s'\n"
+"Sprung wird abgebrochen."
+
+msgid "Country"
+msgstr "Land"
+
+#: CountryCodes.py:2
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: CountryCodes.py:3
+msgid "Aland Islands"
+msgstr "Ålandinseln"
+
+#: CountryCodes.py:4
+msgid "Albania"
+msgstr "Albanien"
+
+#: CountryCodes.py:5
+msgid "Algeria"
+msgstr "Algerien"
+
+#: CountryCodes.py:6
+msgid "American Samoa"
+msgstr "Amerikanisch-Samoa"
+
+#: CountryCodes.py:7
+msgid "Andorra"
+msgstr "Andorra"
+
+#: CountryCodes.py:8
+msgid "Angola"
+msgstr "Angola"
+
+#: CountryCodes.py:9
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#: CountryCodes.py:10
+msgid "Antarctica"
+msgstr "Antarktika"
+
+#: CountryCodes.py:11
+msgid "Antigua and Barbuda"
+msgstr "Antigua und Barbuda"
+
+#: CountryCodes.py:12
+msgid "Argentina"
+msgstr "Argentinien"
+
+#: CountryCodes.py:13
+msgid "Armenia"
+msgstr "Armenien"
+
+#: CountryCodes.py:14
+msgid "Aruba"
+msgstr "Aruba"
+
+#: CountryCodes.py:15
+msgid "Australia"
+msgstr "Australien"
+
+#: CountryCodes.py:16
+msgid "Austria"
+msgstr "Österreich"
+
+#: CountryCodes.py:17
+msgid "Azerbaijan"
+msgstr "Aserbaidschan"
+
+#: CountryCodes.py:18
+msgid "Bahamas"
+msgstr "Bahamas"
+
+#: CountryCodes.py:19
+msgid "Bahrain"
+msgstr "Bahrain"
+
+#: CountryCodes.py:20
+msgid "Bangladesh"
+msgstr "Bangladesch"
+
+#: CountryCodes.py:21
+msgid "Barbados"
+msgstr "Barbados"
+
+#: CountryCodes.py:22
+msgid "Belarus"
+msgstr "Weißrussland"
+
+#: CountryCodes.py:23
+msgid "Belgium"
+msgstr "Belgien"
+
+#: CountryCodes.py:24
+msgid "Belize"
+msgstr "Belize"
+
+#: CountryCodes.py:25
+msgid "Benin"
+msgstr "Benin"
+
+#: CountryCodes.py:26
+msgid "Bermuda"
+msgstr "Bermuda"
+
+#: CountryCodes.py:27
+msgid "Bhutan"
+msgstr "Bhutan"
+
+#: CountryCodes.py:28
+msgid "Bolivia (Plurinational State of)"
+msgstr "Bolivien (Plurinationaler Staat)"
+
+#: CountryCodes.py:29
+msgid "Bonaire, Sint Eustatius and Saba"
+msgstr "Bonaire, Sint Eustatius und Saba"
+
+#: CountryCodes.py:30
+msgid "Bosnia and Herzegovina"
+msgstr "Bosnien und Herzegowina"
+
+#: CountryCodes.py:31
+msgid "Botswana"
+msgstr "Botswana"
+
+#: CountryCodes.py:32
+msgid "Bouvet Island"
+msgstr "Bouvet Insel"
+
+#: CountryCodes.py:33
+msgid "Brazil"
+msgstr "Brasilien"
+
+#: CountryCodes.py:34
+msgid "British Indian Ocean Territory"
+msgstr "Britisches Territorium im Indischen Ozean"
+
+#: CountryCodes.py:35
+msgid "Brunei Darussalam"
+msgstr "Brunei Darussalam"
+
+#: CountryCodes.py:36
+msgid "Bulgaria"
+msgstr "Bulgarien"
+
+#: CountryCodes.py:37
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+#: CountryCodes.py:38
+msgid "Burundi"
+msgstr "Burundi"
+
+#: CountryCodes.py:39
+msgid "Cabo Verde"
+msgstr "Kap Verde"
+
+#: CountryCodes.py:40
+msgid "Cambodia"
+msgstr "Kambodscha"
+
+#: CountryCodes.py:41
+msgid "Cameroon"
+msgstr "Kameru"
+
+#: CountryCodes.py:42
+msgid "Canada"
+msgstr "Kanada"
+
+#: CountryCodes.py:43
+msgid "Cayman Islands"
+msgstr "Kaimaninseln"
+
+#: CountryCodes.py:44
+msgid "Central African Republic"
+msgstr "Zentralafrikanische Republik"
+
+#: CountryCodes.py:45
+msgid "Chad"
+msgstr "Tschad"
+
+#: CountryCodes.py:46
+msgid "Chile"
+msgstr "Chile"
+
+#: CountryCodes.py:47
+msgid "China"
+msgstr "China"
+
+#: CountryCodes.py:48
+msgid "Christmas Island"
+msgstr "Weihnachtsinsel"
+
+#: CountryCodes.py:49
+msgid "Cocos (Keeling) Islands"
+msgstr "Kokosinseln"
+
+#: CountryCodes.py:50
+msgid "Colombia"
+msgstr "Kolumbien"
+
+#: CountryCodes.py:51
+msgid "Comoros"
+msgstr "Komoren"
+
+#: CountryCodes.py:52
+msgid "Congo"
+msgstr "Kongo"
+
+#: CountryCodes.py:53
+msgid "Congo (Democratic Republic of the)"
+msgstr "Demokratische Republik Kongo"
+
+#: CountryCodes.py:54
+msgid "Cook Islands"
+msgstr "Cookinseln"
+
+#: CountryCodes.py:55
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+#: CountryCodes.py:56
+msgid "Cote d'Ivoire"
+msgstr "Cote d'Ivoire"
+
+#: CountryCodes.py:57
+msgid "Croatia"
+msgstr "Kroatien"
+
+#: CountryCodes.py:58
+msgid "Cuba"
+msgstr "Kuba"
+
+#: CountryCodes.py:59
+msgid "Curacao"
+msgstr "Curacao"
+
+#: CountryCodes.py:60
+msgid "Cyprus"
+msgstr "Zypern"
+
+#: CountryCodes.py:61
+msgid "Czechia"
+msgstr "Tschechien"
+
+#: CountryCodes.py:62
+msgid "Denmark"
+msgstr "Dänemark"
+
+#: CountryCodes.py:63
+msgid "Djibouti"
+msgstr "Dschibuti"
+
+#: CountryCodes.py:64
+msgid "Dominica"
+msgstr "Dominica"
+
+#: CountryCodes.py:65
+msgid "Dominican Republic"
+msgstr "Dominikanische Republik"
+
+#: CountryCodes.py:66
+msgid "Ecuador"
+msgstr "Ecuador"
+
+#: CountryCodes.py:67
+msgid "Egypt"
+msgstr "Ägypten"
+
+#: CountryCodes.py:68
+msgid "El Salvador"
+msgstr "El Salvador"
+
+#: CountryCodes.py:69
+msgid "Equatorial Guinea"
+msgstr "Äquatorialguinea"
+
+#: CountryCodes.py:70
+msgid "Eritrea"
+msgstr "Eritrea"
+
+#: CountryCodes.py:71
+msgid "Estonia"
+msgstr "Estland"
+
+#: CountryCodes.py:72
+msgid "Ethiopia"
+msgstr "Äthiopien"
+
+#: CountryCodes.py:73
+msgid "Falkland Islands (Malvinas)"
+msgstr "Falklandinseln (Malvinas)"
+
+#: CountryCodes.py:74
+msgid "Faroe Islands"
+msgstr "Färöer"
+
+#: CountryCodes.py:75
+msgid "Fiji"
+msgstr "Fidschi"
+
+#: CountryCodes.py:76
+msgid "Finland"
+msgstr "Finnland"
+
+#: CountryCodes.py:77
+msgid "France"
+msgstr "Frankreich"
+
+#: CountryCodes.py:78
+msgid "French Guiana"
+msgstr "Französisch-Guayana"
+
+#: CountryCodes.py:79
+msgid "French Polynesia"
+msgstr "Französisch-Polynesien"
+
+#: CountryCodes.py:80
+msgid "French Southern Territories"
+msgstr "Französische Süd- und Antarktisgebiete"
+
+#: CountryCodes.py:81
+msgid "Gabon"
+msgstr "Gabun"
+
+#: CountryCodes.py:82
+msgid "Gambia"
+msgstr "Gambiau"
+
+#: CountryCodes.py:83
+msgid "Georgia"
+msgstr "Georgienu"
+
+#: CountryCodes.py:84
+msgid "Germany"
+msgstr "Deutschland"
+
+#: CountryCodes.py:85
+msgid "Ghana"
+msgstr "Ghana"
+
+#: CountryCodes.py:86
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: CountryCodes.py:87
+msgid "Greece"
+msgstr "Griechenland"
+
+#: CountryCodes.py:88
+msgid "Greenland"
+msgstr "Grönland"
+
+#: CountryCodes.py:89
+msgid "Grenada"
+msgstr "Grenada"
+
+#: CountryCodes.py:90
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+#: CountryCodes.py:91
+msgid "Guam"
+msgstr "Guam"
+
+#: CountryCodes.py:92
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: CountryCodes.py:93
+msgid "Guernsey"
+msgstr "Guernsey"
+
+#: CountryCodes.py:94
+msgid "Guinea"
+msgstr "Guinea"
+
+#: CountryCodes.py:95
+msgid "Guinea-Bissau"
+msgstr "Guinea-Bissau"
+
+#: CountryCodes.py:96
+msgid "Guyana"
+msgstr "Guyana"
+
+#: CountryCodes.py:97
+msgid "Haiti"
+msgstr "Haiti"
+
+#: CountryCodes.py:98
+msgid "Heard Island and McDonald Islands"
+msgstr "Heard und McDonald Inseln"
+
+#: CountryCodes.py:99
+msgid "Holy See"
+msgstr "Liechtenstein"
+
+#: CountryCodes.py:100
+msgid "Honduras"
+msgstr "Honduras"
+
+#: CountryCodes.py:101
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: CountryCodes.py:102
+msgid "Hungary"
+msgstr "Ungarn"
+
+#: CountryCodes.py:103
+msgid "Iceland"
+msgstr "Island"
+
+#: CountryCodes.py:104
+msgid "India"
+msgstr "Indien"
+
+#: CountryCodes.py:105
+msgid "Indonesia"
+msgstr "Indonesien"
+
+#: CountryCodes.py:106
+msgid "Iran (Islamic Republic of)"
+msgstr "Iran (Islamische Republik)"
+
+#: CountryCodes.py:107
+msgid "Iraq"
+msgstr "Irak"
+
+#: CountryCodes.py:108
+msgid "Ireland"
+msgstr "Irland"
+
+#: CountryCodes.py:109
+msgid "Isle of Man"
+msgstr "Isle of Man"
+
+#: CountryCodes.py:110
+msgid "Israel"
+msgstr "Israel"
+
+#: CountryCodes.py:111
+msgid "Italy"
+msgstr "Italien"
+
+#: CountryCodes.py:112
+msgid "Jamaica"
+msgstr "Jamaika"
+
+#: CountryCodes.py:113
+msgid "Japan"
+msgstr "Japan"
+
+#: CountryCodes.py:114
+msgid "Jersey"
+msgstr "Jersey"
+
+#: CountryCodes.py:115
+msgid "Jordan"
+msgstr "Jordanien"
+
+#: CountryCodes.py:116
+msgid "Kazakhstan"
+msgstr "Kasachstan"
+
+#: CountryCodes.py:117
+msgid "Kenya"
+msgstr "Kenia"
+
+#: CountryCodes.py:118
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#: CountryCodes.py:119
+msgid "Korea (Democratic People's Republic of)"
+msgstr "Nordkorea (Volksrepublik)"
+
+#: CountryCodes.py:120
+msgid "Korea (Republic of)"
+msgstr "Südkorea"
+
+#: CountryCodes.py:121
+msgid "Kuwait"
+msgstr "Kuwait"
+
+#: CountryCodes.py:122
+msgid "Kyrgyzstan"
+msgstr "Kirgisistan"
+
+#: CountryCodes.py:123
+msgid "Lao People's Democratic Republic"
+msgstr "Demokratische Volksrepublik Laos"
+
+#: CountryCodes.py:124
+msgid "Latvia"
+msgstr "Lettland"
+
+#: CountryCodes.py:125
+msgid "Lebanon"
+msgstr "Libanon"
+
+#: CountryCodes.py:126
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: CountryCodes.py:127
+msgid "Liberia"
+msgstr "Liberia"
+
+#: CountryCodes.py:128
+msgid "Libya"
+msgstr "Libyen"
+
+#: CountryCodes.py:129
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+#: CountryCodes.py:130
+msgid "Lithuania"
+msgstr "Litauen"
+
+#: CountryCodes.py:131
+msgid "Luxembourg"
+msgstr "Luxemburg"
+
+#: CountryCodes.py:132
+msgid "Macao"
+msgstr "Macau"
+
+#: CountryCodes.py:133
+msgid "Macedonia (the former Yugoslav Republic of)"
+msgstr "Mazedonien"
+
+#: CountryCodes.py:134
+msgid "Madagascar"
+msgstr "Madagaskar"
+
+#: CountryCodes.py:135
+msgid "Malawi"
+msgstr "Malawi"
+
+#: CountryCodes.py:136
+msgid "Malaysia"
+msgstr "Malaysia"
+
+#: CountryCodes.py:137
+msgid "Maldives"
+msgstr "Malediven"
+
+#: CountryCodes.py:138
+msgid "Mali"
+msgstr "Mali"
+
+#: CountryCodes.py:139
+msgid "Malta"
+msgstr "Malta"
+
+#: CountryCodes.py:140
+msgid "Marshall Islands"
+msgstr "Marshallinseln"
+
+#: CountryCodes.py:141
+msgid "Martinique"
+msgstr "Martinique"
+
+#: CountryCodes.py:142
+msgid "Mauritania"
+msgstr "Mauretanien"
+
+#: CountryCodes.py:143
+msgid "Mauritius"
+msgstr "Mauritius"
+
+#: CountryCodes.py:144
+msgid "Mayotte"
+msgstr "Mayotte"
+
+#: CountryCodes.py:145
+msgid "Mexico"
+msgstr "Mexiko"
+
+#: CountryCodes.py:146
+msgid "Micronesia (Federated States of)"
+msgstr "Mikronesien (Föderierte Staaten)"
+
+#: CountryCodes.py:147
+msgid "Moldova (Republic of)"
+msgstr "Moldawien"
+
+#: CountryCodes.py:148
+msgid "Monaco"
+msgstr "Monaco"
+
+#: CountryCodes.py:149
+msgid "Mongolia"
+msgstr "Mongolei"
+
+#: CountryCodes.py:150
+msgid "Montenegro"
+msgstr "Montenegro"
+
+#: CountryCodes.py:151
+msgid "Montserrat"
+msgstr "Montserrat"
+
+#: CountryCodes.py:152
+msgid "Morocco"
+msgstr "Marokko"
+
+#: CountryCodes.py:153
+msgid "Mozambique"
+msgstr "Mosambik"
+
+#: CountryCodes.py:154
+msgid "Myanmar"
+msgstr "Myanmar"
+
+#: CountryCodes.py:155
+msgid "Namibia"
+msgstr "Namibia"
+
+#: CountryCodes.py:156
+msgid "Nauru"
+msgstr "Nauru"
+
+#: CountryCodes.py:157
+msgid "Nepal"
+msgstr "Nepal"
+
+#: CountryCodes.py:158
+msgid "Netherlands"
+msgstr "Niederlande"
+
+#: CountryCodes.py:159
+msgid "New Caledonia"
+msgstr "Neukaledonien"
+
+#: CountryCodes.py:160
+msgid "New Zealand"
+msgstr "Neuseeland"
+
+#: CountryCodes.py:161
+msgid "Nicaragua"
+msgstr "Nicaragua"
+
+#: CountryCodes.py:162
+msgid "Niger"
+msgstr "Niger"
+
+#: CountryCodes.py:163
+msgid "Nigeria"
+msgstr "Nigeria"
+
+#: CountryCodes.py:164
+msgid "Niue"
+msgstr "Niue"
+
+#: CountryCodes.py:165
+msgid "Norfolk Island"
+msgstr "Norfolkinsel"
+
+#: CountryCodes.py:166
+msgid "Northern Mariana Islands"
+msgstr "Nördliche Marianen"
+
+#: CountryCodes.py:167
+msgid "Norway"
+msgstr "Norwegen"
+
+#: CountryCodes.py:168
+msgid "Oman"
+msgstr "Oman"
+
+#: CountryCodes.py:169
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: CountryCodes.py:170
+msgid "Palau"
+msgstr "Palau"
+
+#: CountryCodes.py:171
+msgid "Palestine, State of"
+msgstr "Palästina, Staat"
+
+#: CountryCodes.py:172
+msgid "Panama"
+msgstr "Panama"
+
+#: CountryCodes.py:173
+msgid "Papua New Guinea"
+msgstr "Papua-Neuguinea"
+
+#: CountryCodes.py:174
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: CountryCodes.py:175
+msgid "Peru"
+msgstr "Peru"
+
+#: CountryCodes.py:176
+msgid "Philippines"
+msgstr "Philippinen"
+
+#: CountryCodes.py:177
+msgid "Pitcairn"
+msgstr "Pitcairn"
+
+#: CountryCodes.py:178
+msgid "Poland"
+msgstr "Polen"
+
+#: CountryCodes.py:179
+msgid "Portugal"
+msgstr "Portugal"
+
+#: CountryCodes.py:180
+msgid "Puerto Rico"
+msgstr "Puerto Rico"
+
+#: CountryCodes.py:181
+msgid "Qatar"
+msgstr "Katar"
+
+#: CountryCodes.py:182
+msgid "Reunion"
+msgstr "Réunion"
+
+#: CountryCodes.py:183
+msgid "Romania"
+msgstr "Rumänien"
+
+#: CountryCodes.py:184
+msgid "Russian Federation"
+msgstr "Russland"
+
+#: CountryCodes.py:185
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: CountryCodes.py:186
+msgid "Saint Barthelemy"
+msgstr "Saint-Barthélemy"
+
+#: CountryCodes.py:187
+msgid "Saint Helena, Ascension and Tristan da Cunha"
+msgstr "St. Helena, Ascension und Tristan da Cunha"
+
+#: CountryCodes.py:188
+msgid "Saint Kitts and Nevis"
+msgstr "St. Kitts und Nevis"
+
+#: CountryCodes.py:189
+msgid "Saint Lucia"
+msgstr "Sankt Lucia"
+
+#: CountryCodes.py:190
+msgid "Saint Martin (French part)"
+msgstr "Saint-Martin"
+
+#: CountryCodes.py:191
+msgid "Saint Pierre and Miquelon"
+msgstr "Saint-Pierre und Miquelon"
+
+#: CountryCodes.py:192
+msgid "Saint Vincent and the Grenadines"
+msgstr "St. Vincent und die Grenadinen"
+
+#: CountryCodes.py:193
+msgid "Samoa"
+msgstr "Samoa"
+
+#: CountryCodes.py:194
+msgid "San Marino"
+msgstr "San Marino"
+
+#: CountryCodes.py:195
+msgid "Sao Tome and Principe"
+msgstr "S&atilde;o Tom&eacute; und Pr&iacute;ncipe"
+
+#: CountryCodes.py:196
+msgid "Saudi Arabia"
+msgstr "Saudi-Arabien"
+
+#: CountryCodes.py:197
+msgid "Senegal"
+msgstr "Senegal"
+
+#: CountryCodes.py:198
+msgid "Serbia"
+msgstr "Serbien"
+
+#: CountryCodes.py:199
+msgid "Seychelles"
+msgstr "Seychellen"
+
+#: CountryCodes.py:200
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: CountryCodes.py:201
+msgid "Singapore"
+msgstr "Singapur"
+
+#: CountryCodes.py:202
+msgid "Sint Maarten (Dutch part)"
+msgstr "St. Martin (Niederländischer Teil)"
+
+#: CountryCodes.py:203
+msgid "Slovakia"
+msgstr "Slowakei"
+
+#: CountryCodes.py:204
+msgid "Slovenia"
+msgstr "Slowenien"
+
+#: CountryCodes.py:205
+msgid "Solomon Islands"
+msgstr "Salomonen"
+
+#: CountryCodes.py:206
+msgid "Somalia"
+msgstr "Somalia"
+
+#: CountryCodes.py:207
+msgid "South Africa"
+msgstr "Südafrika"
+
+#: CountryCodes.py:208
+msgid "South Georgia and the South Sandwich Islands"
+msgstr "Südgeorgien und die Südlichen Sandwichinseln"
+
+#: CountryCodes.py:209
+msgid "South Sudan"
+msgstr "Südsudan"
+
+#: CountryCodes.py:210
+msgid "Spain"
+msgstr "Spanien"
+
+#: CountryCodes.py:211
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: CountryCodes.py:212
+msgid "Sudan"
+msgstr "Sudan"
+
+#: CountryCodes.py:213
+msgid "Suriname"
+msgstr "Suriname"
+
+#: CountryCodes.py:214
+msgid "Svalbard and Jan Mayen"
+msgstr "Svalbard und Jan Mayen Islands"
+
+#: CountryCodes.py:215
+msgid "Swaziland"
+msgstr "Swasiland"
+
+#: CountryCodes.py:216
+msgid "Sweden"
+msgstr "Schweden"
+
+#: CountryCodes.py:217
+msgid "Switzerland"
+msgstr "Schweiz"
+
+#: CountryCodes.py:218
+msgid "Syrian Arab Republic"
+msgstr "Syrien"
+
+#: CountryCodes.py:220
+msgid "Tajikistan"
+msgstr "Tadschikistan"
+
+#: CountryCodes.py:221
+msgid "Tanzania, United Republic of"
+msgstr "Tanzania"
+
+#: CountryCodes.py:222
+msgid "Thailand"
+msgstr "Thailand"
+
+#: CountryCodes.py:223
+msgid "Timor-Leste"
+msgstr "Osttimor"
+
+#: CountryCodes.py:224
+msgid "Togo"
+msgstr "Togo"
+
+#: CountryCodes.py:225
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#: CountryCodes.py:226
+msgid "Tonga"
+msgstr "Tonga"
+
+#: CountryCodes.py:227
+msgid "Trinidad and Tobago"
+msgstr "Trinidad und Tobago"
+
+#: CountryCodes.py:228
+msgid "Tunisia"
+msgstr "Tunesien"
+
+#: CountryCodes.py:229
+msgid "Turkey"
+msgstr "Türkei"
+
+#: CountryCodes.py:230
+msgid "Turkmenistan"
+msgstr "Turkmenistan"
+
+#: CountryCodes.py:231
+msgid "Turks and Caicos Islands"
+msgstr "Turks- und Caicosinseln"
+
+#: CountryCodes.py:232
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: CountryCodes.py:233
+msgid "Uganda"
+msgstr "Uganda"
+
+#: CountryCodes.py:234
+msgid "Ukraine"
+msgstr "Ukraine"
+
+#: CountryCodes.py:235
+msgid "United Arab Emirates"
+msgstr "Vereinigte Arabische Emirate"
+
+#: CountryCodes.py:236
+msgid "United Kingdom"
+msgstr "England"
+
+#: CountryCodes.py:237
+msgid "United States of America"
+msgstr "Vereinigte Staaten"
+
+#: CountryCodes.py:238
+msgid "United States Minor Outlying Islands"
+msgstr "Vereinigte Staaten Kleinere Ausgelagerte Inseln"
+
+#: CountryCodes.py:239
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#: CountryCodes.py:240
+msgid "Uzbekistan"
+msgstr "Usbekistan"
+
+#: CountryCodes.py:241
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: CountryCodes.py:242
+msgid "Venezuela (Bolivarian Republic of)"
+msgstr "Venezuela (Bolivarische Republik)"
+
+#: CountryCodes.py:243
+msgid "Viet Nam"
+msgstr "Vietnam"
+
+#: CountryCodes.py:244
+msgid "Virgin Islands (British)"
+msgstr "Jungferninseln (Britisch)"
+
+#: CountryCodes.py:245
+msgid "Virgin Islands (U.S.)"
+msgstr "Jungferninseln (US)"
+
+#: CountryCodes.py:246
+msgid "Wallis and Futuna"
+msgstr "Wallis und Futuna"
+
+#: CountryCodes.py:247
+msgid "Western Sahara"
+msgstr "Westsahara"
+
+#: CountryCodes.py:248
+msgid "Yemen"
+msgstr "Jemen"
+
+#: CountryCodes.py:249
+msgid "Zambia"
+msgstr "Sambia"
+
+#: CountryCodes.py:250
+msgid "Zimbabwe"
+msgstr "Simbabwe"

@@ -9,7 +9,7 @@
 
 #include <lib/service/servicedvb.h>
 
-class eDVBServiceStream: public eDVBServiceBase, public Object
+class eDVBServiceStream: public eDVBServiceBase, public sigc::trackable
 {
 	DECLARE_REF(eDVBServiceStream);
 public:
@@ -48,6 +48,9 @@ private:
 
 	virtual void streamStopped() {}
 	virtual void tuneFailed() {}
+
+	void recordPids(std::set<int> pids_to_record, int timing_pid, int timing_stream_type, iDVBTSRecorder::timing_pid_type timing_pid_type);
+	bool recordCachedPids();
 };
 
 #endif

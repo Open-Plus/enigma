@@ -52,7 +52,7 @@ eServiceMP3Record::~eServiceMP3Record()
 	}
 }
 
-RESULT eServiceMP3Record::prepare(const char *filename, time_t begTime, time_t endTime, int eit_event_id, const char *name, const char *descr, const char *tags, bool descramble, bool recordecm)
+RESULT eServiceMP3Record::prepare(const char *filename, time_t begTime, time_t endTime, int eit_event_id, const char *name, const char *descr, const char *tags, bool descramble, bool recordecm, int packetsize)
 {
 	eDebug("[eMP3ServiceRecord] prepare filename %s", filename);
 	m_filename = filename;
@@ -489,7 +489,7 @@ RESULT eServiceMP3Record::frontendInfo(ePtr<iFrontendInformation> &ptr)
 	return -1;
 }
 
-RESULT eServiceMP3Record::connectEvent(const Slot2<void,iRecordableService*,int> &event, ePtr<eConnection> &connection)
+RESULT eServiceMP3Record::connectEvent(const sigc::slot2<void,iRecordableService*,int> &event, ePtr<eConnection> &connection)
 {
 	connection = new eConnection((iRecordableService*)this, m_event.connect(event));
 	return 0;

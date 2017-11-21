@@ -25,8 +25,6 @@ from Screens.SkinSelector import LcdSkinSelector, SkinSelector
 from Screens.VideoMode import VideoSetup, AudioSetup
 
 from Plugins.Plugin import PluginDescriptor
-from Plugins.SystemPlugins.NetworkBrowser.MountManager import AutoMountManager
-from Plugins.SystemPlugins.NetworkBrowser.NetworkBrowser import NetworkBrowser
 from Plugins.SystemPlugins.NetworkWizard.NetworkWizard import NetworkWizard
 from Plugins.Extensions.Openpanel.RestartNetwork import RestartNetwork
 from Plugins.Extensions.Openpanel.MountManager import HddMount
@@ -35,7 +33,7 @@ from Plugins.Extensions.Openpanel.SoftwarePanel import SoftwarePanel
 from Plugins.Extensions.Openpanel.plugin import ShowSoftcamPanelExtensions
 from Plugins.SystemPlugins.SoftwareManager.Flash_online import FlashOnline
 from Plugins.SystemPlugins.SoftwareManager.ImageBackup import ImageBackup
-from Plugins.SystemPlugins.SoftwareManager.plugin import UpdatePlugin, SoftwareManagerSetup
+from Plugins.SystemPlugins.SoftwareManager.plugin import SoftwareManagerSetup, Load_defaults
 from Plugins.SystemPlugins.SoftwareManager.BackupRestore import BackupScreen, RestoreScreen, BackupSelection, getBackupPath, getOldBackupPath, getBackupFilename
 
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS, SCOPE_SKIN_IMAGE, SCOPE_SKIN, fileExists
@@ -47,7 +45,13 @@ from re import search
 
 import NavigationInstance
 
-plugin_path_networkbrowser = eEnv.resolve("${libdir}/enigma2/python/Plugins/SystemPlugins/NetworkBrowser")
+if path.exists("/usr/lib/enigma2/python/Plugins/SystemPlugins/NetworkBrowser"):
+	from Plugins.SystemPlugins.NetworkBrowser.MountManager import AutoMountManager
+	from Plugins.SystemPlugins.NetworkBrowser.NetworkBrowser import NetworkBrowser
+	plugin_path_networkbrowser = eEnv.resolve("${libdir}/enigma2/python/Plugins/SystemPlugins/NetworkBrowser")
+	NETWORKBROWSER = True
+else:
+	NETWORKBROWSER = False
 
 if path.exists("/usr/lib/enigma2/python/Plugins/Extensions/AudioSync"):
 	from Plugins.Extensions.AudioSync.AC3setup import AC3LipSyncSetup
@@ -164,6 +168,7 @@ class QuickMenu(Screen, ProtectedScreen):
 			"yellow": self.keyyellow,
 			})
 
+		Load_defaults()
 		self.MainQmenu()
 		self.selectedList = self["list"]
 		self.selectionChanged()
@@ -290,8 +295,9 @@ class QuickMenu(Screen, ProtectedScreen):
 ######## Mount Settings Menu ##############################
 	def Qmount(self):
 		self.sublist = []
-		self.sublist.append(QuickSubMenuEntryComponent("Mount Manager",_("Manage network mounts"),_("Setup your network mounts")))
-		self.sublist.append(QuickSubMenuEntryComponent("Network Browser",_("Search for network shares"),_("Search for network shares")))
+		if NETWORKBROWSER == True:
+			self.sublist.append(QuickSubMenuEntryComponent("Mount Manager",_("Manage network mounts"),_("Setup your network mounts")))
+			self.sublist.append(QuickSubMenuEntryComponent("Network Browser",_("Search for network shares"),_("Search for network shares")))
 		self.sublist.append(QuickSubMenuEntryComponent("Device Manager",_("Mounts Devices"),_("Setup your Device mounts (USB, HDD, others...)")))
 		self["sublist"].l.setList(self.sublist)
 
@@ -325,7 +331,7 @@ class QuickMenu(Screen, ProtectedScreen):
 			self.sublist.append(QuickSubMenuEntryComponent("Positioner Setup",_("Setup rotor"),_("Setup your positioner for your satellite system")))
 		self.sublist.append(QuickSubMenuEntryComponent("Automatic Scan",_("Automatic Service Searching"),_("Automatic scan for services")))
 		self.sublist.append(QuickSubMenuEntryComponent("Manual Scan",_("Manual Service Searching"),_("Manual scan for services")))
-		if SATFINDER == True:		
+		if SATFINDER == True:
 			self.sublist.append(QuickSubMenuEntryComponent("Sat Finder",_("Search Sats"),_("Search Sats, check signal and lock")))
 		self["sublist"].l.setList(self.sublist)
 
@@ -615,7 +621,7 @@ class QuickMenu(Screen, ProtectedScreen):
 
 		nimList = []
 		for x in nims:
-			if not nimmanager.getNimConfig(x).configMode.value in ("loopthrough", "satposdepends", "nothing"):
+			if not nimmanager.getNimConfig(x).dvbs.configMode.value in ("loopthrough", "satposdepends", "nothing"):
 				nimList.append(x)
 
 		if len(nimList) == 0:
