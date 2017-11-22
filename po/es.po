@@ -3142,9 +3142,6 @@ msgstr "clip overscan / letterbox borders"
 msgid "Clock"
 msgstr "Reloj"
 
-msgid "Clone TV screen to LCD"
-msgstr "Clonar pantalla de TV al LCD"
-
 #
 msgid "Close"
 msgstr "Cerrar"
@@ -7069,17 +7066,6 @@ msgstr "Grabación instantánea..."
 msgid "Instant recordings location"
 msgstr "Ruta de grabaciones instantáneas"
 
-msgid "Interface"
-msgstr "Interfaz"
-
-#
-msgid "Interface: "
-msgstr "Interfaz: "
-
-#
-msgid "Intermediate"
-msgstr "Intermedio"
-
 #
 msgid "Internal"
 msgstr "Interno"
@@ -7172,9 +7158,6 @@ msgstr "Pausar la reproducción"
 
 msgid "Pause/Continue playback"
 msgstr "Pausar/Continuar reproducción"
-
-msgid "Peak load (max queued requests per workerthread)"
-msgstr "Carga máxima (solicitudes máximas en cola por Workerthread)"
 
 msgid "Percentage"
 msgstr "Porcentaje"
@@ -9482,10 +9465,6 @@ msgid "Pause movie at end"
 msgstr "Pausar la película al final"
 
 #
-msgid "Pause playback"
-msgstr "Pausar la reproducción"
-
-#
 msgid "Pauze/Continue playback"
 msgstr "Pause / Continuar reproducción"
 
@@ -9500,9 +9479,6 @@ msgstr "PCR PID"
 
 msgid "Peak load (max queued requests per workerthread)"
 msgstr "Carga máxima (solicitudes máximas en cola por Workerthread)"
-
-msgid "Percentage"
-msgstr "Porcentaje"
 
 msgid "Percentage left"
 msgstr "Porcentaje izquierda"
@@ -13045,10 +13021,6 @@ msgid "Show PIP in the Front Display"
 msgstr "Ver PiP en el LCD"
 
 #
-msgid "Show positioner movement"
-msgstr "Mostrar movimiento del motor"
-
-#
 msgid "Show preview of current mode (*)."
 msgstr "Mostar vista previa del modo actual(*)."
 
@@ -13064,9 +13036,6 @@ msgstr "Mostrar menú rápico..."
 
 msgid "Show Readers/Proxies"
 msgstr "Ver lectores/proxys"
-
-msgid "Show record indicator"
-msgstr "Mostrar indicador de grabación"
 
 msgid "Show Record Movies"
 msgstr "Mostrar películas grabadas"
@@ -13084,17 +13053,11 @@ msgstr "Mostrar ajuste RFmod..."
 msgid "Show satellites list"
 msgstr "Mostrar lista de satélites"
 
-msgid "Show screensaver"
-msgstr "Ver salvapantallas"
-
 msgid "Show SD as"
 msgstr "Ver SD como"
 
 msgid "Show service list"
 msgstr "Mostrar lista de canales"
-
-msgid "Show service type icons"
-msgstr "Mostrar iconos de tipo de servicio"
 
 msgid "Show servicelist or movies"
 msgstr "Mostrar lista de programas o películas"
@@ -13120,18 +13083,8 @@ msgstr "Ver EPG del canal actual"
 msgid "Show Softcam-Panel in Extensions Menu"
 msgstr "Mostrar panel Softcam en el menú de extensiones"
 
-msgid "Show source packages"
-msgstr "Ver paquetes de fuente"
-
-# Menue Anpassungen OSD
-msgid "Show spinning logo when system is busy."
-msgstr "Mostrar spinner cuando el sistema está ocupado."
-
 msgid "Show status icons in movielist"
 msgstr "Ver iconos de estado en la lista de películas"
-
-msgid "Show status messages when switch to live TV"
-msgstr "Mostrar mensajes de estado cuando se cambie a TV en vivo"
 
 msgid "Show subservice selection"
 msgstr "Mostrar selección de subcanal"
@@ -13184,9 +13137,6 @@ msgstr "Mostrar temporizador de apagado..."
 #
 msgid "Show the tv player..."
 msgstr "Ver el reproductor de TV."
-
-msgid "Show time elapsed as positive"
-msgstr "Ver el tiempo transcurrido en positivo"
 
 msgid "Show time in 24 hour clock format."
 msgstr "Mostrar hora en formato de reloj de 24 horas."
@@ -16424,7 +16374,7 @@ msgstr "Formato de vídeo"
 
 msgid "Videomode"
 msgstr "Modo de video:"
-=======
+
 msgid "Enable debug log *"
 msgstr "Habilitar historial de depuración"
 
