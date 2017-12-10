@@ -5984,7 +5984,7 @@ msgstr "Tamaño de letra"
 msgid "football/soccer"
 msgstr "Fútbol"
 
-msgid "For more information see http://www.opena.tv"
+msgid "For more information see https://open-plus.estv"
 msgstr "Para más información visita http://www.open-pus.es"
 
 msgid "Force de-interlace"
@@ -13604,7 +13604,7 @@ msgstr "Fuentes fuera de servicio por mantenimiento. Inténtalo más tarde."
 msgid "Sorry feeds are down for maintenance, please try again later."
 msgstr "Fuentes fuera de servicio por mantenimiento. Inténtalo más tarde."
 
-msgid "Sorry feeds are down for maintenance, please try again later. If this issue persists please check www.opena.tv"
+msgid "Sorry feeds are down for maintenance, please try again later. If this issue persists please check www.open-plus.es"
 msgstr "Se han producido fallos en los feeds por mantenimiento. Vuelve a intentarlo más tarde. Si el problema persiste verifique www.open-plus.es"
 
 msgid "Sorry Inadyn Config is Missing"
@@ -14623,7 +14623,7 @@ msgstr ""
 "¡La extensión de administración de software no está instalada!\n"
 "Por favor, instálelo."
 
-msgid "The status of the current update could not be checked because http://www.opena.tv could not be reached for some reason"
+msgid "The status of the current update could not be checked because https://open-plus.estv could not be reached for some reason"
 msgstr "El estado de la actualización no se puede comprobar porque no hay conexión con http://www.open-plus.es"
 
 #
@@ -16620,7 +16620,7 @@ msgstr "deportes acuáticos"
 
 msgid ""
 "We are really sorry. Your receiver encountered a software problem, and needs to be restarted.\n"
-"Please send the logfile %senigma2_crash_xxxxxx.log to www.opena.tv.\n"
+"Please send the logfile %senigma2_crash_xxxxxx.log to www.open-plus.es.\n"
 "Your receiver restarts in 10 seconds!\n"
 "Component: enigma2"
 msgstr ""
@@ -17372,7 +17372,7 @@ msgstr "You must set at least one Command"
 
 #
 msgid ""
-"You need a PC connected to your %s %s. If you need further instructions, please visit the website http://www.opena.tv.\n"
+"You need a PC connected to your %s %s. If you need further instructions, please visit the website https://open-plus.estv.\n"
 "Your %s %s will now be halted. After you have performed the update instructions from the website, your new firmware will ask you to restore your settings."
 msgstr ""
 "Necesitas un PC conectado a tu %s %s. Si necesitas ayuda, visita http://www.openplus.\n"
@@ -18102,7 +18102,7 @@ msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, please visit the website http://www.open-plus.es.\n"
 "Your %s %s will now be halted. After you have performed the update instructions from the website, your new firmware will ask you to restore your settings."
 msgstr ""
-"Necesitas un PC conectado a tu %s %s. Si necesitas ayuda, visita http://www.opena.tv.\n"
+"Necesitas un PC conectado a tu %s %s. Si necesitas ayuda, visita https://open-plus.estv.\n"
 "Se apagará tu %s %s. Después, sigue las instrucciones de la web y el nuevo firmware te pedirá que restaures la configuración."
 
 #: MultiBootStartup.py:33

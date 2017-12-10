@@ -7,7 +7,7 @@ msgstr ""
 "POT-Creation-Date: 2011-11-05 14:38+0000\n"
 "PO-Revision-Date: 2017-11-02 00:16+0100\n"
 "Last-Translator: mike99 <mike99@mail.to>\n"
-"Language-Team: openATV\n"
+"Language-Team: Open-Plus\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -213,7 +213,7 @@ msgid ""
 " has been sent to the AAF beta team.\n"
 "please quote "
 msgstr ""
-"wurde an das openATV Beta Team gesendet.\n"
+"wurde an das Open-Plus Beta Team gesendet.\n"
 "Bitte angeben"
 
 msgid " ms"
@@ -1452,8 +1452,8 @@ msgstr "Bus: "
 msgid "Button"
 msgstr "Taste"
 
-msgid "By openATV Image Team"
-msgstr "Vom openATV-Imageteam"
+msgid "By Open-Plus Image Team"
+msgstr "Vom Open-Plus-Imageteam"
 
 #
 msgid "By pressing the OK Button on your remote control, the info bar is being displayed."
@@ -10480,10 +10480,10 @@ msgstr "Sie müssen %s warten!"
 
 #
 msgid ""
-"You need a PC connected to your %s %s. If you need further instructions, please visit the website http://www.opena.tv.\n"
+"You need a PC connected to your %s %s. If you need further instructions, please visit the website https://open-plus.estv.\n"
 "Your %s %s will now be halted. After you have performed the update instructions from the website, your new firmware will ask you to restore your settings."
 msgstr ""
-"Sie müssen einen PC mit Ihrer %s %s verbunden haben. Wenn Sie weiterführende Informationen benötigen, besuchen Sie die Webseite http://www.opena.tv.\n"
+"Sie müssen einen PC mit Ihrer %s %s verbunden haben. Wenn Sie weiterführende Informationen benötigen, besuchen Sie die Webseite https://open-plus.estv.\n"
 "Die %s %s wird nun ausgeschaltet. Nachdem Sie das Update wie auf der Webseite beschrieben durchgeführt haben, wird Sie die neue Firmware fragen, ob Sie die Einstellungen wiederherstellen wollen."
 
 msgid ""
@@ -13061,11 +13061,11 @@ msgstr "Achtung Update noch nicht überprüft!!"
 msgid "Update at your own risk"
 msgstr "Update auf eigene Gefahr"
 
-msgid "For more information see http://www.opena.tv"
-msgstr "Für weitere Information gehe auf http://www.opena.tv"
+msgid "For more information see https://open-plus.estv"
+msgstr "Für weitere Information gehe auf https://open-plus.estv"
 
-msgid "The status of the current update could not be checked because http://www.opena.tv could not be reached for some reason"
-msgstr "Der Update Status kann nicht überprüft werden da die Seite http://www.opena.tv nicht erreichbar ist"
+msgid "The status of the current update could not be checked because https://open-plus.estv could not be reached for some reason"
+msgstr "Der Update Status kann nicht überprüft werden da die Seite https://open-plus.estv nicht erreichbar ist"
 
 msgid "Do you want to update your box?"
 msgstr "Update der Box durchführen?"
@@ -13971,8 +13971,8 @@ msgid "Please wait whilst feeds state is checked."
 msgstr "Bitte warten, Feed-Status wird überprüft"
 
 #: Download Netzwerk Dienste
-msgid "Sorry feeds are down for maintenance, please try again later. If this issue persists please check www.opena.tv"
-msgstr "Feeds sind wegen Wartungsarbeiten im Moment nicht verfügbar, bitte versuchen Sie es später. Für weitere Fragen besuchen Sie bitte www.opena.tv"
+msgid "Sorry feeds are down for maintenance, please try again later. If this issue persists please check www.open-plus.es"
+msgstr "Feeds sind wegen Wartungsarbeiten im Moment nicht verfügbar, bitte versuchen Sie es später. Für weitere Fragen besuchen Sie bitte www.open-plus.es"
 
 #: Download Netzwerk Dienste
 msgid "Your %s %s is not connected to the internet, please check your network settings and try again."
@@ -16128,12 +16128,12 @@ msgstr "HDMI IN Bild in Bild Wiedergabe beenden"
 #: BSOD
 msgid ""
 "We are really sorry. Your receiver encountered a software problem, and needs to be restarted.\n"
-"Please send the logfile %senigma2_crash_xxxxxx.log to www.opena.tv.\n"
+"Please send the logfile %senigma2_crash_xxxxxx.log to www.open-plus.es.\n"
 "Your receiver restarts in 10 seconds!\n"
 "Component: enigma2"
 msgstr ""
 "Es tut uns leid. Ihr Receiver hat ein Software-Problem und muss neu gestartet werden.\n"
-"Bitte senden Sie die Logdatei %senigma2_crash_xxxxxx.log an www.opena.tv.\n"
+"Bitte senden Sie die Logdatei %senigma2_crash_xxxxxx.log an www.open-plus.es.\n"
 "Ihr Receiver startet in 10 Sekunden neu!\n"
 "Komponente: enigma2"
 

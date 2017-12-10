@@ -21,4 +21,4 @@ class VtiImageVersion(VariableText, Renderer):
 
     def ATVImageVersion(self):
         atvversion = getImageVersion()
-        return 'openATV Image Release v. %s' % atvversion
+        return 'Open-Plus Image Release v. %s' % atvversion

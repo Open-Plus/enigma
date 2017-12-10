@@ -2,7 +2,7 @@
 # Frank <franksrviana@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenATV\n"
+"Project-Id-Version: Open-Plus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-02 23:11+0200\n"
 "PO-Revision-Date: 2016-04-02 23:11+0200\n"
@@ -1799,7 +1799,7 @@ msgstr ""
 msgid "ButtonSetup"
 msgstr ""
 
-msgid "By openATV Image Team"
+msgid "By Open-Plus Image Team"
 msgstr ""
 
 msgid "Bypass HDMI EDID Check"
@@ -3867,7 +3867,7 @@ msgstr "As tarefas irão terminar depois de pressionar 'OK'!"
 msgid "Fontsize"
 msgstr "tamanho de passo"
 
-msgid "For more information see http://www.opena.tv"
+msgid "For more information see https://open-plus.estv"
 msgstr ""
 
 #, fuzzy
@@ -9346,7 +9346,7 @@ msgstr ""
 
 msgid ""
 "The status of the current update could not be checked because http://www."
-"opena.tv could not be reached for some reason"
+"open-plus.es could not be reached for some reason"
 msgstr ""
 
 #, fuzzy
@@ -10732,7 +10732,7 @@ msgstr "Ver gravações..."
 msgid ""
 "We are really sorry. Your receiver encountered a software problem, and needs "
 "to be restarted.\n"
-"Please send the logfile %senigma2_crash_xxxxxx.log to www.opena.tv.\n"
+"Please send the logfile %senigma2_crash_xxxxxx.log to www.open-plus.es.\n"
 "Your receiver restarts in 10 seconds!\n"
 "Component: enigma2"
 msgstr ""
@@ -12197,7 +12197,7 @@ msgstr ""
 msgid "open nameserver configuration"
 msgstr "abrir a configuração do servidor de DNS"
 
-msgid "openATV"
+msgid "Open-Plus"
 msgstr ""
 
 msgid "original"
@@ -15645,7 +15645,7 @@ msgstr ""
 
 msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, "
-"please visit the website http://www.opena.tv.\n"
+"please visit the website https://open-plus.estv.\n"
 "Your %s %s will now be halted. After you have performed the update "
 "instructions from the website, your new firmware will ask you to restore "
 "your settings."

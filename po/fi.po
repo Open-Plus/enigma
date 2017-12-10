@@ -2,7 +2,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenATV\n"
+"Project-Id-Version: Open-Plus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-11 20:10+0200\n"
 "PO-Revision-Date: 2017-03-01 18:26+0200\n"
@@ -2408,7 +2408,7 @@ msgstr "Aikajärjestys"
 msgid "by hmmmdada"
 msgstr ""
 
-msgid "By openATV Image Team"
+msgid "By Open-Plus Image Team"
 msgstr ""
 
 msgid "Bypass HDMI EDID Check"
@@ -5939,8 +5939,8 @@ msgstr "Tekstikoko"
 msgid "football/soccer"
 msgstr "jalkapallo"
 
-msgid "For more information see http://www.opena.tv"
-msgstr "Lisätietoja: http://www.opena.tv"
+msgid "For more information see https://open-plus.estv"
+msgstr "Lisätietoja: https://open-plus.estv"
 
 #
 msgid "Force de-interlace"
@@ -9100,7 +9100,7 @@ msgstr "Avaa lisäosien selaus"
 msgid "Open Timerlist..."
 msgstr "Avaa ajastusluettelo"
 
-msgid "openATV"
+msgid "Open-Plus"
 msgstr "www.huoltovalikko.com"
 
 msgid "OpenVPN"
@@ -13435,7 +13435,7 @@ msgstr "Syötteet eivät ole käytössä huollon takia, yritä myöhemmin uudell
 
 msgid ""
 "Sorry feeds are down for maintenance, please try again later. If this issue "
-"persists please check www.opena.tv"
+"persists please check www.open-plus.es"
 msgstr ""
 
 msgid "Sorry Inadyn Config is Missing"
@@ -14410,7 +14410,7 @@ msgstr ""
 
 msgid ""
 "The status of the current update could not be checked because http://www."
-"opena.tv could not be reached for some reason"
+"open-plus.es could not be reached for some reason"
 msgstr ""
 
 #
@@ -16429,7 +16429,7 @@ msgstr "vesiurheilu"
 msgid ""
 "We are really sorry. Your receiver encountered a software problem, and needs "
 "to be restarted.\n"
-"Please send the logfile %senigma2_crash_xxxxxx.log to www.opena.tv.\n"
+"Please send the logfile %senigma2_crash_xxxxxx.log to www.open-plus.es.\n"
 "Your receiver restarts in 10 seconds!\n"
 "Component: enigma2"
 msgstr ""
@@ -17280,7 +17280,7 @@ msgstr "Vähintään yksi komento on määritettävä"
 
 msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, "
-"please visit the website http://www.opena.tv.\n"
+"please visit the website https://open-plus.estv.\n"
 "Your %s %s will now be halted. After you have performed the update "
 "instructions from the website, your new firmware will ask you to restore "
 "your settings."
