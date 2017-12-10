@@ -3800,7 +3800,7 @@ msgstr "وظایف زیر بعد از فشار دادن دکمه OK انجام �
 msgid "Fontsize"
 msgstr ""
 
-msgid "For more information see https://open-plus.estv"
+msgid "For more information see http://www.open-plus.es"
 msgstr ""
 
 #, fuzzy
@@ -15269,7 +15269,7 @@ msgstr ""
 
 msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, "
-"please visit the website https://open-plus.estv.\n"
+"please visit the website http://www.open-plus.es.\n"
 "Your %s %s will now be halted. After you have performed the update "
 "instructions from the website, your new firmware will ask you to restore "
 "your settings."

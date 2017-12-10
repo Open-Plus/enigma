@@ -3799,8 +3799,8 @@ msgstr "Następujące zadania będą wykonywane po naciśnięciu przycisku 'OK'!
 msgid "Fontsize"
 msgstr "Rozmiar czcionki"
 
-msgid "For more information see https://open-plus.estv"
-msgstr "Więcej informacji można znaleźć https://open-plus.estv"
+msgid "For more information see http://www.open-plus.es"
+msgstr "Więcej informacji można znaleźć http://www.open-plus.es"
 
 msgid "Force de-interlace"
 msgstr "Siła przeplotu"
@@ -15509,13 +15509,13 @@ msgstr ""
 
 msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, "
-"please visit the website https://open-plus.estv.\n"
+"please visit the website http://www.open-plus.es.\n"
 "Your %s %s will now be halted. After you have performed the update "
 "instructions from the website, your new firmware will ask you to restore "
 "your settings."
 msgstr ""
 "Potrzebujesz PC połączonego z Twoim %s %s. Więcej informacji na stronie "
-"https://open-plus.estv.\n"
+"http://www.open-plus.es.\n"
 "Teraz Twój %s %s zostanie wyłączony. Po wykonaniu  instrukcji aktualizacji "
 "ze strony, nowe oprogramowanie zapyta czy przywrócić ustawienia."
 

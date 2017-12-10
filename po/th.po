@@ -3742,7 +3742,7 @@ msgstr ""
 msgid "Fontsize"
 msgstr ""
 
-msgid "For more information see https://open-plus.estv"
+msgid "For more information see http://www.open-plus.es"
 msgstr ""
 
 #, fuzzy
@@ -9087,7 +9087,7 @@ msgid ""
 msgstr "ยังไม่ได้ติดตั้งปลั๊กอินสำหรับเครือข่ายไร้สาย กรุณาติดตั้งก่อน"
 
 msgid ""
-"The status of the current update could not be checked because https://open-plus.estv could not be "
+"The status of the current update could not be checked because http://www.open-plus.es could not be "
 "reached for some reason"
 msgstr ""
 
@@ -14931,7 +14931,7 @@ msgstr "ท่านได้เลือกที่จะนำสำรอง
 
 msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, please visit the website "
-"https://open-plus.estv.\n"
+"http://www.open-plus.es.\n"
 "Your %s %s will now be halted. After you have performed the update instructions from the website, "
 "your new firmware will ask you to restore your settings."
 msgstr ""

@@ -5939,8 +5939,8 @@ msgstr "Tekstikoko"
 msgid "football/soccer"
 msgstr "jalkapallo"
 
-msgid "For more information see https://open-plus.estv"
-msgstr "Lisätietoja: https://open-plus.estv"
+msgid "For more information see http://www.open-plus.es"
+msgstr "Lisätietoja: http://www.open-plus.es"
 
 #
 msgid "Force de-interlace"
@@ -17280,7 +17280,7 @@ msgstr "Vähintään yksi komento on määritettävä"
 
 msgid ""
 "You need a PC connected to your %s %s. If you need further instructions, "
-"please visit the website https://open-plus.estv.\n"
+"please visit the website http://www.open-plus.es.\n"
 "Your %s %s will now be halted. After you have performed the update "
 "instructions from the website, your new firmware will ask you to restore "
 "your settings."
