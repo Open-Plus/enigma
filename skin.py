@@ -34,6 +34,8 @@ constant_widgets = {}
 variables = {}
 DEFAULT_SKIN = "openplusHD/skin.xml"
 DEFAULT_DISPLAY_SKIN = "skin_display.xml"
+if not fileExists(resolveFilename(SCOPE_SKIN, DEFAULT_SKIN)):
+	DEFAULT_SKIN = "MetrixHD/skin.xml"
 if SystemInfo["grautec"]:
 	DEFAULT_DISPLAY_SKIN = "skin_display_grautec.xml"
 isVTISkin = False
