@@ -36,10 +36,10 @@ elif distro.lower() == "openplus":
 	image = 0
 feedurl_atv = 'http://feeds.open-plus.es/openplus/%s' %ImageVersion
 
-if ImageVersion == '6.1':
-	ImageVersion2= '6.0'
+if ImageVersion == '2.1':
+	ImageVersion2= '2.3'
 else:
-	ImageVersion2= '2.1'
+	ImageVersion2= '2.0'
 feedurl_atv2= 'http://feeds.open-plus.es/openplus/%s' %ImageVersion2
 feedurl_om = 'http://image.openmips.com/5.3'
 imagePath = '/media/hdd/images'
@@ -174,13 +174,7 @@ class FlashOnline(Screen):
 				self.multi = self.read_startup("/boot/" + self.list[self.selection]).split(".",1)[1].split(" ",1)[0]
 				self.multi = self.multi[-1:]
 			print "[Flash Online] MULTI:",self.multi
-			if getMachineBuild() in ("hd51","vs1500","h7"):
-				cmdline = self.read_startup("/boot/" + self.list[self.selection]).split("=",3)[3].split(" ",1)[0]
-			elif getMachineBuild() in ("8100s"):
-				cmdline = self.read_startup("/boot/" + self.list[self.selection]).split("=",4)[4].split(" ",1)[0]
-			else:
-				cmdline = self.read_startup("/boot/" + self.list[self.selection]).split("=",1)[1].split(" ",1)[0]
-			self.devrootfs = cmdline
+			self.devrootfs = self.find_rootfs_dev(self.list[self.selection])
 			print "[Flash Online] MULTI rootfs ", self.devrootfs
 
 	def read_startup(self, FILE):
@@ -190,40 +184,22 @@ class FlashOnline(Screen):
 		myfile.close()
 		return data
 
+	def find_rootfs_dev(self, file):
+		startup_content = self.read_startup("/boot/" + file)
+		return startup_content[startup_content.find("root=")+5:].split()[0]
+
 	def list_files(self, PATH):
 		files = []
 		if SystemInfo["HaveMultiBoot"]:
 			path = PATH
-			if getMachineBuild() in ("hd51","vs1500","h7"):
+			if getMachineBuild() in ("hd51","vs1500","h7","8100s","gb7252"):
 				for name in os.listdir(path):
 					if name != 'bootname' and os.path.isfile(os.path.join(path, name)):
 						try:
-							cmdline = self.read_startup("/boot/" + name).split("=",3)[3].split(" ",1)[0]
+							cmdline = self.find_rootfs_dev(name)
 						except IndexError:
 							continue
-						cmdline_startup = self.read_startup("/boot/STARTUP").split("=",3)[3].split(" ",1)[0]
-						if (cmdline != cmdline_startup) and (name != "STARTUP"):
-							files.append(name)
-				files.insert(0,"STARTUP")
-			elif getMachineBuild() in ("8100s"):
-				for name in os.listdir(path):
-					if name != 'bootname' and os.path.isfile(os.path.join(path, name)):
-						try:
-							cmdline = self.read_startup("/boot/" + name).split("=",4)[4].split(" ",1)[0]
-						except IndexError:
-							continue
-						cmdline_startup = self.read_startup("/boot/STARTUP").split("=",4)[4].split(" ",1)[0]
-						if (cmdline != cmdline_startup) and (name != "STARTUP"):
-							files.append(name)
-				files.insert(0,"STARTUP")
-			elif getMachineBuild() in ("gb7252"):
-				for name in os.listdir(path):
-					if name != 'bootname' and os.path.isfile(os.path.join(path, name)):
-						try:
-							cmdline = self.read_startup("/boot/" + name).split("=",1)[1].split(" ",1)[0]
-						except IndexError:
-							continue
-						cmdline_startup = self.read_startup("/boot/STARTUP").split("=",1)[1].split(" ",1)[0]
+						cmdline_startup = self.find_rootfs_dev("STARTUP")
 						if (cmdline != cmdline_startup) and (name != "STARTUP"):
 							files.append(name)
 				files.insert(0,"STARTUP")
@@ -696,10 +672,10 @@ class doFlashImage(Screen):
 			else:
 				if self.feed == "atv":
 					self.feedurl = feedurl_atv
-					self["key_blue"].setText("ATV %s" %ImageVersion2)
+					self["key_blue"].setText("OP %s" %ImageVersion2)
 				else:
 					self.feedurl = feedurl_atv2
-					self["key_blue"].setText("ATV %s" %ImageVersion)
+					self["key_blue"].setText("OP %s" %ImageVersion)
 			url = '%s/index.php?open=%s' % (self.feedurl,box)
 			try:
 				req = urllib2.Request(url)

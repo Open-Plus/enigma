@@ -1,10 +1,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: openPlus / enigma2\n"
 "POT-Creation-Date: 2017-12-16 16:30+0100\n"
 "PO-Revision-Date: 2017-12-16 16:29+0100\n"
 "Last-Translator: VillaK <soporte@openplus.es>\n"
+=======
+"Project-Id-Version: openATV / enigma2\n"
+"POT-Creation-Date: 2017-12-17 02:25+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME\n"
+>>>>>>> af03b03fad236609c5aee8e2951375553eb9b66f
 "Language-Team: TEAM <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2305,14 +2312,10 @@ msgstr ""
 msgid "Can not write file %s"
 msgstr ""
 
-msgid ""
-"Can't going to live TV!\n"
-"Switch to live TV and restart Timeshift ?"
+msgid "Can't going to live TV!\nSwitch to live TV and restart Timeshift ?"
 msgstr ""
 
-msgid ""
-"Can't play the next Timeshift file!\n"
-"Switch to live TV and restart Timeshift ?"
+msgid "Can't play the next Timeshift file!\nSwitch to live TV and restart Timeshift ?"
 msgstr ""
 
 msgid "Can't play the previous timeshift file! You can try again."
@@ -2390,11 +2393,7 @@ msgstr ""
 msgid "CCcam Info"
 msgstr ""
 
-msgid ""
-"CCcam Info %s\n"
-"by AliAbdul %s\n"
-"\n"
-"This plugin shows you the status of your CCcam."
+msgid "CCcam Info %s\nby AliAbdul %s\n\nThis plugin shows you the status of your CCcam."
 msgstr ""
 
 msgid "CCcam Info Config"
@@ -2508,9 +2507,7 @@ msgstr ""
 msgid "Changelog"
 msgstr ""
 
-msgid ""
-"Changes need a system restart to take effect.\n"
-"Restart your %s %s now?"
+msgid "Changes need a system restart to take effect.\nRestart your %s %s now?"
 msgstr ""
 
 msgid "Channel"
@@ -3343,9 +3340,7 @@ msgstr ""
 msgid "Constellation"
 msgstr ""
 
-msgid ""
-"contain a file with the name: \n"
-"\n"
+msgid "contain a file with the name: \n\n"
 msgstr ""
 
 msgid "Content"
@@ -3444,9 +3439,7 @@ msgstr ""
 msgid "copy to bouquets"
 msgstr ""
 
-msgid ""
-"Copy your keymap to\n"
-"/usr/share/enigma2/keymap.usr"
+msgid "Copy your keymap to\n/usr/share/enigma2/keymap.usr"
 msgstr ""
 
 msgid "Copying files"
@@ -5467,6 +5460,9 @@ msgstr ""
 msgid "Force de-interlace"
 msgstr ""
 
+msgid "Force Legacy Signal Stats"
+msgstr ""
+
 msgid "Force LNB Power"
 msgstr ""
 
@@ -6160,6 +6156,9 @@ msgid ""
 "Then turn the brightness setting as low as possible, but make sure that the two lowermost shades of gray stay distinguishable.\n"
 "Do not care about the bright shades now. They will be set up in the next step.\n"
 "If you are happy with the result, press OK."
+msgstr ""
+
+msgid "Ignore DVB namespace sub network"
 msgstr ""
 
 msgid "Image"
@@ -8283,6 +8282,9 @@ msgid "only in Standby"
 msgstr ""
 
 msgid "Only on startup"
+msgstr ""
+
+msgid "On valid ONIDs, ignore frequency sub network part"
 msgstr ""
 
 msgid "Open"
