@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-16 16:38+0100\n"
-"PO-Revision-Date: 2017-12-17 21:50+0100\n"
+"PO-Revision-Date: 2017-12-18 21:37+0100\n"
 "Last-Translator: VillaK <soporte@openplus.es>\n"
 "Language-Team: OpenPlus <www.open-plus.es>\n"
 "Language: es\n"
@@ -2608,7 +2608,7 @@ msgstr "Pulsación tecla azul: corta / larga"
 
 # Quick Menue
 msgid "Bluetooth Setup"
-msgstr "Bluetooth Setup"
+msgstr "Configurar Bluetooth"
 
 #
 msgid "Bookmarks"
@@ -7886,7 +7886,7 @@ msgid "Input devices"
 msgstr "Dispositivos de entrada"
 
 msgid "Input Stream ID"
-msgstr "Poner Stream ID"
+msgstr "Entrada Stream ID"
 
 #
 msgid "insert mark here"
@@ -15382,10 +15382,10 @@ msgstr "Arrancar Kodi"
 
 #| msgid "Start Mode"
 msgid "Start mode"
-msgstr "Modo arrnaque"
+msgstr "Modo de Inicio"
 
 msgid "Start Mode"
-msgstr "Modo de inicio"
+msgstr "Modo de Inicio"
 
 # MovieSelection.py
 msgid "Start offline decode"
@@ -15404,7 +15404,7 @@ msgstr "Iniciar teletexto"
 
 #
 msgid "Start test"
-msgstr "Comenzar prueba"
+msgstr "Iniciar prueba"
 
 msgid "Start time"
 msgstr "Hora de inicio"
