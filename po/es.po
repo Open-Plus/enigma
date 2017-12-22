@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-16 16:38+0100\n"
-"PO-Revision-Date: 2017-12-20 20:09+0100\n"
+"POT-Creation-Date: 2017-12-22 16:00+0100\n"
+"PO-Revision-Date: 2017-12-22 16:02+0100\n"
 "Last-Translator: VillaK <soporte@openplus.es>\n"
 "Language-Team: OpenPlus <www.open-plus.es>\n"
 "Language: es\n"
@@ -16,7 +16,6 @@ msgstr ""
 "X-Generator: Poedit 2.0.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#| msgid "Preview selected channel"
 msgid "  Menu key : Select quad channel"
 msgstr " Tecla Menú : Seleccionar canal"
 
@@ -27,12 +26,10 @@ msgid "  REC  "
 msgstr "  REC  "
 
 #
-#| msgid "S-Video"
 msgid " - video0"
 msgstr " - video0"
 
 #
-#| msgid "S-Video"
 msgid " - video1"
 msgstr " - video1"
 
@@ -145,7 +142,6 @@ msgstr "%.0f MB"
 msgid "%.2f GB"
 msgstr "%.2f GB"
 
-#| msgid "%02d/%02d, %02d:%02d"
 msgid "%02d.%02d - %02d.%02d"
 msgstr "%02d.%02d - %02d.%02d"
 
@@ -303,11 +299,9 @@ msgstr "Hay actualizaciones disponibles del software de tu %s %s."
 msgid "%s (%s)\n"
 msgstr "%s (%s)\n"
 
-#| msgid "%s (%s)\n"
 msgid "%s ( %s Cards )"
 msgstr "%s ( %s Tarjetas )"
 
-#| msgid "AV Setup"
 msgid "%s - Setup"
 msgstr "%s - Config"
 
@@ -379,7 +373,6 @@ msgstr "%sMostrar 1080i as 1080p"
 msgid "%Y-%m-%d"
 msgstr "%Y-%m-%d"
 
-#| msgid "%Y-%m-%d"
 msgid "%Y-%m-%d %H-%M"
 msgstr "%Y-%m-%d %H-%M"
 
@@ -2044,7 +2037,6 @@ msgstr "Preguntar al usuario (con ‘no’ como predeterminado)"
 msgid "Ask user (with default as 'yes')"
 msgstr "Preguntar al usuario (con ‘sí’ como predeterminado)"
 
-#| msgid "Aspect ratio"
 msgid "Aspect"
 msgstr "Aspect"
 
@@ -2645,7 +2637,6 @@ msgstr "Lista Favoritos"
 msgid "bouquetname"
 msgstr "Nombre de Grupo"
 
-#| msgid "Your %s %s does not support PiP HD"
 msgid "Box or driver is not support Quad PiP."
 msgstr "Box or driver is not support Quad PiP."
 
@@ -2773,7 +2764,6 @@ msgstr "Caché:"
 msgid "CAID"
 msgstr "CAID"
 
-#| msgid "CaID: "
 msgid "CaID"
 msgstr "CaID"
 
@@ -3218,7 +3208,6 @@ msgstr "Niños y adolescentes"
 msgid "childrens's/youth program (general)"
 msgstr "Programa para niños y jóvenes (general)"
 
-#| msgid "Chipset:\t%s"
 msgid "Chipset"
 msgstr "Chipset"
 
@@ -5422,7 +5411,6 @@ msgstr "Descargando %s"
 msgid "Downloading plugin information. Please wait..."
 msgstr "Descargando información de los complementos. Espera…"
 
-#| msgid "DTS downmix"
 msgid "Downmix"
 msgstr "Downmix"
 
@@ -5606,12 +5594,10 @@ msgid "Edit DNS"
 msgstr "Editar DNS"
 
 #
-#| msgid "List mode"
 msgid "Edit mode off"
 msgstr "Modo edición off"
 
 #
-#| msgid "List mode"
 msgid "Edit mode on"
 msgstr "Modo edición on"
 
@@ -5704,7 +5690,6 @@ msgstr "Habilitar la exploración automática del cable"
 msgid "Enable auto fast scan"
 msgstr "Habilitar exploración rápida automática"
 
-#| msgid "Enable auto fast scan"
 msgid "Enable auto fast scan for %s"
 msgstr "Activar auto fast scan para %s"
 
@@ -5801,7 +5786,6 @@ msgstr "Habilitar botón del pánico"
 msgid "enable PIP no HDR"
 msgstr "habilitar PIP sin HDR"
 
-#| msgid "Enable auto PIN"
 msgid "Enable Quad PIP"
 msgstr "Activar Quad PIP"
 
@@ -6297,7 +6281,6 @@ msgstr "Salir del menú de configuración de adaptador de red"
 msgid "Exit Quad Channel Selection"
 msgstr "Salir de selección de canales Quad"
 
-#| msgid "External PiP"
 msgid "Exit quad PiP"
 msgstr "Salir quad PiP"
 
@@ -6311,13 +6294,11 @@ msgstr "cine/video experimental"
 msgid "Experimental: strict limitation to preferred tuners"
 msgstr "Experimental: limitación estricta a los sintonizadores preferidos"
 
-#| msgid "Preferred tuner for recordings"
 msgid "Experimental: strict limitation to preferred tuners for recordings"
 msgstr ""
 "Experimental: limitación estricta a los sintonizadores preferidos para "
 "grabaciones"
 
-#| msgid "Experimental"
 msgid "Experimental mode"
 msgstr "Modo experimental"
 
@@ -6326,7 +6307,6 @@ msgid "Expert"
 msgstr "Experto"
 
 #
-#| msgid "Expert"
 msgid "Expert mode"
 msgstr "Modo experto"
 
@@ -6865,7 +6845,6 @@ msgid "Frozen Cam Check"
 msgstr "Comprobación de CAM"
 
 #
-#| msgid "Update Cache"
 msgid "FSBL Update Check"
 msgstr "Comprobación de actualización FSBL"
 
@@ -6885,7 +6864,6 @@ msgstr "Copia de seguridad total en %s"
 msgid "Full Image Backup "
 msgstr "Copia completa de imagen"
 
-#| msgid "Full Image Backup "
 msgid "Full Range RGB"
 msgstr "Rango completo RGB"
 
@@ -7211,7 +7189,6 @@ msgstr "Configurar HDMI CEC"
 msgid "HDMI CEC Setup"
 msgstr "Configurar HDMI CEC"
 
-#| msgid "HDMI Colorimetry"
 msgid "HDMI Colordepth"
 msgstr "HDMI Colordepth"
 
@@ -7321,7 +7298,6 @@ msgstr "Soporte de Bitrate alto"
 msgid "highest Resolution"
 msgstr "Mayor Resolución"
 
-#| msgid "PU_History"
 msgid "History"
 msgstr "Historial"
 
@@ -7332,7 +7308,6 @@ msgstr "Historial anterior"
 msgid "History buttons mode"
 msgstr "Modo de las teclas de historial"
 
-#| msgid "Directory long"
 msgid "History long"
 msgstr "Historial largo"
 
@@ -7555,8 +7530,6 @@ msgstr ""
 "Si se ajusta a 'sí', la barra de información se mostrará en el avance o "
 "rebobinado durante la reproducción de medios."
 
-#| msgid ""
-#| "If set to 'yes' the infobar will be displayed when a new event starts."
 msgid ""
 "If set to 'yes; the infobar will remain shown permanently in 'paused' state "
 "(no timeout)."
@@ -7605,6 +7578,15 @@ msgstr ""
 "No te preocupes todavía por las sombras. Podrás configurarlas en el "
 "siguiente paso.\n"
 "Si estás contento con los resultados, pulsa OK."
+
+msgid "Ignore DVB-C namespace sub network"
+msgstr "Ignorar la subred del espacio de nombre DVB-C"
+
+msgid "Ignore DVB-S namespace sub network"
+msgstr "Ignorar la subred del espacio de nombre DVB-S"
+
+msgid "Ignore DVB-T namespace sub network"
+msgstr "Ignorar la subred del espacio de nombre DVB-T"
 
 msgid "Image"
 msgstr "Imagen"
@@ -7663,9 +7645,6 @@ msgstr ""
 "comprobación repetitiva, así se detectarán antes las condiciones ‘límite de "
 "buffer en horas’ y ‘comprobar espacio libre’."
 
-#| msgid ""
-#| "Configure which tuner for recordings will be preferred, when more than "
-#| "one tuner is available."
 msgid ""
 "In expert mode, configure which tuners will be preferred, when more than one "
 "tuner is available."
@@ -7673,9 +7652,6 @@ msgstr ""
 "En el modo experto, configure qué sintonizadores serán preferidos, cuando "
 "haya más de un sintonizador disponible."
 
-#| msgid ""
-#| "Configure which tuner for recordings will be preferred, when more than "
-#| "one tuner is available."
 msgid ""
 "In expert mode, configure which tuners will be preferred for recordings, "
 "when more than one tuner is available."
@@ -7683,7 +7659,6 @@ msgstr ""
 "En modo experto, configure qué sintonizadores serán los preferidos para las "
 "grabaciones, cuando haya más de un sintonizador disponible."
 
-#| msgid "Enable blinking Clock on the LCD Display"
 msgid "In the Standby blinking Clock on the LCD Display"
 msgstr "En el Reloj parpadeante de espera en la pantalla LCD"
 
@@ -7992,15 +7967,12 @@ msgstr "Grabación instantánea..."
 msgid "Instant recordings location"
 msgstr "Ruta de grabaciones instantáneas"
 
-#| msgid "Web Interface"
 msgid "Interface"
 msgstr "Interface"
 
-#| msgid "Web Interface"
 msgid "Interface: "
 msgstr "Interface: "
 
-#| msgid "Internet"
 msgid "Intermediate"
 msgstr "Intermedio"
 
@@ -8244,7 +8216,6 @@ msgid "Kleiner Test"
 msgstr "Pequeña prueba"
 
 #
-#| msgid "Undo install"
 msgid "Kodi installed:"
 msgstr "Kodi instalado:"
 
@@ -8365,7 +8336,6 @@ msgstr "Izquierda"
 msgid "Left from servicename"
 msgstr "A la izquierda del nombre de canal"
 
-#| msgid "Rec long"
 msgid "Left long"
 msgstr "Izquierda largo"
 
@@ -8541,7 +8511,6 @@ msgid "Location # (http://weather.yahoo.com/):"
 msgstr "Localización # (http://weather.yahoo.com/):"
 
 #
-#| msgid "Location"
 msgid "Location list"
 msgstr "Lista de lugares"
 
@@ -8557,7 +8526,6 @@ msgstr "Bloquear:"
 msgid "locked"
 msgstr "Bloqueado"
 
-#| msgid "Logs"
 msgid "Log"
 msgstr "Log"
 
@@ -8943,7 +8911,6 @@ msgid "Mode 2"
 msgstr "Modo 2"
 
 #
-#| msgid "Software restore"
 msgid "Mode for autorestore"
 msgstr "Modo de restauración automática"
 
@@ -9159,7 +9126,6 @@ msgid "Mtd"
 msgstr "Mtd"
 
 #
-#| msgid "multinorm"
 msgid "multi"
 msgstr "multi"
 
@@ -9237,7 +9203,6 @@ msgid "n/a"
 msgstr "n/a"
 
 #
-#| msgid "N/A"
 msgid "n/A"
 msgstr "n/A"
 
@@ -9393,7 +9358,6 @@ msgstr "Nunca"
 msgid "never abort"
 msgstr "No salir nunca"
 
-#| msgid "Set the description of the recording."
 msgid "Never decrypt while recording"
 msgstr "Nunca descifrar mientras se graba"
 
@@ -9464,15 +9428,12 @@ msgid "next higher Resolution"
 msgstr "Resolución Superior"
 
 #
-#| msgid "next channel"
 msgid "Next quad PiP channel"
 msgstr "Siguiente canal PiP quad"
 
-#| msgid "Next"
 msgid "Nextsong"
 msgstr "Nextsong"
 
-#| msgid "Context long"
 msgid "Nextsong long"
 msgstr "Nextsong largo"
 
@@ -9673,7 +9634,6 @@ msgid "no image found"
 msgstr "No se ha encontrado ninguna imagen"
 
 #
-#| msgid "No new plugins found"
 msgid "No matching place names found"
 msgstr "No se encontraron nombres de lugares coincidentes"
 
@@ -10604,7 +10564,6 @@ msgstr "Eliminar permanentemente todos los elementos."
 msgid "Persian"
 msgstr "Persa"
 
-#| msgid "Choose your Skin"
 msgid "Personalize your Skin"
 msgstr "Personaliza tu piel"
 
@@ -10652,7 +10611,6 @@ msgid "Pic_Exif"
 msgstr "Exif"
 
 #
-#| msgid "PIDs"
 msgid "PID"
 msgstr "PID"
 
@@ -10683,7 +10641,6 @@ msgstr "PiP"
 msgid "PIP"
 msgstr "PIP"
 
-#| msgid "PVR long"
 msgid "PIP long"
 msgstr "PIP largo"
 
@@ -10900,7 +10857,6 @@ msgid "Please press OK to continue."
 msgstr "Pulsa OK para continuar."
 
 #
-#| msgid "Please press OK to continue."
 msgid "Please press OK to start Kodi..."
 msgstr "Por favor, presione OK para iniciar Kodi ..."
 
@@ -11225,7 +11181,6 @@ msgstr "PLP ID"
 msgid "PLS Code"
 msgstr "Código PLS"
 
-#| msgid "3D Mode"
 msgid "PLS Mode"
 msgstr "Modo PLS"
 
@@ -11453,7 +11408,6 @@ msgstr "Sintonizador preferido para grabaciones"
 msgid "Preferred tuners, multiple selection allowed"
 msgstr "Sintonizadores preferidos, selección múltiple permitida"
 
-#| msgid "Preferred tuner for recordings"
 msgid "Preferred tuners for recordings, multiple selection allowed"
 msgstr ""
 "Sintonizadores preferidos para grabaciones, selección múltiple permitida"
@@ -11556,7 +11510,6 @@ msgstr ""
 "grupo de canales."
 
 #
-#| msgid "previous channel"
 msgid "Prev quad PiP channel"
 msgstr "Prev quad canal PiP"
 
@@ -11574,11 +11527,9 @@ msgstr "Previsualizar canal"
 msgid "Previous"
 msgstr "Anterior"
 
-#| msgid "Previous"
 msgid "Prevsong"
 msgstr "Prevsong"
 
-#| msgid "Prov long"
 msgid "Prevsong long"
 msgstr "Prevsong largo"
 
@@ -11586,7 +11537,6 @@ msgstr "Prevsong largo"
 msgid "Primary DNS"
 msgstr "DNS primario"
 
-#| msgid "Primetime hour"
 msgid "Primetime"
 msgstr "Primetime"
 
@@ -11622,15 +11572,12 @@ msgstr "Programa"
 msgid "Program long"
 msgstr "Program largo"
 
-#| msgid "Programmlisten-Updater from DXAndy"
 msgid "Programmlisten from DXAndy"
 msgstr "Programmlisten from DXAndy"
 
-#| msgid "Programmlisten-Updater History"
 msgid "Programmlisten History"
 msgstr "Programmlisten Historial"
 
-#| msgid "Programmlisten-Updater Restore"
 msgid "Programmlisten Restore"
 msgstr "Programmlisten Restaurar"
 
@@ -11757,7 +11704,6 @@ msgstr "Poner TV en modo de espera"
 msgid "Put your %s %s in standby"
 msgstr "Poner %s %s en modo de espera"
 
-#| msgid "Put receiver in standby"
 msgid "Put your AV Receiver in standby"
 msgstr "Coloque su receptor de AV en modo de espera"
 
@@ -11785,7 +11731,6 @@ msgid "Python:\t%s"
 msgstr "Python:\t%s"
 
 #
-#| msgid "Radio Channel Selection"
 msgid "Quad PiP Channel Selection"
 msgstr "Selección de canal Quad PiP"
 
@@ -11793,7 +11738,6 @@ msgstr "Selección de canal Quad PiP"
 msgid "Quad PiP is not available."
 msgstr "Quad PIP no está disponible"
 
-#| msgid "QuitMainloopScreen"
 msgid "Quad PiP Screen"
 msgstr "Pantalla Quad PiP"
 
@@ -12195,7 +12139,6 @@ msgstr "Receptor remoto"
 msgid "Remote Control Code"
 msgstr "Código de mando"
 
-#| msgid "Remote Control Code"
 msgid "Remote control model shown"
 msgstr "Modelo de control remoto mostrado"
 
@@ -12292,7 +12235,6 @@ msgid "Remove Plugins"
 msgstr "Borrar complementos"
 
 #
-#| msgid "Remove a nameserver entry"
 msgid "Remove Quad Channel Entry"
 msgstr "Eliminar entrada de canal cuádruple"
 
@@ -12456,7 +12398,6 @@ msgid "Restart"
 msgstr "Reiniciar"
 
 #
-#| msgid "Restart"
 msgid "ReStart"
 msgstr "Reanudar"
 
@@ -12483,7 +12424,6 @@ msgid "Restart GUI now?"
 msgstr "¿Reiniciar GUI ahora?"
 
 #
-#| msgid "Really restart now?"
 msgid "Restart necessary, restart GUI now?"
 msgstr "Reiniciar es necesario ¿reiniciar la GUI ahora?"
 
@@ -12641,7 +12581,6 @@ msgstr "Derecha"
 msgid "Right from servicename"
 msgstr "A la derecha del nombre de canal"
 
-#| msgid "Radio long"
 msgid "Right long"
 msgstr "Derecha largo"
 
@@ -12984,7 +12923,6 @@ msgid "Search the epg for current event."
 msgstr "Buscar en el epg del evento actual."
 
 #
-#| msgid "Select location"
 msgid "Search weather location ID"
 msgstr " Búsqueda de localidad para Meteo"
 
@@ -13061,7 +12999,6 @@ msgid "Seek forward (enter time)"
 msgstr "Buscar hacia delante (introducir hora)"
 
 #
-#| msgid "Seek"
 msgid "Seekbar"
 msgstr "Seekbar"
 
@@ -13153,7 +13090,6 @@ msgid "Select Cam 2"
 msgstr "Seleccionar Cam 2"
 
 #
-#| msgid "Select channel to record from"
 msgid "Select channel audio"
 msgstr "Seleccionar canal de audio"
 
@@ -13269,7 +13205,6 @@ msgid "Select provider to add..."
 msgstr "Seleccionar proveedor a añadir..."
 
 #
-#| msgid "Select a tuner"
 msgid "Select Quad Channels"
 msgstr "Seleccionar canales Quad"
 
@@ -13861,7 +13796,6 @@ msgid "Setup"
 msgstr "Configuración"
 
 #
-#| msgid "Setup Logs"
 msgid "Setup - %s"
 msgstr "Config. - %s"
 
@@ -14105,7 +14039,6 @@ msgstr "Nombres de archivos cortos con tiempo"
 msgid "show"
 msgstr "Mostrar"
 
-#| msgid "Show Infobar"
 msgid "Show/Hide focus bar"
 msgstr "Mostrar/Ocultar barra de enfoque"
 
@@ -14186,7 +14119,6 @@ msgid "Show background when tuned to a radio channel."
 msgstr "Ver fondo cuando se sintonice un canal de radio."
 
 #
-#| msgid "Show blinking Clock on Display during recording"
 msgid "Show blinking Clock in Standby on Display during recording"
 msgstr ""
 "Mostrar el reloj parpadeante en modo de espera en la pantalla durante la "
@@ -14251,7 +14183,6 @@ msgstr "Ver números de canal en la barra de información"
 msgid "Show channel numbers in channel selection"
 msgstr "Ver números de canal en la selección de canales"
 
-#| msgid "Channel selection"
 msgid "Show channel selection"
 msgstr "Mostrar selección de canales"
 
@@ -14426,7 +14357,6 @@ msgid "Show infobar on skip forward/backward"
 msgstr "Mostrar la barra de información al pasar adelante/atrás"
 
 #
-#| msgid "Show infobar on event change"
 msgid "Show infobar permanently while paused"
 msgstr "Mostrar la barra de información permanentemente mientras está en pausa"
 
@@ -14438,7 +14368,6 @@ msgid "Show job tasks in extensions"
 msgstr "Ver tareas en extensiones"
 
 #
-#| msgid "Show info line"
 msgid "Show Live in MiniTV"
 msgstr "Mostrar en directo MiniTV"
 
@@ -14536,7 +14465,6 @@ msgid "Show PIP"
 msgstr "Mostrar PiP"
 
 #
-#| msgid "Show info line"
 msgid "Show PIP in MiniTV"
 msgstr "Mostrar PIP en MiniTV"
 
@@ -15025,7 +14953,6 @@ msgstr "Velocidades de cámara lenta"
 msgid "Small progress"
 msgstr "Pequeño progreso"
 
-#| msgid "Small progress"
 msgid "Small Test"
 msgstr "Pequeña prueba"
 
@@ -15260,14 +15187,12 @@ msgstr "Ordenar Lista:"
 msgid "Sort menu screen's alphabetically"
 msgstr "Ordenar la pantalla de menú alfabéticamente"
 
-#| msgid "Motor command retries"
 msgid "Sort order for menu entries"
 msgstr "Ordenar orden para entradas de menú"
 
 msgid "Sort plug-in browser alphabetically"
 msgstr "Ordenar el navegador de complementos alfabéticamente"
 
-#| msgid "Sort plug-in browser alphabetically"
 msgid "Sort plug-in browser entries"
 msgstr "Ordenar entradas de navegador de complementos"
 
@@ -15376,11 +15301,9 @@ msgstr "Empezar desde el principio"
 msgid "Start instant recording"
 msgstr "Iniciar grabación instantánea"
 
-#| msgid "Start Mode"
 msgid "Start Kodi"
 msgstr "Arrancar Kodi"
 
-#| msgid "Start Mode"
 msgid "Start mode"
 msgstr "Modo de Inicio"
 
@@ -15514,7 +15437,6 @@ msgid "Stop service on return to movie list"
 msgstr "Detener canal al volver a la lista de películas"
 
 #
-#| msgid "Stop test"
 msgid "Stop Streams"
 msgstr "Parar Streams"
 
@@ -15602,7 +15524,6 @@ msgid "Stretch linear"
 msgstr "Estiramiento lineal"
 
 #
-#| msgid "Nonlinear"
 msgid "Stretch nonlinear"
 msgstr "Stretch no lineal"
 
@@ -16300,9 +16221,6 @@ msgstr ""
 "¡La extensión de administración de software no está instalada!\n"
 "Por favor, instálelo."
 
-#| msgid ""
-#| "The status of the current update could not be checked because https://"
-#| "open-plus.estv could not be reached for some reason"
 msgid ""
 "The status of the current update could not be checked because http://www."
 "open-plus.es could not be reached for some reason"
@@ -16536,7 +16454,6 @@ msgid "This option allows to set the level of dynamic contrast of the picture."
 msgstr ""
 "Esta opción te permite ajustar el nivel de contraste dinámico de la imagen."
 
-#| msgid "This option allows you can config the Colorimetry for HDR"
 msgid "This option allows you can config the Colordepth for UHD"
 msgstr "Esta opción le permite configurar el Colordepth para UHD"
 
@@ -16701,7 +16618,6 @@ msgstr ""
 msgid "This option allows you to enable 3D Surround Sound."
 msgstr "Esta opción te permite habilitar el audio 3D Surround."
 
-#| msgid "This option allows you to disable sorting of the menus"
 msgid "This option allows you to hide and sorting of the menus"
 msgstr "Esta opción le permite ocultar y clasificar los menús"
 
@@ -17469,32 +17385,26 @@ msgid "Tuner status %s"
 msgstr "Estado del sintonizador %s"
 
 #
-#| msgid "Tuner status"
 msgid "Tuner status FAILED"
 msgstr "Estado del sintonizador FAILED"
 
 #
-#| msgid "Tuner status"
 msgid "Tuner status IDLE"
 msgstr "Estado del sintonizador IDLE"
 
 #
-#| msgid "Tuner status"
 msgid "Tuner status LOCKED"
 msgstr "Estado del sintonizador LOCKED"
 
 #
-#| msgid "Tuner status"
 msgid "Tuner status LOSTLOCK"
 msgstr "Estado del sintonizador LOSTLOCK"
 
 #
-#| msgid "Tuner status"
 msgid "Tuner status TUNING"
 msgstr "Estado del sintonizador TUNING"
 
 #
-#| msgid "Tuner status"
 msgid "Tuner status UNKNOWN"
 msgstr ""
 "Estado del sintonizador\n"
@@ -17505,7 +17415,6 @@ msgid "Tuner type"
 msgstr "Tipo de sintonizador"
 
 #
-#| msgid "Tuner type"
 msgid "Tuner type %s"
 msgstr "Tipo de sintonizador %s"
 
@@ -17791,7 +17700,6 @@ msgid "Updates Available:"
 msgstr "Actualizaciones disponibles:"
 
 # /SoftwareManager/Flash_online.py
-#| msgid "Unzipping files, Please wait ..."
 msgid "Updating cache, please wait..."
 msgstr "Actualizando el caché, espere ..."
 
@@ -17886,7 +17794,6 @@ msgstr "Usar una puerta de enlace"
 msgid "Use as HDD"
 msgstr "Usar como HDD"
 
-#| msgid "controlled by HDMI"
 msgid "use best / controlled by HDMI"
 msgstr "uso mejor/controlado por HDMI"
 
@@ -18333,7 +18240,6 @@ msgstr "Formato de vídeo"
 msgid "Videomode"
 msgstr "Modo de video:"
 
-#| msgid "Videosize"
 msgid "Videosetup"
 msgstr "Configuración de video"
 
@@ -18555,7 +18461,6 @@ msgstr "Reactivar TV de modo de espera"
 msgid "Wakeup your %s %s from standby"
 msgstr "Reactivar tu %s %s de modo de espera"
 
-#| msgid "Wakeup receiver from standby"
 msgid "Wakeup your AV Receiver from standby"
 msgstr "Despierta tu receptor AV del modo de espera"
 
@@ -18612,7 +18517,6 @@ msgid "Weekday"
 msgstr "Día de la semana"
 
 #
-#| msgid "Weekday"
 msgid "Weekend"
 msgstr "Fin de semana"
 
@@ -19114,7 +19018,6 @@ msgstr ""
 "Qué control remoto se muestra. Solo influye en el representatio gráfico"
 
 #
-#| msgid "available"
 msgid "While available"
 msgstr "Mientras está disponible"
 
@@ -19828,7 +19731,6 @@ msgstr "Cambiar enfoque a la pantalla principal"
 msgid "Zap focus to Picture in Picture"
 msgstr "Cambiar enfoque a Picture in Picture"
 
-#| msgid "Zap focus to main screen"
 msgid "Zap focused channel on full screen"
 msgstr "Zap canal enfocado en pantalla completa"
 
@@ -20131,12 +20033,10 @@ msgid "Aruba"
 msgstr "Aruba"
 
 # Language
-#| msgid "Italian"
 msgid "Australia"
 msgstr "Australia"
 
 #
-#| msgid "equestrian"
 msgid "Austria"
 msgstr "Austria"
 
@@ -20198,7 +20098,6 @@ msgid "Brunei Darussalam"
 msgstr "Brunei Darussalam"
 
 # Language
-#| msgid "Bulgarian"
 msgid "Bulgaria"
 msgstr "Bulgaria"
 
@@ -20241,7 +20140,6 @@ msgstr "Christmas Island"
 msgid "Cocos (Keeling) Islands"
 msgstr "Cocos (Keeling) Islands"
 
-#| msgid "Color"
 msgid "Colombia"
 msgstr "Colombia"
 
@@ -20263,7 +20161,6 @@ msgstr "Costa Rica"
 msgid "Cote d'Ivoire"
 msgstr "Cote d'Ivoire"
 
-#| msgid "Croatian"
 msgid "Croatia"
 msgstr "Croatia"
 
@@ -20276,7 +20173,6 @@ msgstr "Curacao"
 msgid "Cyprus"
 msgstr "Cyprus"
 
-#| msgid "Czech"
 msgid "Czechia"
 msgstr "Czechia"
 
@@ -20284,7 +20180,6 @@ msgid "Denmark"
 msgstr "Denmark"
 
 #
-#| msgid "About"
 msgid "Djibouti"
 msgstr "Djibouti"
 
@@ -20306,12 +20201,10 @@ msgstr "El Salvador"
 msgid "Equatorial Guinea"
 msgstr "Equatorial Guinea"
 
-#| msgid "Stream"
 msgid "Eritrea"
 msgstr "Eritrea"
 
 # Language
-#| msgid "Estonian"
 msgid "Estonia"
 msgstr "Estonia"
 
@@ -20331,12 +20224,10 @@ msgid "Finland"
 msgstr "Finland"
 
 #
-#| msgid "romance"
 msgid "France"
 msgstr "France"
 
 # Language
-#| msgid "French"
 msgid "French Guiana"
 msgstr "French Guiana"
 
@@ -20355,7 +20246,6 @@ msgstr "Gambia"
 msgid "Georgia"
 msgstr "Georgia"
 
-#| msgid "German"
 msgid "Germany"
 msgstr "Germany"
 
@@ -20365,15 +20255,12 @@ msgstr "Ghana"
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#| msgid "Greek"
 msgid "Greece"
 msgstr "Greece"
 
-#| msgid "Green long"
 msgid "Greenland"
 msgstr "Greenland"
 
-#| msgid "rename"
 msgid "Grenada"
 msgstr "Grenada"
 
@@ -20399,7 +20286,6 @@ msgid "Guyana"
 msgstr "Guyana"
 
 #
-#| msgid "Waiting"
 msgid "Haiti"
 msgstr "Haiti"
 
@@ -20407,7 +20293,6 @@ msgid "Heard Island and McDonald Islands"
 msgstr "Heard Island and McDonald Islands"
 
 #
-#| msgid "Hotkey Setup"
 msgid "Holy See"
 msgstr "Holy See"
 
@@ -20418,7 +20303,6 @@ msgid "Hong Kong"
 msgstr "Hong Kong"
 
 # Language
-#| msgid "Hungarian"
 msgid "Hungary"
 msgstr "Hungary"
 
@@ -20441,7 +20325,6 @@ msgid "Ireland"
 msgstr "Ireland"
 
 #
-#| msgid "Type of scan"
 msgid "Isle of Man"
 msgstr "Isle of Man"
 
@@ -20449,7 +20332,6 @@ msgid "Israel"
 msgstr "Israel"
 
 # Language
-#| msgid "Italian"
 msgid "Italy"
 msgstr "Italy"
 
@@ -20481,7 +20363,6 @@ msgid "Korea (Republic of)"
 msgstr "Korea (Republic of)"
 
 #
-#| msgid "waiting"
 msgid "Kuwait"
 msgstr "Kuwait"
 
@@ -20492,7 +20373,6 @@ msgid "Lao People's Democratic Republic"
 msgstr "Lao People's Democratic Republic"
 
 # Language
-#| msgid "Latvian"
 msgid "Latvia"
 msgstr "Latvia"
 
@@ -20508,17 +20388,14 @@ msgstr "Liberia"
 msgid "Libya"
 msgstr "Libya"
 
-#| msgid "extensions"
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
 # Language
-#| msgid "Lithuanian"
 msgid "Lithuania"
 msgstr "Lithuania"
 
 # Language
-#| msgid "Luxembourgish"
 msgid "Luxembourg"
 msgstr "Luxembourg"
 
@@ -20546,7 +20423,6 @@ msgstr "Mali"
 msgid "Malta"
 msgstr "Malta"
 
-#| msgid "show all cards"
 msgid "Marshall Islands"
 msgstr "Marshall Islands"
 
@@ -20554,12 +20430,10 @@ msgid "Martinique"
 msgstr "Martinique"
 
 # Language
-#| msgid "Lithuanian"
 msgid "Mauritania"
 msgstr "Mauritania"
 
 #
-#| msgid "Favourites"
 msgid "Mauritius"
 msgstr "Mauritius"
 
@@ -20633,7 +20507,6 @@ msgid "Northern Mariana Islands"
 msgstr "Northern Mariana Islands"
 
 # Language
-#| msgid "Norwegian"
 msgid "Norway"
 msgstr "Norway"
 
@@ -20670,7 +20543,6 @@ msgstr "Pitcairn"
 msgid "Poland"
 msgstr "Poland"
 
-#| msgid "EtPortal"
 msgid "Portugal"
 msgstr "Portugal"
 
@@ -20684,7 +20556,6 @@ msgid "Reunion"
 msgstr "Reunion"
 
 # Language
-#| msgid "Romanian"
 msgid "Romania"
 msgstr "Romania"
 
@@ -20721,7 +20592,6 @@ msgstr "Samoa"
 msgid "San Marino"
 msgstr "San Marino"
 
-#| msgid "Same as in active"
 msgid "Sao Tome and Principe"
 msgstr "Sao Tome and Principe"
 
@@ -20732,7 +20602,6 @@ msgid "Senegal"
 msgstr "Senegal"
 
 # Language
-#| msgid "Serbian"
 msgid "Serbia"
 msgstr "Serbia"
 
@@ -20743,7 +20612,6 @@ msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
 #
-#| msgid "Single"
 msgid "Singapore"
 msgstr "Singapore"
 
@@ -20751,12 +20619,10 @@ msgid "Sint Maarten (Dutch part)"
 msgstr "Sint Maarten (Dutch part)"
 
 # Language
-#| msgid "Slovak"
 msgid "Slovakia"
 msgstr "Slovakia"
 
 # Language
-#| msgid "Slovenian"
 msgid "Slovenia"
 msgstr "Slovenia"
 
@@ -20773,7 +20639,6 @@ msgid "South Georgia and the South Sandwich Islands"
 msgstr "South Georgia and the South Sandwich Islands"
 
 #
-#| msgid "South"
 msgid "South Sudan"
 msgstr "South Sudan"
 
@@ -20786,7 +20651,6 @@ msgstr "Sri Lanka"
 msgid "Sudan"
 msgstr "Sudan"
 
-#| msgid "rename"
 msgid "Suriname"
 msgstr "Suriname"
 
@@ -20797,7 +20661,6 @@ msgid "Swaziland"
 msgstr "Swaziland"
 
 # Language
-#| msgid "Swedish"
 msgid "Sweden"
 msgstr "Sweden"
 
@@ -20817,7 +20680,6 @@ msgid "Tanzania, United Republic of"
 msgstr "Tanzania, United Republic of"
 
 # Language
-#| msgid "Thai"
 msgid "Thailand"
 msgstr "Thailand"
 
@@ -20840,12 +20702,10 @@ msgid "Tunisia"
 msgstr "Tunisia"
 
 # Language
-#| msgid "Turkish"
 msgid "Turkey"
 msgstr "Turkey"
 
 # Language
-#| msgid "Turkish"
 msgid "Turkmenistan"
 msgstr "Turkmenistan"
 
@@ -20859,7 +20719,6 @@ msgid "Uganda"
 msgstr "Uganda"
 
 # Language
-#| msgid "Ukrainian"
 msgid "Ukraine"
 msgstr "Ukraine"
 
@@ -20882,7 +20741,6 @@ msgid "Uzbekistan"
 msgstr "Uzbekistan"
 
 #
-#| msgid "Manual"
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
@@ -20890,7 +20748,6 @@ msgid "Venezuela (Bolivarian Republic of)"
 msgstr "Venezuela (Bolivarian Republic of)"
 
 #
-#| msgid "Service Name"
 msgid "Viet Nam"
 msgstr "Viet Nam"
 
@@ -20906,7 +20763,6 @@ msgstr "Wallis and Futuna"
 msgid "Western Sahara"
 msgstr "Western Sahara"
 
-#| msgid "Movement"
 msgid "Yemen"
 msgstr "Yemen"
 
