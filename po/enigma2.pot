@@ -8176,6 +8176,9 @@ msgstr ""
 msgid "OE Log"
 msgstr ""
 
+msgid "OEM Model:\t\t%s\n"
+msgstr ""
+
 msgid "of a DUAL layer medium used."
 msgstr ""
 

@@ -54,6 +54,7 @@ def parseLines(filename):
 def getAboutText():
 	AboutText = ""
 	AboutText += _("Model:\t%s %s\n") % (getMachineBrand(), getMachineName())
+	AboutText += _("OEM Model:\t\t%s\n") % getMachineBuild()
 
 	bootloader = ""
 	if path.exists('/sys/firmware/devicetree/base/bolt/tag'):
@@ -70,7 +71,7 @@ def getAboutText():
 		cpuMHz = "   (1,5 GHz)"
 	elif getMachineBuild() in ('formuler1tc','formuler1', 'triplex', 'tiviaraplus'):
 		cpuMHz = "   (1,3 GHz)"
-	elif getMachineBuild() in ('u5','u5pvr'):
+	elif getMachineBuild() in ('u5','u5pvr','h9'):
 		cpuMHz = "   (1,6 GHz)"
 	elif getMachineBuild() in ('vuuno4kse','vuuno4k','dm900','dm920', 'gb7252', 'dags7252','xc7439','8100s'):
 		cpuMHz = "   (1,7 GHz)"
@@ -137,7 +138,7 @@ def getAboutText():
 	AboutText += _("GStreamer:\t%s") % about.getGStreamerVersionString() + "\n"
 	AboutText += _("Python:\t%s") % about.getPythonVersionString() + "\n"
 
-	if getMachineBuild() not in ('vuzero4k','sf5008','et13000','et1x000','hd51','hd52','vusolo4k','vuuno4k','vuuno4kse','vuultimo4k','sf4008','dm820','dm7080','dm900','dm920', 'gb7252', 'dags7252', 'vs1500','h7','xc7439','8100s','u5','u5pvr'):
+	if getMachineBuild() not in ('h9','vuzero4k','sf5008','et13000','et1x000','hd51','hd52','vusolo4k','vuuno4k','vuuno4kse','vuultimo4k','sf4008','dm820','dm7080','dm900','dm920', 'gb7252', 'dags7252', 'vs1500','h7','xc7439','8100s','u5','u5pvr'):
 		AboutText += _("Installed:\t%s") % about.getFlashDateString() + "\n"
 
 	AboutText += _("Last update:\t%s") % getEnigmaVersionString() + "\n"
@@ -247,11 +248,14 @@ class Devices(Screen):
 		self["nims"] = StaticText()
 		self["hdd"] = StaticText()
 		self["mounts"] = StaticText()
+		self["allinonedevices"] = ScrollLabel()
 		self.list = []
 		self.activityTimer = eTimer()
 		self.activityTimer.timeout.get().append(self.populate2)
 		self["actions"] = ActionMap(["SetupActions", "ColorActions", "TimerEditActions"],
 			{
+				"up": self["allinonedevices"].pageUp,
+				"down": self["allinonedevices"].pageDown,
 				"cancel": self.close,
 				"ok": self.close,
 			})
@@ -264,6 +268,7 @@ class Devices(Screen):
 		self["nims"].setText(scanning)
 		self["hdd"].setText(scanning)
 		self['mounts'].setText(scanning)
+		self['allinonedevices'].setText(scanning)
 		self.activityTimer.start(1)
 
 	def populate2(self):
@@ -327,6 +332,12 @@ class Devices(Screen):
 			list2.append(device)
 		self.list = '\n'.join(self.list)
 		self["hdd"].setText(self.list)
+		self["allinonedevices"].setText(
+			self["TunerHeader"].getText() + "\n\n" +
+			self["nims"].getText() + "\n\n" +
+			self["HDDHeader"].getText() + "\n\n" +
+			self["hdd"].getText() + "\n\n"
+			)
 
 		self.Console.ePopen("df -mh | grep -v '^Filesystem'", self.Stage1Complete)
 
@@ -357,6 +368,12 @@ class Devices(Screen):
 			self["mounts"].setText(self.mountinfo)
 		else:
 			self["mounts"].setText(_('none'))
+
+		self["allinonedevices"].setText(
+			self["allinonedevices"].getText() +
+			self["MountsHeader"].getText() + "\n\n" +
+			self["mounts"].getText()
+			)
 		self["actions"].setEnabled(True)
 
 	def createSummary(self):
